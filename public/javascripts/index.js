@@ -483,7 +483,7 @@
             $.ajax("/api/test",{
                 type: "POST",
                 dataType: "json",
-                data:testCustomFeature, 
+                data:test, 
                 contentType: "application/json",
                 Accept:'application/vnd.onshape.v1+json',
                 complete: function() {
@@ -570,5 +570,77 @@
   "} ,"+
   "\"serializationVersion\": \"1.1.17\","+
   "\"sourceMicroversion\": \"052c2be70b18c78ff91f4bec\""+
+  "}";
+
+
+  const test = "{"+
+    "\"feature\" : { "+
+      "\"type\" : 151,"+
+      "\"typeName\" : \"BTMSketch\","+
+      "\"message\" : {"+
+        "\"entities\" : [ {"+
+          "\"type\" : 155,"+
+          "\"typeName\" : \"BTMSketchCurveSegment\","+
+          "\"message\" : {"+
+            "\"startPointId\" : \"SJimSiEbabpU.start\","+
+            "\"endPointId\" : \"SJimSiEbabpU.end\","+
+            "\"startParam\" : -0.09218808589015998,"+
+            "\"endParam\" : 0.09218808589015998,"+
+            "\"geometry\" : {"+
+              "\"type\" : 117,"+
+              "\"typeName\" : \"BTCurveGeometryLine\","+
+              "\"message\" : {"+
+                "\"pntX\" : -3.650076687335968E-4,"+
+                "\"pntY\" : -2.73754820227623E-4,"+
+                "\"dirX\" : 0.8067195748569134,"+
+                "\"dirY\" : 0.5909344528310063"+
+              "}"+
+            "},"+
+            "\"centerId\" : \"\","+
+            "\"internalIds\" : [ ],"+
+            "\"isConstruction\" : false,"+
+            "\"parameters\" : [ ],"+
+            "\"entityId\" : \"SJimSiEbabpU\","+
+            "\"namespace\" : \"\","+
+           " \"hasUserCode\" : false,"+
+            "\"nodeId\" : \"MIrVwtX4VQmu7hpAA\""+
+          "}"+
+        "} ],"+
+        "\"constraints\" : [ ],"+
+        "\"featureType\" : \"newSketch\","+
+       " \"featureId\" : \"FJlHrPjfK8YfWLg_0\","+
+        "\"name\" : \"Sketch 1\","+
+        "\"parameters\" : [ {"+
+         " \"type\" : 148,"+
+          "\"typeName\" : \"BTMParameterQueryList\","+
+          "\"message\" : {"+
+            "\"queries\" : [ {"+
+              "\"type\" : 138,"+
+              "\"typeName\" : \"BTMIndividualQuery\","+
+              "\"message\" : {"+
+               " \"geometryIds\" : [ \"JDC\" ],"+
+                "\"hasUserCode\" : false,"+
+               " \"nodeId\" : \"FA7j8HjzCZKYSBL\""+
+              "}"+
+           " } ],"+
+            "\"parameterId\" : \"sketchPlane\","+
+           " \"hasUserCode\" : false,"+
+            "\"nodeId\" : \"YwiOmlzeyd6lZsWJ\""+
+          "}"+
+        "} ],"+
+        "\"suppressed\" : false,"+
+       " \"namespace\" : \"\","+
+       " \"subFeatures\" : [ ],"+
+        "\"returnAfterSubfeatures\" : false,"+
+        "\"suppressionState\" : {"+
+          "\"type\" : 0"+
+        "},"+
+        "\"hasUserCode\" : false,"+
+        "\"nodeId\" : \"MRtw3M4XBiUCvFCJ5\""+
+      "}"+
+    "},"+
+   " \"serializationVersion\": \"1.1.17\","+
+   " \"sourceMicroversion\": \"052c2be70b18c78ff91f4bec\","+
+   " \"rejectMicroversionSkew\": \"false\""+
   "}";
 })();
