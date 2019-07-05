@@ -4,6 +4,11 @@
     var camera, controls, scene, renderer;
     var loadedModels = [];
     var previousData = false;
+    var microversion;
+    var configString;
+    const medium = {angleTolerance: 0.1090830782496456, chordTolerance:  0.004724409448818898, minFacetWidth: 0.009999999999999998};
+    const coarse = {angleTolerance: 0.2181661564992912, chordTolerance:  0.009448818897637795, minFacetWidth: 0.024999999999999998};
+    const fine = {angleTolerance: 0.04363323129985824, chordTolerance:  0.002362204724409449, minFacetWidth: 0.001};
 
     window.onload = function() {
         // prevent mouse clicks from going to model while dialog is open
@@ -11,16 +16,78 @@
             e.stopImmediatePropagation();
         });
 
-        $('#stl-tolerance-submit').click(function() {
+        $('#resolution-select').change(function(){
+            let value =  $('#resolution-select').val();
+            if (value == 'custom'){
+                $('#stl-parameters').css("display","block");
+            }
+            else
+            {
+                $('#stl-parameters').css("display","none");
+            }
+        });
+
+        $('#elt-select2').change(function(){
+            $('#configDiv').css("display","none");
+            $('#config-btn').css("display","none");
+            $('#stl-tolerance-btn').css("display","none");
             deleteModels();
-            var angleTolerance = $('#angle-tolerance').val();
-            var chordTolerance = $('#chord-tolerance').val();
-            loadStl(angleTolerance, chordTolerance);
+            getCurrentMicroversion();
+            $("#inputs-ul").empty();
+            let parameters = getParameters();
+            loadStl(parameters.angleTolerance, parameters.chordTolerance, parameters.minFacetWidth);
+            getEncodedConfig();
+
+            $('#stl-tolerance-btn').css("display","block");
             $('#stl-tolerance-modal').modal('hide');
         });
 
+        $('#stl-tolerance-submit').click(function() {
+            deleteModels();
+            let parameters = getParameters();
+            getEncodedConfigurationString(parameters.angleTolerance, parameters.chordTolerance, parameters.minFacetWidth);
+            //loadStl(angleTolerance, chordTolerance);
+            $('#stl-tolerance-modal').modal('hide');
+        });
+
+        $('#config-btn').click(function(){
+            deleteModels();
+            getCurrentMicroversion();
+            generateEncodedMessage();
+            let parameters = getParameters();
+            getEncodedConfigurationString(parameters.angleTolerance, parameters.chordTolerance, parameters.minFacetWidth);
+            updateConfiguration();
+            $('#stl-tolerance-modal').modal('hide');
+        });
+
+        $('#doc-select').change(function(){
+            deleteModels();
+            var selectedDocID = $("#doc-select").val();
+            $("#wp-select").empty();
+            $('#configDiv').css("display","none");
+            $('#config-btn').css("display","none");
+            $('#stl-tolerance-btn').css("display","none");
+            $("#elt-select2").empty();
+            $("#elt-select2").append("<option>-- Top of List --</option>");
+            $("#wp-select").append("<option>-- Top of List --</option>");
+            getWorkplaces(selectedDocID);
+        });
+
+        $('#wp-select').change(function(){
+            deleteModels();
+            $('#configDiv').css("display","none");
+            $('#config-btn').css("display","none");
+            $('#stl-tolerance-btn').css("display","none");
+            $("#elt-select2").empty();
+            $("#elt-select2").append("<option>-- Top of List --</option>");
+            getElements().then(getParts);
+            getCurrentMicroversion();
+        });
+        
+
+
         init();
-        loadStl(-1, -1);
+        //loadStl(-1, -1);
         animate();
     }
 
@@ -31,10 +98,9 @@
 
         // Setup the drop list for models ...
         $("#elt-select2").append("<option>-- Top of List --</option>");
-
-        var elementsDict;
-        getElements().then(getParts);
-
+        $("#doc-select").append("<option>-- Top of List --</option>");
+        $("#wp-select").append("<option>-- Top of List --</option>");
+        getDocuments();
 
         // Initialize Camera
         camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 0.1, 1e6);
@@ -92,12 +158,14 @@
     /*
      * Grab STL data from server. Information about which STL to grab is located
      * in the URL query string.
+     * 
+     *  window.location.search == "?documentId=0d86c205100fae7001a39ea8&workspaceId=aae7a1ff196df52c5a4c153c&elementId=a7d49a58add345ddb7362051&stlElementId=a7d49a58add345ddb7362051&partId=JUD"
      */
-    function loadStl(angleTolerance, chordTolerance) {
-        var url = '/api/stl' + window.location.search;
+    function loadStl(angleTolerance, chordTolerance,  minFacetWidth, configurationString,) {
+        var url = '/api/stl' +  $("#elt-select2").val();
 
         // Parse the search string to make sure we have the last piece to load
-        var local = window.location.search;
+        var local =  $("#elt-select2").val();
         var index = local.indexOf("&stl");
         if (index > -1) {
             // Find the last stl segment and keep just that part
@@ -113,13 +181,19 @@
 
         var binary = false;
 
-        if (angleTolerance && chordTolerance) {
+        if (angleTolerance && chordTolerance && minFacetWidth) {
             url += '&angleTolerance=' + angleTolerance;
             url += '&chordTolerance=' + chordTolerance;
+            url += '&minFacetWidth=' + minFacetWidth;
         }
 
-        $('#stl-progress-bar').removeClass('hidden');
+        if (configurationString != undefined)
+        {
+            url += '&' + configurationString;
+        }
 
+        $('#stl-progress-bar').css("display","block");
+        var dfd = $.Deferred();
         $.ajax(url, {
             type: 'GET',
             data: {
@@ -137,9 +211,16 @@
                     // ASCII
                     loadStlData(data);
                 }
-                $('#stl-progress-bar').addClass('hidden')
-            }
+                $('#stl-progress-bar').css("display","none");
+            },
+            error: function() {
+              console.log('loading STL error');
+              
+              $('#stl-progress-bar').css("display","none");
+             
+            },
         });
+        return dfd.resolve();
     }
 
     /*
@@ -222,7 +303,9 @@
     // Functions to support loading list of models to view ...
     function getElements() {
         var dfd = $.Deferred();
-        $.ajax('/api/elements'+ window.location.search, {
+        var documentId = $("#doc-select").val();
+        var wpId = $("#wp-select").val();
+        $.ajax('/api/elements?documentId=' + documentId + "&workspaceId=" + wpId, {
             dataType: 'json',
             type: 'GET',
             success: function(data) {
@@ -234,9 +317,81 @@
         return dfd.promise();
     }
 
+    function getWorkplaces(docId){
+        var dfd = $.Deferred();
+        $.ajax('/api/workplaces?documentId=' + docId, {
+            dataType: 'json',
+            type: 'GET',
+            success: function(data) {
+                addWorkplaces(data, dfd);
+            },
+            error: function() {
+            }
+        });
+        return dfd.promise();
+    }
+
+    function getCurrentMicroversion() {
+        var dfd = $.Deferred();
+        var documentId = $("#doc-select").val();
+        var wpId = $("#wp-select").val();
+        $.ajax('/api/microversion?documentId=' + documentId + "&workspaceId=" + wpId, {
+            dataType: 'json',
+            type: 'GET',
+            success: function(data) {
+                microversion = data.microversion;
+            },
+            error: function() {
+            }
+        });
+        return dfd.promise();
+    }
+
+    function addWorkplaces(data, dfd){
+        var onshapeElements = $("#onshape-elements");
+        onshapeElements.empty();
+        $("#wp-select").empty();
+        $("#wp-select").append("<option>-- Top of List --</option>");
+        for (var i = 0; i < data.length; ++i) {
+                $("#wp-select")
+                    .append(
+                    "<option value='" + data[i].id + "'>" + " " + data[i].name + "</option>"
+                )
+        }
+        dfd.resolve();
+    }
+
+    function getDocuments() {
+        var dfd = $.Deferred();
+        $.ajax('/api/documents'+ window.location.search, {
+            dataType: 'json',
+            type: 'GET',
+            success: function(data) {
+                addDocuments(data, dfd);
+            },
+            error: function() {
+            }
+        });
+        return dfd.promise();
+    }
+
+    function addDocuments(data, dfd) {
+        var onshapeElements = $("#onshape-elements");
+        onshapeElements.empty();
+        for (var i = 0; i < data.items.length; ++i) {
+                $("#doc-select")
+                    .append(
+                    "<option value='" + data.items[i].id + "'>" + " " + data.items[i].name + "</option>"
+                )
+        }
+        dfd.resolve();
+    }
+
     function getParts() {
         var dfd = $.Deferred();
-        $.ajax('/api/parts' + window.location.search, {
+        var documentId = $("#doc-select").val();
+        var wpId = $("#wp-select").val();
+        $.ajax('/api/parts?documentId=' + documentId + "&workspaceId=" + wpId, {
             dataType: 'json',
             type: 'GET',
             success: function(data) {
@@ -249,17 +404,19 @@
     }
 
     function addElements(data, dfd) {
-        console.log('adding elements');
         var onshapeElements = $("#onshape-elements");
         onshapeElements.empty();
         for (var i = 0; i < data.length; ++i) {
             if (data[i].elementType === "PARTSTUDIO") {
                 // URL must contain query string!
                 // (Query string contains document and workspace information)
-                var href = "/" + window.location.search + "&stlElementId=" + data[i].id;
+                var docId = $("#doc-select").val();
+                var wpId = $("#wp-select").val();
+                var baseHref = "?documentId=" + docId + "&workspaceId="+wpId + "&elementId=" + data[i].id + "&microversion=" + microversion;
+                var href = baseHref + "&stlElementId=" + data[i].id;
                 $("#elt-select2")
                     .append(
-                    "<option href='" + href + "'>" + "Element - " + data[i].name + "</option>"
+                    "<option value='" + href + "'>" + "Element - " + data[i].name + "</option>"
                 )
 
             }
@@ -295,15 +452,16 @@
         for (var i = 0; i < data.length; ++i) {
             var elementId = data[i]["elementId"];
             var partId = data[i]["partId"];
-            var href = "/" + window.location.search + "&stlElementId=" +
+            var docId = $("#doc-select").val();
+            var wpId = $("#wp-select").val();
+            var baseHref = "?documentId=" + docId + "&workspaceId="+wpId +"&elementId=" + elementId  + "&microversion=" + microversion;
+            var href = baseHref + "&stlElementId=" +
                 elementId + "&partId=" + partId;
             $("#elt-select2")
                 .append(
-                "<option href='" + href + "'>" + "Part -" + data[i].name + "</option>"
+                "<option value='" + href + "'>" + "Part -" + data[i].name + "</option>"
             )
-
         }
-
         dfd.resolve();
     }
 
@@ -317,5 +475,221 @@
 
     function escapeString(string) {
         return string.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    var encodedConfigString;
+
+    function getEncodedConfig() {
+        var dfd = $.Deferred();
+        $.ajax('/api/getEncodedConfig' + $('#elt-select2').val(), {
+            dataType: 'json',
+            type: 'GET',
+            success: function(data) {
+                encodedConfigString=data;
+                getMinMaxValues(data);
+                getDecodedConfig();
+            },
+            error: function() {
+            }
+        });
+        return dfd.resolve();
+    }
+
+    var minAndMaxValues = new Array();
+    function getMinMaxValues(data){
+        for (var i=0; i<data.configurationParameters.length; i++){
+            minAndMaxValues[i] = {min : data.configurationParameters[i].message.rangeAndDefault.message.minValue, 
+                                  max : data.configurationParameters[i].message.rangeAndDefault.message.maxValue};
+        }
+    }
+
+    function generateEncodedMessage()
+    {
+        generateJSONResponse();
+        for (var i=0; i<encodedConfigString.currentConfiguration.length; i++){
+                    for (var j=0;  j<jsonData.parameters.length; j++){
+                        if (jsonData.parameters[j]['parameterId'] === encodedConfigString.currentConfiguration[i].message.parameterId){
+                            encodedConfigString.currentConfiguration[i].message.expression = jsonData.parameters[j]['parameterDisplayValue'];
+                            var expSmall = /[a-z]{1,}/;
+                            var expLarge = /[A-Z]{1,}/;
+                            var tempStringsArray = jsonData.parameters[j]['parameterDisplayValue'].replace(expSmall, "").replace(expLarge,"");
+                            encodedConfigString.currentConfiguration[i].message.value = tempStringsArray;
+                            
+                        }
+            }
+        }
+    }
+
+    function getDecodedConfig() {
+        var dfd = $.Deferred();
+        $.ajax('/api/getDecodedConfig' + $('#elt-select2').val(), {
+            dataType: 'json',
+            type: 'GET',
+            success: function(data) {
+               GetNameAndValue(data);
+            },
+            error: function() {
+            }
+        });
+        return dfd.resolve();
+    }
+
+    var nameValuesArray = new Array();
+    var jsonData;
+
+    function GetNameAndValue(data){
+        if (data.parameters != undefined && data.parameters.length>0)
+        {
+            jsonData = data;
+            for (var i=0; i<data.parameters.length; i++)
+            {
+                var tempName;
+                var temtValue;
+                var tempId;
+                for (key in data.parameters[i]){
+                    if (key === 'parameterName'){
+                        tempName = data.parameters[i][key];
+                    }
+                    else if (key === 'parameterDisplayValue'){
+                        tempValue = data.parameters[i][key];
+                    }
+                    else if (key === 'parameterId'){
+                        tempId = data.parameters[i][key];
+                    }
+                }
+                nameValuesArray[i] = {'parameterName' : tempName, 'parameterDisplayValue' : tempValue, 'parameterId' : tempId};
+            }
+            generateHTMLInput(nameValuesArray);
+        }
+    }
+
+    function generateJSONResponse(){
+        
+        for (var i=0; i<jsonData.parameters.length; i++)
+        {
+            let lengthArray = jsonData.parameters[i]['parameterDisplayValue'].split(' ');
+            if (lengthArray[1]==undefined){
+                lengthArray[1] = '';
+            }
+            jsonData.parameters[i]['parameterDisplayValue'] = $('#first-input-test' + i + '').val() + " " + lengthArray[1];
+           
+            jsonData.parameters[i]['parameterValue'] = jsonData.parameters[i]['parameterDisplayValue'];
+        }
+                
+    }
+
+    function generateHTMLInput(data){
+        $('#inputs-ul').empty();
+
+        var list = document.getElementById('inputs-ul');
+        if (data.length > 0)
+        {
+            $('#config-btn').css("display","block");
+            $('#configDiv').css("display", "block");
+        }
+        else{
+            $('#config-btn').css("display","none");
+            $('#configDiv').css("display","none");
+        }
+        for (var i=0; i<data.length; i++){
+            let valueArray = data[i]['parameterDisplayValue'].split(' ');
+            if (valueArray[1] == undefined){
+            valueArray[1] = '';
+            }
+            $('<div>').appendTo(list);
+            $('<label for="first-input-test' + i + '">' + data[i]['parameterName'] +'</label>').appendTo(list);
+
+            $('<p><input class="inputValues" style="border-top: none; border-left: none; border-right: none; border-bottom: 1px solid dimgray;" type="number" value= "' + valueArray[0] + '" type="number" step="0.001" min="' + minAndMaxValues[i].min + '" max="' + minAndMaxValues[i].max + '" " id="first-input-test' + i + '"> <label id="first-input-label' + i + '">'+ valueArray[1] + '</label> </p>').appendTo(list);
+            
+            $('</div>').appendTo(list);
+
+            $('#first-input-test' + i).change(function() {
+                if (Boolean($(this)[0].checkValidity) && (! $(this)[0].checkValidity())) {
+                    $(this).css("backgroundColor", "lightpink");
+                }
+                else{
+                    $(this).css("backgroundColor", "transparent");
+                }
+                let isValid = true;
+                for (var j=0; j< data.length; j++){
+                    if ($('#first-input-test' + j).val() < minAndMaxValues[j].min || $('#first-input-test' + j).val() > minAndMaxValues[j].max){
+                        isValid=false;
+                    }
+                }
+                if (!isValid){
+                    document.getElementById('config-btn').disabled = true;
+                }
+                else{
+                    document.getElementById('config-btn').disabled = false;
+                }
+                
+            });
+        }
+    }
+
+    function updateConfiguration(){
+        var dfd = $.Deferred();
+            $.ajax("/api/updateConfig" + $('#elt-select2').val(),{
+                type: "POST",
+                dataType: "json",
+                data:JSON.stringify(encodedConfigString), 
+                contentType: "application/json",
+                Accept:'application/vnd.onshape.v1+json',
+                complete: function() {
+                  //called when complete
+                },
+                success: function(data) {
+                    console.log('updating success');
+               },
+                error: function() {
+                  console.log('updating error');
+                },
+              });
+              return dfd.resolve();
+    }
+
+    function getEncodedConfigurationString(angleTolerance, chordTolerance,  minFacetWidth){
+        var dfd = $.Deferred();
+        generateJSONResponse();
+            $.ajax("/api/encodeConfig" + $('#elt-select2').val(),{
+                type: "POST",
+                dataType: "json",
+                data:JSON.stringify(jsonData), 
+                contentType: "application/json",
+                Accept:'application/vnd.onshape.v1+json',
+                complete: function() {
+                  //called when complete
+                  console.log('getEncodedConfigurationString complete');
+                },
+                success: function(data) {
+                    loadStl(angleTolerance, chordTolerance,  minFacetWidth, data['queryParam'],);
+               },
+                error: function() {
+                  console.log('getEncodedConfigurationString error');
+                },
+              });
+              return dfd.resolve();
+    }
+
+    function getParameters(){
+       let value =  $('#resolution-select').val();
+        if (value == 'coarse'){
+            return coarse;
+        }
+        else if (value == 'medium'){
+            return medium;
+        }
+        else if (value == 'fine'){
+            return fine;
+        }
+        else {
+            let angle = $('#angle-tolerance').val();
+            let chord = $('#chord-tolerance').val();
+            let facetWidth = $('#facet-width').val();
+            console.log('angle=' + angle);
+            console.log('chord=' + chord);
+            console.log('facetWidth=' + facetWidth);
+            return {angleTolerance: angle, chordTolerance:  chord, minFacetWidth: facetWidth};
+        }
     }
 })();

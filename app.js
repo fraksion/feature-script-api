@@ -64,8 +64,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/api', api);
+app.get('/',  (req,res)=>{
+  if (process.env.test === undefined){
+    var url = '/oauthSignin';
+    res.redirect(url);
+  }
+  else
+  {
+    delete process.env.test;
+    index.renderPage(req,res);
+  }});
 
-app.get('/', index.renderPage);
 app.get('/grantDenied', grantDenied.renderPage);
 
 // GET /oauthSignin
@@ -83,16 +92,14 @@ app.use('/oauthSignin', storeExtraParams,
 var StateMap = {};
 
 function storeExtraParams(req, res) {
-    var docId = req.query.documentId;
-    var workId = req.query.workspaceId;
-    var elId = req.query.elementId;
-
+    var docId = '0d86c205100fae7001a39ea8';
+    var workId = 'aae7a1ff196df52c5a4c153c';
+    var elId = 'a7d49a58add345ddb7362051';
      var state = {
         documentId : docId,
         workspaceId : workId,
         elementId : elId
     };
-
     var stateString = JSON.stringify(state);
     var uniqueID = "state" + passport.session();
 
@@ -111,6 +118,7 @@ function storeExtraParams(req, res) {
 //   request.  If authentication fails, the user will be redirected back to the
 //   signin page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
+
 app.use('/oauthRedirect',
   passport.authenticate('onshape', { failureRedirect: '/grantDenied' }),
     function(req, res) {
@@ -119,7 +127,7 @@ app.use('/oauthRedirect',
           // reply is null when the key is missing
           if (reply != null) {
               var newParams = JSON.parse(reply);
-              var url = '/?' + 'documentId=' + newParams.documentId + '&workspaceId=' + newParams.workspaceId + '&elementId=' + newParams.elementId;
+              var url = '/';
               res.redirect(url);
           }
       });
