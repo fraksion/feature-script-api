@@ -482,7 +482,6 @@
 
     function TEST(){
         var dfd = $.Deferred();
-        generateJSONResponse();
             $.ajax("/api/test",{
                 type: "POST",
                 dataType: "json",
