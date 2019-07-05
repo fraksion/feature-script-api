@@ -310,7 +310,7 @@ var getEncodedConfigString = function(req, res) {
             'Authorization': 'Bearer ' + req.user.accessToken,
           },
           json:true,
-          body: testCustomFeature
+          body: req.body
         }).then(function(data){
           res.json(data);
         }).catch(function(data) {
