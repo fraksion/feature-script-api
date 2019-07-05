@@ -312,7 +312,7 @@ var getEncodedConfigString = function(req, res) {
           json:true,
           body: req.body
         }).then(function(data){
-          res.json(data);
+         // res.json(data);
         }).catch(function(data) {
           if (data.statusCode === 401) {
             authentication.refreshOAuthToken(req, res).then(function() {
