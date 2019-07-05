@@ -341,7 +341,7 @@ router.get('/workplaces', getWorkPlaces);
 router.get('/microversion', getMicroversion);
 
 module.exports = router;
-
+/*
 const scriptForEvaluate = "function (context is Context, queries)" + 
 "{" +
     "var changedDirection = false;" +
@@ -416,75 +416,4 @@ const getCurveIdScript = "function (context is Context, queries)"
     "}"
 "}" ;
 
-const testCustomFeature = "{\"feature\" : {"+
-  "\"type\" : 134,"+
- " \"typeName\" : \"BTMFeature\","+
-  "\"message\" : {"+
-    "\"featureType\" : \"myFeature\","+
-    "\"featureId\" : \"FfNjGFbqLFOhBTW_1\","+
-   " \"name\" : \"Helix around the curve 1\","+
-    "\"parameters\" : [ {"+
-      "\"type\" : 148,"+
-      "\"typeName\" : \"BTMParameterQueryList\","+
-      "\"message\" : {"+
-        "\"queries\" : [ {"+
-          "\"type\" : 138,"+
-          "\"typeName\" : \"BTMIndividualQuery\","+
-          "\"message\" : {"+
-           " \"geometryIds\" : [ \"JFB\" ],"+
-            "\"hasUserCode\" : false,"+
-            "\"nodeId\" : \"FUWpkv7ZWsYBGlW\""+
-         " }"+
-       " } ],"+
-        "\"parameterId\" : \"curve\","+
-        "\"hasUserCode\" : false,"+
-        "\"nodeId\" : \"2XjoRIgJQgneqb+X\""+
-      "}"+
-    "}, {"+
-      "\"type\" : 147,"+
-      "\"typeName\" : \"BTMParameterQuantity\","+
-      "\"message\" : {"+
-        "\"units\" : \"\","+
-        "\"value\" : 0.0,"+
-        "\"expression\" : \"25 mm\","+
-        "\"isInteger\" : false,"+
-        "\"parameterId\" : \"radius\","+
-        "\"hasUserCode\" : false,"+
-        "\"nodeId\" : \"ScTS3UvTnjkbLe/l\""+
-     " }"+
-    "}, {"+
-      "\"type\" : 147,"+
-      "\"typeName\" : \"BTMParameterQuantity\","+
-      "\"message\" : {"+
-        "\"units\" : \"\","+
-        "\"value\" : 0.0,"+
-        "\"expression\" : \"2\","+
-        "\"isInteger\" : true,"+
-        "\"parameterId\" : \"revolutions\","+
-        "\"hasUserCode\" : false,"+
-        "\"nodeId\" : \"M3z68moPJHY7rbYDQ\""+
-     " }"+
-    "}, {"+
-      "\"type\" : 144,"+
-     " \"typeName\" : \"BTMParameterBoolean\","+
-      "\"message\" : {"+
-       " \"value\" : false,"+
-        "\"parameterId\" : \"isConnected\","+
-        "\"hasUserCode\" : false,"+
-        "\"nodeId\" : \"MgQ1+tAOoloQKinFP\""+
-      "}"+
-    "} ],"+
-    "\"suppressed\" : false,"+
-    "\"namespace\" : \"ed1399b3f2457d65abf1c8426::m305a547f9d5ccdefeccc3ed5\","+
-    "\"subFeatures\" : [ ],"+
-    "\"returnAfterSubfeatures\" : false,"+
-    "\"suppressionState\" : {"+
-      "\"type\" : 0"+
-    "},"+
-    "\"hasUserCode\" : false,"+
-    "\"nodeId\" : \"MDD3Msm33pTp1fwSO\""+
-  "}"+
-"} ,"+
-"\"serializationVersion\": \"1.1.17\","+
-"\"sourceMicroversion\": \"052c2be70b18c78ff91f4bec\""+
-"}";
+*/
