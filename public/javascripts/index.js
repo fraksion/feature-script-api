@@ -27,7 +27,7 @@
             }
         });
 
-        $('#elt-select2').change(function(){
+      /*  $('#elt-select2').change(function(){
             $('#configDiv').css("display","none");
             $('#config-btn').css("display","none");
             $('#stl-tolerance-btn').css("display","none");
@@ -84,9 +84,10 @@
             getCurrentMicroversion();
         });
         
-
+*/
 
         init();
+        TEST();
         //loadStl(-1, -1);
         animate();
     }
@@ -477,219 +478,26 @@
         return string.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    var encodedConfigString;
-
-    function getEncodedConfig() {
+    function TEST(){
         var dfd = $.Deferred();
-        $.ajax('/api/getEncodedConfig' + $('#elt-select2').val(), {
-            dataType: 'json',
-            type: 'GET',
-            success: function(data) {
-                encodedConfigString=data;
-                getMinMaxValues(data);
-                getDecodedConfig();
-            },
-            error: function() {
-            }
-        });
-        return dfd.resolve();
-    }
-
-    var minAndMaxValues = new Array();
-    function getMinMaxValues(data){
-        for (var i=0; i<data.configurationParameters.length; i++){
-            minAndMaxValues[i] = {min : data.configurationParameters[i].message.rangeAndDefault.message.minValue, 
-                                  max : data.configurationParameters[i].message.rangeAndDefault.message.maxValue};
-        }
-    }
-
-    function generateEncodedMessage()
-    {
         generateJSONResponse();
-        for (var i=0; i<encodedConfigString.currentConfiguration.length; i++){
-                    for (var j=0;  j<jsonData.parameters.length; j++){
-                        if (jsonData.parameters[j]['parameterId'] === encodedConfigString.currentConfiguration[i].message.parameterId){
-                            encodedConfigString.currentConfiguration[i].message.expression = jsonData.parameters[j]['parameterDisplayValue'];
-                            var expSmall = /[a-z]{1,}/;
-                            var expLarge = /[A-Z]{1,}/;
-                            var tempStringsArray = jsonData.parameters[j]['parameterDisplayValue'].replace(expSmall, "").replace(expLarge,"");
-                            encodedConfigString.currentConfiguration[i].message.value = tempStringsArray;
-                            
-                        }
-            }
-        }
-    }
-
-    function getDecodedConfig() {
-        var dfd = $.Deferred();
-        $.ajax('/api/getDecodedConfig' + $('#elt-select2').val(), {
-            dataType: 'json',
-            type: 'GET',
-            success: function(data) {
-               GetNameAndValue(data);
-            },
-            error: function() {
-            }
-        });
-        return dfd.resolve();
-    }
-
-    var nameValuesArray = new Array();
-    var jsonData;
-
-    function GetNameAndValue(data){
-        if (data.parameters != undefined && data.parameters.length>0)
-        {
-            jsonData = data;
-            for (var i=0; i<data.parameters.length; i++)
-            {
-                var tempName;
-                var temtValue;
-                var tempId;
-                for (key in data.parameters[i]){
-                    if (key === 'parameterName'){
-                        tempName = data.parameters[i][key];
-                    }
-                    else if (key === 'parameterDisplayValue'){
-                        tempValue = data.parameters[i][key];
-                    }
-                    else if (key === 'parameterId'){
-                        tempId = data.parameters[i][key];
-                    }
-                }
-                nameValuesArray[i] = {'parameterName' : tempName, 'parameterDisplayValue' : tempValue, 'parameterId' : tempId};
-            }
-            generateHTMLInput(nameValuesArray);
-        }
-    }
-
-    function generateJSONResponse(){
-        
-        for (var i=0; i<jsonData.parameters.length; i++)
-        {
-            let lengthArray = jsonData.parameters[i]['parameterDisplayValue'].split(' ');
-            if (lengthArray[1]==undefined){
-                lengthArray[1] = '';
-            }
-            jsonData.parameters[i]['parameterDisplayValue'] = $('#first-input-test' + i + '').val() + " " + lengthArray[1];
-           
-            jsonData.parameters[i]['parameterValue'] = jsonData.parameters[i]['parameterDisplayValue'];
-        }
-                
-    }
-
-    function generateHTMLInput(data){
-        $('#inputs-ul').empty();
-
-        var list = document.getElementById('inputs-ul');
-        if (data.length > 0)
-        {
-            $('#config-btn').css("display","block");
-            $('#configDiv').css("display", "block");
-        }
-        else{
-            $('#config-btn').css("display","none");
-            $('#configDiv').css("display","none");
-        }
-        for (var i=0; i<data.length; i++){
-            let valueArray = data[i]['parameterDisplayValue'].split(' ');
-            if (valueArray[1] == undefined){
-            valueArray[1] = '';
-            }
-            $('<div>').appendTo(list);
-            $('<label for="first-input-test' + i + '">' + data[i]['parameterName'] +'</label>').appendTo(list);
-
-            $('<p><input class="inputValues" style="border-top: none; border-left: none; border-right: none; border-bottom: 1px solid dimgray;" type="number" value= "' + valueArray[0] + '" type="number" step="0.001" min="' + minAndMaxValues[i].min + '" max="' + minAndMaxValues[i].max + '" " id="first-input-test' + i + '"> <label id="first-input-label' + i + '">'+ valueArray[1] + '</label> </p>').appendTo(list);
-            
-            $('</div>').appendTo(list);
-
-            $('#first-input-test' + i).change(function() {
-                if (Boolean($(this)[0].checkValidity) && (! $(this)[0].checkValidity())) {
-                    $(this).css("backgroundColor", "lightpink");
-                }
-                else{
-                    $(this).css("backgroundColor", "transparent");
-                }
-                let isValid = true;
-                for (var j=0; j< data.length; j++){
-                    if ($('#first-input-test' + j).val() < minAndMaxValues[j].min || $('#first-input-test' + j).val() > minAndMaxValues[j].max){
-                        isValid=false;
-                    }
-                }
-                if (!isValid){
-                    document.getElementById('config-btn').disabled = true;
-                }
-                else{
-                    document.getElementById('config-btn').disabled = false;
-                }
-                
-            });
-        }
-    }
-
-    function updateConfiguration(){
-        var dfd = $.Deferred();
-            $.ajax("/api/updateConfig" + $('#elt-select2').val(),{
+            $.ajax("/api/test",{
                 type: "POST",
                 dataType: "json",
-                data:JSON.stringify(encodedConfigString), 
                 contentType: "application/json",
                 Accept:'application/vnd.onshape.v1+json',
                 complete: function() {
                   //called when complete
+                  console.log('TEST complete');
                 },
                 success: function(data) {
-                    console.log('updating success');
+                   console.log('TEST success');
                },
                 error: function() {
-                  console.log('updating error');
+                  console.log('TEST error');
                 },
               });
               return dfd.resolve();
     }
 
-    function getEncodedConfigurationString(angleTolerance, chordTolerance,  minFacetWidth){
-        var dfd = $.Deferred();
-        generateJSONResponse();
-            $.ajax("/api/encodeConfig" + $('#elt-select2').val(),{
-                type: "POST",
-                dataType: "json",
-                data:JSON.stringify(jsonData), 
-                contentType: "application/json",
-                Accept:'application/vnd.onshape.v1+json',
-                complete: function() {
-                  //called when complete
-                  console.log('getEncodedConfigurationString complete');
-                },
-                success: function(data) {
-                    loadStl(angleTolerance, chordTolerance,  minFacetWidth, data['queryParam'],);
-               },
-                error: function() {
-                  console.log('getEncodedConfigurationString error');
-                },
-              });
-              return dfd.resolve();
-    }
-
-    function getParameters(){
-       let value =  $('#resolution-select').val();
-        if (value == 'coarse'){
-            return coarse;
-        }
-        else if (value == 'medium'){
-            return medium;
-        }
-        else if (value == 'fine'){
-            return fine;
-        }
-        else {
-            let angle = $('#angle-tolerance').val();
-            let chord = $('#chord-tolerance').val();
-            let facetWidth = $('#facet-width').val();
-            console.log('angle=' + angle);
-            console.log('chord=' + chord);
-            console.log('facetWidth=' + facetWidth);
-            return {angleTolerance: angle, chordTolerance:  chord, minFacetWidth: facetWidth};
-        }
-    }
 })();

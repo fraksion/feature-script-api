@@ -302,8 +302,33 @@ var getEncodedConfigString = function(req, res) {
       };
 
 
+
+      var testCustomFeature = function(req, res) {
+        request.post({
+        uri: apiUrl + '/api/partstudios/d/11597718228663b148db1e40/w/78aeb556259d6f6bb1171aad/e/410a74ea5a40b14bf4967157/features',
+          headers: {
+            'Authorization': 'Bearer ' + req.user.accessToken,
+          },
+          json:true,
+          body: testCustomFeature
+        }).then(function(data){
+          res.json(data);
+        }).catch(function(data) {
+          if (data.statusCode === 401) {
+            authentication.refreshOAuthToken(req, res).then(function() {
+              encodeConfigString(req, res);
+            }).catch(function(err) {
+              console.log('Error refreshing token or getting documents: ', err);
+            });
+          } else {
+            console.log('GET /api/documents error: ', data);
+          }
+        });
+        };
+
   const jsonParser = express.json();
 
+router.post('/test', jsonParser, testCustomFeature);
 router.post('/updateConfig', jsonParser, updateConfigString);
 router.post('/encodeConfig', jsonParser, encodeConfigString);
 router.get('/getEncodedConfig', getEncodedConfigString);
@@ -316,3 +341,150 @@ router.get('/workplaces', getWorkPlaces);
 router.get('/microversion', getMicroversion);
 
 module.exports = router;
+
+const scriptForEvaluate = "function (context is Context, queries)" + 
+"{" +
+    "var changedDirection = false;" +
+       " var parameters = range(0, 1, queries.revolutions * 360);" +
+    "var arrayOfVertex;" +
+   " if (queries.isConnected)" + 
+    "{" + 
+        "arrayOfVertex = makeArray(size(parameters) / step + 2, 0);" +
+    "}" + 
+    "else" + 
+    "{" + 
+       " arrayOfVertex = makeArray(size(parameters) / step, 0);" + 
+    "}" +
+   " var entityToDelete = qNothing();" +
+    "var curvature = evEdgeCurvatures(context, {edge:queries.id, parameters : parameters});" +
+    "var prevCurvature;" +
+    "for (var i = 0; i < size(parameters); i += step)" +
+    "{" +
+        "var xP = queries.radius * cos((i + 90) * degree);" +
+        "var yP =  queries.radius * sin((i + 90) * degree);" +
+        "if (i > 0)" +
+        "{" +
+            "const dot = dot(yAxis(prevCurvature.frame), yAxis(curvature[i].frame));" +
+            "if (!changedDirection && dot < 0)" +
+            "{" +
+                "changedDirection = true;" +
+            "}" +
+            "else if (dot < 0)" +
+            "{"+
+               " changedDirection = false;"+
+            "}"+
+            "if (changedDirection)"+
+            "{"+
+                "yP = -yP;"+
+                "xP = -xP;"+
+            "}"+
+        "}"+
+        "const point = toWorld(curvature[i].frame, vector(xP, yP, 0 * meter));"+
+        "if (queries.isConnected)"+
+        "{"+
+            "arrayOfVertex[i / step + 1] = point;"+
+        "}"+
+        "else"+
+        "{"+
+            "arrayOfVertex[i / step] = point;"+
+        "}"+
+        "prevCurvature = curvature[i];"+
+    "}"+
+    "if (queries.isConnected)"+
+    "{"+
+        "arrayOfVertex[0] = toWorld(curvature[0].frame, vector(0, 0, 0) * inch);"+
+        "arrayOfVertex[size(arrayOfVertex) - 1] = toWorld(curvature[size(parameters) - 1].frame, vector(0, 0, 0) * inch);"+
+    "}"+
+    "opFitSpline(context, newId() + \"fitSpline1\", {"+
+                "\"points\" : arrayOfVertex"+
+            "});"+
+"}";
+
+const getCurveIdScript = "function (context is Context, queries)"
+"{"
+    "var edges = evaluateQuery(context, qEverything(EntityType.EDGE));"
+    "for (var i = 0; i < size(edges); i += 1)"
+    "{"
+        "var lineDefiniton = evCurveDefinition(context, {"
+               " \"edge\" : edges[i]"
+            "});"
+
+        "if (lineDefiniton.curveType != undefined)"
+        "{"
+            "var tst = qGeometry(edges[i], GeometryType.OTHER_CURVE);"
+        "}"
+    "}"
+"}" ;
+
+const testCustomFeature = "{\"feature\" : {"+
+  "\"type\" : 134,"+
+ " \"typeName\" : \"BTMFeature\","+
+  "\"message\" : {"+
+    "\"featureType\" : \"myFeature\","+
+    "\"featureId\" : \"FfNjGFbqLFOhBTW_1\","+
+   " \"name\" : \"Helix around the curve 1\","+
+    "\"parameters\" : [ {"+
+      "\"type\" : 148,"+
+      "\"typeName\" : \"BTMParameterQueryList\","+
+      "\"message\" : {"+
+        "\"queries\" : [ {"+
+          "\"type\" : 138,"+
+          "\"typeName\" : \"BTMIndividualQuery\","+
+          "\"message\" : {"+
+           " \"geometryIds\" : [ \"JFB\" ],"+
+            "\"hasUserCode\" : false,"+
+            "\"nodeId\" : \"FUWpkv7ZWsYBGlW\""+
+         " }"+
+       " } ],"+
+        "\"parameterId\" : \"curve\","+
+        "\"hasUserCode\" : false,"+
+        "\"nodeId\" : \"2XjoRIgJQgneqb+X\""+
+      "}"+
+    "}, {"+
+      "\"type\" : 147,"+
+      "\"typeName\" : \"BTMParameterQuantity\","+
+      "\"message\" : {"+
+        "\"units\" : \"\","+
+        "\"value\" : 0.0,"+
+        "\"expression\" : \"25 mm\","+
+        "\"isInteger\" : false,"+
+        "\"parameterId\" : \"radius\","+
+        "\"hasUserCode\" : false,"+
+        "\"nodeId\" : \"ScTS3UvTnjkbLe/l\""+
+     " }"+
+    "}, {"+
+      "\"type\" : 147,"+
+      "\"typeName\" : \"BTMParameterQuantity\","+
+      "\"message\" : {"+
+        "\"units\" : \"\","+
+        "\"value\" : 0.0,"+
+        "\"expression\" : \"2\","+
+        "\"isInteger\" : true,"+
+        "\"parameterId\" : \"revolutions\","+
+        "\"hasUserCode\" : false,"+
+        "\"nodeId\" : \"M3z68moPJHY7rbYDQ\""+
+     " }"+
+    "}, {"+
+      "\"type\" : 144,"+
+     " \"typeName\" : \"BTMParameterBoolean\","+
+      "\"message\" : {"+
+       " \"value\" : false,"+
+        "\"parameterId\" : \"isConnected\","+
+        "\"hasUserCode\" : false,"+
+        "\"nodeId\" : \"MgQ1+tAOoloQKinFP\""+
+      "}"+
+    "} ],"+
+    "\"suppressed\" : false,"+
+    "\"namespace\" : \"ed1399b3f2457d65abf1c8426::m305a547f9d5ccdefeccc3ed5\","+
+    "\"subFeatures\" : [ ],"+
+    "\"returnAfterSubfeatures\" : false,"+
+    "\"suppressionState\" : {"+
+      "\"type\" : 0"+
+    "},"+
+    "\"hasUserCode\" : false,"+
+    "\"nodeId\" : \"MDD3Msm33pTp1fwSO\""+
+  "}"+
+"} ,"+
+"\"serializationVersion\": \"1.1.17\","+
+"\"sourceMicroversion\": \"052c2be70b18c78ff91f4bec\""+
+"}";
