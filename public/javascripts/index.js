@@ -87,8 +87,11 @@
 
 
         init();
+        
         //loadStl(-1, -1);
         animate();
+
+        TEST();
     }
 
     function init() {
