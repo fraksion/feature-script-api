@@ -37,7 +37,7 @@
 
             $('#stl-tolerance-btn').css("display","block");
             $('#stl-tolerance-modal').modal('hide');
-            getFeaturesList()
+            getFeaturesList();
         });
 
         $('#add-feature-btn').click(function(){
@@ -73,7 +73,9 @@
             getCurrentMicroversion();
         });
         
-
+        $('#feature-select').change(function(){
+            addFeatureParameters();
+        })
 
         init();
         //loadStl(-1, -1);
@@ -430,6 +432,41 @@
               return dfd.resolve();
     }
 
+    function addFeatureParameters(){
+       
+        $('#feature-parameters').empty();
+
+        var list = document.getElementById('feature-parameters');
+        let currentFeature = getCurrentFeature();
+        currentFeature.message.parameters.forEach(parameter => {
+            if (parameter.message.queries === undefined){
+
+                let valueArray = parameter.message.expression.split(' ');
+                if (valueArray[1] == undefined){
+                valueArray[1] = '';
+
+                $('<div>').appendTo(list);
+                $('<label for="first-input-test' + i + '">' + parameter.message.parameterId +'</label>').appendTo(list);
+    
+                $('<p><input class="inputValues" style="border-top: none; border-left: none; border-right: none; border-bottom: 1px solid dimgray;" type="number" value= "' + valueArray[0] + '" type="number" step="1" id="first-input-test' + i + '"> <label id="first-input-label' + i + '">'+ valueArray[1] + '</label> </p>').appendTo(list);
+                
+                $('</div>').appendTo(list);
+            }
+        }
+        });
+    }
+
+    function getCurrentFeature(){
+        if (features != undefined){
+                for (var i=0; i< features.length; i++){
+                    if (features[i].message.name == $("#feature-select").val()){
+                        return features[i];
+                    }
+            } 
+        }
+
+    }
+
     function getFeatureJSON(microversion){
         let tempFeature;
         for (var i=0; i< features.length; i++){
@@ -444,7 +481,6 @@
             sourceMicroversion: microversion,
             rejectMicroversionSkew: false
         };
-        console.log(tempFeature);
         return body;
     }
 
@@ -475,10 +511,7 @@
                 "<option value='" + element.message.name + "'>" + element.message.name + "</option>"
             )
             }
-        });
-
-       
+        }); 
     dfd.resolve();
-
     }
 })();
