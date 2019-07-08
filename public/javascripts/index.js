@@ -6,6 +6,7 @@
     var previousData = false;
     var microversion;
     var configString;
+    var features;
     const medium = {angleTolerance: 0.1090830782496456, chordTolerance:  0.004724409448818898, minFacetWidth: 0.009999999999999998};
     const coarse = {angleTolerance: 0.2181661564992912, chordTolerance:  0.009448818897637795, minFacetWidth: 0.024999999999999998};
     const fine = {angleTolerance: 0.04363323129985824, chordTolerance:  0.002362204724409449, minFacetWidth: 0.001};
@@ -430,13 +431,20 @@
     }
 
     function getFeatureJSON(microversion){
+        let tempFeature;
+        features.forEach(element => {
+            if (element.message.name == $("#feature-select").val()){
+                tempFeature = element;
+                break;
+            }
+        });
         let body ={
-            feature :  $("#feature-select").val(),
+            feature :  tempFeature,
             serializationVersion: "1.1.17",
             sourceMicroversion: microversion,
             rejectMicroversionSkew: false
         };
-        console.log(body.feature.featureType);
+        console.log(tempFeature);
         return body;
     }
 
@@ -458,16 +466,14 @@
     function addFeatures(data, dfd){
 
         $("#feature-select").empty();
-
+        features = data.features;
         data.features.forEach(element => {
             if (element.message.featureType == 'myFeature'){
 
                 $("#feature-select")
                 .append(
-                "<option value='" + element.message + "'>" + element.message.name + "</option>"
+                "<option value='" + element.message.name + "'>" + element.message.name + "</option>"
             )
-            console.log(element.message);
-            console.log($("#feature-select").val());
             }
         });
 
