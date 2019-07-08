@@ -466,8 +466,11 @@
                 .append(
                 "<option value='" + element.message + "'>" + element.message.name + "</option>"
             )
+            console.log(element.message);
+            console.log($("#feature-select").val());
             }
         });
+
        
     dfd.resolve();
 
