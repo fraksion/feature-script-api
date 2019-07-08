@@ -432,12 +432,12 @@
 
     function getFeatureJSON(microversion){
         let tempFeature;
-        features.forEach(element => {
-            if (element.message.name == $("#feature-select").val()){
-                tempFeature = element;
+        for (var i=0; i< features.length; i++){
+            if (features[i].message.name == $("#feature-select").val()){
+                tempFeature = features[i];
                 break;
             }
-        });
+        }
         let body ={
             feature :  tempFeature,
             serializationVersion: "1.1.17",
