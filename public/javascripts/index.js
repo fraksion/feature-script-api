@@ -435,7 +435,7 @@
     function addFeatureParameters(){
        
         $('#feature-parameters').empty();
-
+        let i=0;
         var list = document.getElementById('feature-parameters');
         let currentFeature = getCurrentFeature();
         currentFeature.message.parameters.forEach(parameter => {
@@ -451,6 +451,7 @@
                 $('<p><input class="inputValues" style="border-top: none; border-left: none; border-right: none; border-bottom: 1px solid dimgray;" type="number" value= "' + valueArray[0] + '" type="number" step="1" id="first-input-test' + i + '"> <label id="first-input-label' + i + '">'+ valueArray[1] + '</label> </p>').appendTo(list);
                 
                 $('</div>').appendTo(list);
+                i++;
             }
         }
         });
