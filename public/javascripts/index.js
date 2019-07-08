@@ -546,7 +546,10 @@
 
         elementsDict = createElementsDict(data);
         dfd.resolve();*/
-        console.log(data.features[0].message.featureType);
+        data.features.forEach(element => {
+            console.log(element.message.featureType);
+        });
+       
     dfd.resolve();
 
     }
