@@ -484,7 +484,7 @@
     }
 
     function TEST(body){
-       
+       console.log(body);
         var dfd = $.Deferred();
             $.ajax("/api/test",{
                 type: "POST",
