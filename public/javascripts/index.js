@@ -43,9 +43,8 @@
             if (microversion===undefined){
                 getCurrentMicroversion();
             }
-            script =  getFeatureJSON(microversion);
-            addCustomFeature(script);
-
+            let body =  getFeatureJSON(microversion);
+            addCustomFeature(body);
         });
 
         $('#doc-select').change(function(){
@@ -431,82 +430,14 @@
     }
 
     function getFeatureJSON(microversion){
-        let testCustomFeature = "{"+
-        "\"feature\" : {"+
-    " \"type\" : 134,"+
-        "\"typeName\" : \"BTMFeature\","+
-        "\"message\" : {"+
-        "\"featureType\" : \"myFeature\","+
-        "\"featureId\" : \"F72QEJFw4m6i2Fh_0\","+
-        "\"name\" : \"Helix around the curve 1\","+
-        "\"parameters\" : [ {"+
-            "\"type\" : 148,"+
-        " \"typeName\" : \"BTMParameterQueryList\","+
-            "\"message\" : {"+
-            " \"queries\" : [ {"+
-            " \"type\" : 138,"+
-            " \"typeName\" : \"BTMIndividualQuery\","+
-                "\"message\" : {"+
-                "  \"geometryIds\" : [ \"JFB\" ],"+
-                "\"hasUserCode\" : false,"+
-                " \"nodeId\" : \"FdpOUOU1jJ3DmQo\""+
-            " }"+
-            "} ],"+
-            "\"parameterId\" : \"curve\","+
-            "\"hasUserCode\" : false,"+
-            "\"nodeId\" : \"JuN2B/4FU8DYaymZ\""+
-            "}"+
-        "}, {"+
-            "\"type\" : 147,"+
-            "\"typeName\" : \"BTMParameterQuantity\","+
-            "\"message\" : {"+
-            "\"units\" : \"\","+
-            "\"value\" : 0.0,"+
-            " \"expression\" : \"25 mm\","+
-            "\"isInteger\" : false,"+
-            "\"parameterId\" : \"radius\","+
-            "\"hasUserCode\" : false,"+
-            "\"nodeId\" : \"JS0zLyL8L6P4T3Ji\""+
-        " }"+
-        " }, {"+
-            "\"type\" : 147,"+
-        "\"typeName\" : \"BTMParameterQuantity\","+
-            "\"message\" : {"+
-            "\"units\" : \"\","+
-            "\"value\" : 0.0,"+
-            "\"expression\" : \"8\","+
-            "\"isInteger\" : true,"+
-            " \"parameterId\" : \"revolutions\","+
-            "\"hasUserCode\" : false,"+
-            " \"nodeId\" : \"HF+iLwj0pHP1PKDh\""+
-            "}"+
-        "}, {"+
-            "\"type\" : 144,"+
-            "\"typeName\" : \"BTMParameterBoolean\","+
-        " \"message\" : {"+
-            " \"value\" : false,"+
-            " \"parameterId\" : \"isConnected\","+
-            " \"hasUserCode\" : false,"+
-            "\"nodeId\" : \"nWtVxCim6s0MGa+g\""+
-            "}"+
-        " } ],"+
-        "\"suppressed\" : false,"+
-        "\"namespace\" : \"ed1399b3f2457d65abf1c8426::m305a547f9d5ccdefeccc3ed5\","+
-        "\"subFeatures\" : [ ],"+
-        "\"returnAfterSubfeatures\" : false,"+
-        "\"suppressionState\" : {"+
-        "\"type\" : 0"+
-        " },"+
-        "  \"hasUserCode\" : false,"+
-        "\"nodeId\" : \"MKfAioS6LKOPwpQfJ\""+
-    " }"+
-    "},"+
-    "\"serializationVersion\": \"1.1.17\","+
-    "\"sourceMicroversion\": \"" + microversion + "\","+
-    "\"rejectMicroversionSkew\": \"false\""+
-    "}";
-
-        return testCustomFeature;
+        let body ={
+            feature :  $("#feature-select").val(),
+            serializationVersion: "1.1.17",
+            sourceMicroversion: microversion,
+            rejectMicroversionSkew: false
+        };
+        console.log(body);
+        return body;
     }
 
     function getFeaturesList() {
@@ -535,7 +466,6 @@
                 .append(
                 "<option value='" + element.message + "'>" + element.message.name + "</option>"
             )
-
             }
         });
        
