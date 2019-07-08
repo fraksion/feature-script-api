@@ -526,28 +526,17 @@
 
     function addFeatures(data, dfd){
 
-        /*var onshapeElements = $("#onshape-elements");
-        onshapeElements.empty();
-        for (var i = 0; i < data.length; ++i) {
-            if (data[i].elementType === "PARTSTUDIO") {
-                // URL must contain query string!
-                // (Query string contains document and workspace information)
-                var docId = $("#doc-select").val();
-                var wpId = $("#wp-select").val();
-                var baseHref = "?documentId=" + docId + "&workspaceId="+wpId + "&elementId=" + data[i].id + "&microversion=" + microversion;
-                var href = baseHref + "&stlElementId=" + data[i].id;
-                $("#elt-select2")
-                    .append(
-                    "<option value='" + href + "'>" + "Element - " + data[i].name + "</option>"
-                )
+        $("#feature-select").empty();
+
+        data.features.forEach(element => {
+            if (element.message.featureType == 'myFeature'){
+
+                $("#feature-select")
+                .append(
+                "<option value='" + element.message + "'>" + "Element - " + element.message.name + "</option>"
+            )
 
             }
-        }
-
-        elementsDict = createElementsDict(data);
-        dfd.resolve();*/
-        data.features.forEach(element => {
-            console.log(element.message.featureType);
         });
        
     dfd.resolve();
