@@ -436,7 +436,7 @@
             sourceMicroversion: microversion,
             rejectMicroversionSkew: false
         };
-        console.log(body.feature);
+        console.log(body.feature.featureType);
         return body;
     }
 
