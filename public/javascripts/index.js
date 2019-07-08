@@ -81,7 +81,7 @@
             $('#stl-tolerance-btn').css("display","none");
             $("#elt-select2").empty();
             $("#elt-select2").append("<option>-- Top of List --</option>");
-            getElements().then(getParts);
+            getElements();
             getCurrentMicroversion();
         });
         
