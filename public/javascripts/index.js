@@ -456,7 +456,7 @@
                 if (parameter.message.value == true){
                     val = 'checked';
                 }
-                $('<p><input class="inputValues" type="checkbox" ' + val + '>'+ parameter.message.parameterId + ' </p>').appendTo(list);
+                $('<p><input class="inputValues" type="checkbox" class="custom-control-input" ' + val + '>'+ parameter.message.parameterId + ' </p>').appendTo(list);
             }
         });
     }
