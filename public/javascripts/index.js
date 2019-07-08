@@ -40,7 +40,9 @@
         });
 
         $('#add-feature-btn').click(function(){
-            addCustomFeature();
+            if (microversion !== undefined)
+            script =  getFeatureJSON(microversion);
+            addCustomFeature(script);
         });
 
         $('#doc-select').change(function(){
@@ -325,8 +327,6 @@
             type: 'GET',
             success: function(data) {
                 microversion = data.microversion;
-                script =  getFeatureJSON(microversion);
-                addCustomFeature(script);
             },
             error: function() {
             }
