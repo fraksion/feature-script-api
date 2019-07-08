@@ -412,7 +412,7 @@
             $.ajax("/api/addCustomFeature",{
                 type: "POST",
                 dataType: "json",
-                data:body, 
+                data: JSON.stringify(body), 
                 contentType: "application/json",
                 Accept:'application/vnd.onshape.v1+json',
                 complete: function() {
@@ -436,7 +436,7 @@
             sourceMicroversion: microversion,
             rejectMicroversionSkew: false
         };
-        console.log(body);
+        console.log(body.feature);
         return body;
     }
 
