@@ -439,19 +439,24 @@
         var list = document.getElementById('feature-parameters');
         let currentFeature = getCurrentFeature();
         currentFeature.message.parameters.forEach(parameter => {
-            if (parameter.message.queries === undefined && parameter.message.expression!==undefined){
+            if (parameter.type === 147){
                 console.log(parameter.message.expression);
                 let valueArray = parameter.message.expression.split(' ');
                 if (valueArray[1] == undefined)
                 valueArray[1] = '';
 
-                $('<div>').appendTo(list);
                 $('<label for="first-input-test' + i + '">' + parameter.message.parameterId +'</label>').appendTo(list);
     
                 $('<p><input class="inputValues" style="border-top: none; border-left: none; border-right: none; border-bottom: 1px solid dimgray;" type="number" value= "' + valueArray[0] + '" type="number" step="1" id="first-input-test' + i + '"> <label id="first-input-label' + i + '">'+ valueArray[1] + '</label> </p>').appendTo(list);
                 
-                $('</div>').appendTo(list);
                 i++;
+            }
+            else if (parameter.type === 144){
+                let val='';
+                if (parameter.message.value == true){
+                    val = 'checked';
+                }
+                $('<p><input class="inputValues" type="checkbox" ' + val + '>'+ parameter.message.parameterId + ' </p>').appendTo(list);
             }
         });
     }
