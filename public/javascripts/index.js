@@ -88,7 +88,7 @@
 
         init();
         //loadStl(-1, -1);
-        getCurrentMicroversion().then(TEST);
+        getCurrentMicroversion();
         animate();
     }
 
@@ -343,6 +343,7 @@
             type: 'GET',
             success: function(data) {
                 microversion = data.microversion;
+                TEST();
             },
             error: function() {
             }
