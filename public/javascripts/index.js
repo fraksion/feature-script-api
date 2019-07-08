@@ -440,8 +440,8 @@
         let currentFeature = getCurrentFeature();
         currentFeature.message.parameters.forEach(parameter => {
             if (parameter.message.queries === undefined){
-
-                let valueArray = parameter.message.expression.split(' ');
+                console.log(parameter.message.expression);
+                /*let valueArray = parameter.message.expression.split(' ');
                 if (valueArray[1] == undefined){
                 valueArray[1] = '';
 
@@ -452,7 +452,7 @@
                 
                 $('</div>').appendTo(list);
                 i++;
-            }
+            }*/
         }
         });
     }
