@@ -71,6 +71,7 @@
             $("#elt-select2").append("<option>-- Top of List --</option>");
             $("#wp-select").append("<option>-- Top of List --</option>");
             getWorkplaces(selectedDocID);
+           // getCurrentMicroversion();
         });
 
         $('#wp-select').change(function(){
@@ -88,7 +89,7 @@
 
         init();
         //loadStl(-1, -1);
-        getCurrentMicroversion();
+        
         animate();
     }
 
@@ -334,10 +335,10 @@
 
     function getCurrentMicroversion() {
         var dfd = $.Deferred();
-        //var documentId = $("#doc-select").val();
-        var documentId = "11597718228663b148db1e40";
-        //var wpId = $("#wp-select").val();
-        var wpId = "78aeb556259d6f6bb1171aad";
+        var documentId = $("#doc-select").val();
+        //var documentId = "11597718228663b148db1e40";
+        var wpId = $("#wp-select").val();
+       // var wpId = "78aeb556259d6f6bb1171aad";
         $.ajax('/api/microversion?documentId=' + documentId + "&workspaceId=" + wpId, {
             dataType: 'json',
             type: 'GET',

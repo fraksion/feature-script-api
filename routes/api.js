@@ -90,7 +90,6 @@ var getWorkPlaces = function(req, res) {
     }
   });
 };
-
 var getMicroversion = function(req, res) {
   request.get({
     uri: apiUrl + '/api/documents/d/'+req.query.documentId +'/w/' + req.query.workspaceId +'/currentmicroversion',
