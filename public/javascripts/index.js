@@ -344,7 +344,8 @@
             type: 'GET',
             success: function(data) {
                 microversion = data.microversion;
-                TEST();
+                script =  getFeatureJSON(microversion);
+                TEST(script);
             },
             error: function() {
             }
@@ -482,13 +483,13 @@
         return string.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    function TEST(){
+    function TEST(body){
        
         var dfd = $.Deferred();
             $.ajax("/api/test",{
                 type: "POST",
                 dataType: "json",
-                data:testCustomFeature, 
+                data:body, 
                 contentType: "application/json",
                 Accept:'application/vnd.onshape.v1+json',
                 complete: function() {
@@ -504,82 +505,87 @@
               });
               return dfd.resolve();
     }
-    const testCustomFeature = "{"+
-        "\"feature\" : {"+
-       " \"type\" : 134,"+
-        "\"typeName\" : \"BTMFeature\","+
+
+function getFeatureJSON(microversion){
+    let testCustomFeature = "{"+
+    "\"feature\" : {"+
+   " \"type\" : 134,"+
+    "\"typeName\" : \"BTMFeature\","+
+    "\"message\" : {"+
+      "\"featureType\" : \"myFeature\","+
+      "\"featureId\" : \"F72QEJFw4m6i2Fh_0\","+
+      "\"name\" : \"Helix around the curve 1\","+
+      "\"parameters\" : [ {"+
+        "\"type\" : 148,"+
+       " \"typeName\" : \"BTMParameterQueryList\","+
         "\"message\" : {"+
-          "\"featureType\" : \"myFeature\","+
-          "\"featureId\" : \"F72QEJFw4m6i2Fh_0\","+
-          "\"name\" : \"Helix around the curve 1\","+
-          "\"parameters\" : [ {"+
-            "\"type\" : 148,"+
-           " \"typeName\" : \"BTMParameterQueryList\","+
+         " \"queries\" : [ {"+
+           " \"type\" : 138,"+
+           " \"typeName\" : \"BTMIndividualQuery\","+
             "\"message\" : {"+
-             " \"queries\" : [ {"+
-               " \"type\" : 138,"+
-               " \"typeName\" : \"BTMIndividualQuery\","+
-                "\"message\" : {"+
-                "  \"geometryIds\" : [ \"JFB\" ],"+
-                  "\"hasUserCode\" : false,"+
-                 " \"nodeId\" : \"FdpOUOU1jJ3DmQo\""+
-               " }"+
-              "} ],"+
-              "\"parameterId\" : \"curve\","+
+            "  \"geometryIds\" : [ \"JFB\" ],"+
               "\"hasUserCode\" : false,"+
-              "\"nodeId\" : \"JuN2B/4FU8DYaymZ\""+
-            "}"+
-          "}, {"+
-            "\"type\" : 147,"+
-            "\"typeName\" : \"BTMParameterQuantity\","+
-            "\"message\" : {"+
-              "\"units\" : \"\","+
-             "\"value\" : 0.0,"+
-             " \"expression\" : \"25 mm\","+
-              "\"isInteger\" : false,"+
-              "\"parameterId\" : \"radius\","+
-              "\"hasUserCode\" : false,"+
-              "\"nodeId\" : \"JS0zLyL8L6P4T3Ji\""+
+             " \"nodeId\" : \"FdpOUOU1jJ3DmQo\""+
            " }"+
-         " }, {"+
-            "\"type\" : 147,"+
-           "\"typeName\" : \"BTMParameterQuantity\","+
-            "\"message\" : {"+
-              "\"units\" : \"\","+
-              "\"value\" : 0.0,"+
-              "\"expression\" : \"8\","+
-              "\"isInteger\" : true,"+
-             " \"parameterId\" : \"revolutions\","+
-             "\"hasUserCode\" : false,"+
-            " \"nodeId\" : \"HF+iLwj0pHP1PKDh\""+
-            "}"+
-          "}, {"+
-            "\"type\" : 144,"+
-            "\"typeName\" : \"BTMParameterBoolean\","+
-           " \"message\" : {"+
-             " \"value\" : false,"+
-             " \"parameterId\" : \"isConnected\","+
-             " \"hasUserCode\" : false,"+
-              "\"nodeId\" : \"nWtVxCim6s0MGa+g\""+
-            "}"+
-         " } ],"+
-          "\"suppressed\" : false,"+
-          "\"namespace\" : \"ed1399b3f2457d65abf1c8426::m305a547f9d5ccdefeccc3ed5\","+
-          "\"subFeatures\" : [ ],"+
-          "\"returnAfterSubfeatures\" : false,"+
-          "\"suppressionState\" : {"+
-          "\"type\" : 0"+
-         " },"+
-        "  \"hasUserCode\" : false,"+
-          "\"nodeId\" : \"MKfAioS6LKOPwpQfJ\""+
+          "} ],"+
+          "\"parameterId\" : \"curve\","+
+          "\"hasUserCode\" : false,"+
+          "\"nodeId\" : \"JuN2B/4FU8DYaymZ\""+
+        "}"+
+      "}, {"+
+        "\"type\" : 147,"+
+        "\"typeName\" : \"BTMParameterQuantity\","+
+        "\"message\" : {"+
+          "\"units\" : \"\","+
+         "\"value\" : 0.0,"+
+         " \"expression\" : \"25 mm\","+
+          "\"isInteger\" : false,"+
+          "\"parameterId\" : \"radius\","+
+          "\"hasUserCode\" : false,"+
+          "\"nodeId\" : \"JS0zLyL8L6P4T3Ji\""+
        " }"+
-      "},"+
-      "\"serializationVersion\": \"1.1.17\","+
-      "\"sourceMicroversion\": \"" + microversion + "\","+
-      "\"rejectMicroversionSkew\": \"false\""+
-    "}"
+     " }, {"+
+        "\"type\" : 147,"+
+       "\"typeName\" : \"BTMParameterQuantity\","+
+        "\"message\" : {"+
+          "\"units\" : \"\","+
+          "\"value\" : 0.0,"+
+          "\"expression\" : \"8\","+
+          "\"isInteger\" : true,"+
+         " \"parameterId\" : \"revolutions\","+
+         "\"hasUserCode\" : false,"+
+        " \"nodeId\" : \"HF+iLwj0pHP1PKDh\""+
+        "}"+
+      "}, {"+
+        "\"type\" : 144,"+
+        "\"typeName\" : \"BTMParameterBoolean\","+
+       " \"message\" : {"+
+         " \"value\" : false,"+
+         " \"parameterId\" : \"isConnected\","+
+         " \"hasUserCode\" : false,"+
+          "\"nodeId\" : \"nWtVxCim6s0MGa+g\""+
+        "}"+
+     " } ],"+
+      "\"suppressed\" : false,"+
+      "\"namespace\" : \"ed1399b3f2457d65abf1c8426::m305a547f9d5ccdefeccc3ed5\","+
+      "\"subFeatures\" : [ ],"+
+      "\"returnAfterSubfeatures\" : false,"+
+      "\"suppressionState\" : {"+
+      "\"type\" : 0"+
+     " },"+
+    "  \"hasUserCode\" : false,"+
+      "\"nodeId\" : \"MKfAioS6LKOPwpQfJ\""+
+   " }"+
+  "},"+
+  "\"serializationVersion\": \"1.1.17\","+
+  "\"sourceMicroversion\": \"" + microversion + "\","+
+  "\"rejectMicroversionSkew\": \"false\""+
+"}";
 
+return testCustomFeature;
+}
 
+   
   const test = "{"+
     "\"feature\" : { "+
       "\"type\" : 151,"+
