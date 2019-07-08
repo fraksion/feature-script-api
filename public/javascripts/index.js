@@ -543,7 +543,7 @@
 
         elementsDict = createElementsDict(data);
         dfd.resolve();*/
-        console.log(data[0].message.featureType);
+        console.log(data.features[0].message.featureType);
     dfd.resolve();
 
     }
