@@ -533,7 +533,7 @@
 
                 $("#feature-select")
                 .append(
-                "<option value='" + element.message + "'>" + "Element - " + element.message.name + "</option>"
+                "<option value='" + element.message + "'>" + element.message.name + "</option>"
             )
 
             }
