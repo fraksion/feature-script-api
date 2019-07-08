@@ -40,9 +40,12 @@
         });
 
         $('#add-feature-btn').click(function(){
-            if (microversion !== undefined)
+            if (microversion===undefined){
+                getCurrentMicroversion();
+            }
             script =  getFeatureJSON(microversion);
             addCustomFeature(script);
+
         });
 
         $('#doc-select').change(function(){
