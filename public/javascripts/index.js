@@ -88,7 +88,7 @@
 
         init();
         //loadStl(-1, -1);
-        TEST();
+        getCurrentMicroversion().then(TEST);
         animate();
     }
 
@@ -481,7 +481,7 @@
     }
 
     function TEST(){
-        getCurrentMicroversion();
+       
         var dfd = $.Deferred();
             $.ajax("/api/test",{
                 type: "POST",
