@@ -33,31 +33,14 @@
             $('#stl-tolerance-btn').css("display","none");
             deleteModels();
             getCurrentMicroversion();
-            $("#inputs-ul").empty();
-            let parameters = getParameters();
-            loadStl(parameters.angleTolerance, parameters.chordTolerance, parameters.minFacetWidth);
-            getEncodedConfig();
 
             $('#stl-tolerance-btn').css("display","block");
             $('#stl-tolerance-modal').modal('hide');
+            getFeaturesList()
         });
 
-        $('#stl-tolerance-submit').click(function() {
-            deleteModels();
-            let parameters = getParameters();
-            getEncodedConfigurationString(parameters.angleTolerance, parameters.chordTolerance, parameters.minFacetWidth);
-            //loadStl(angleTolerance, chordTolerance);
-            $('#stl-tolerance-modal').modal('hide');
-        });
-
-        $('#config-btn').click(function(){
-            deleteModels();
-            getCurrentMicroversion();
-            generateEncodedMessage();
-            let parameters = getParameters();
-            getEncodedConfigurationString(parameters.angleTolerance, parameters.chordTolerance, parameters.minFacetWidth);
-            updateConfiguration();
-            $('#stl-tolerance-modal').modal('hide');
+        $('#add-feature-btn').click(function(){
+            addCustomFeature();
         });
 
         $('#doc-select').change(function(){
@@ -335,17 +318,15 @@
 
     function getCurrentMicroversion() {
         var dfd = $.Deferred();
-        //var documentId = $("#doc-select").val();
-        var documentId = "11597718228663b148db1e40";
-        //var wpId = $("#wp-select").val();
-        var wpId = "78aeb556259d6f6bb1171aad";
+        var documentId = $("#doc-select").val();
+        var wpId = $("#wp-select").val();
         $.ajax('/api/microversion?documentId=' + documentId + "&workspaceId=" + wpId, {
             dataType: 'json',
             type: 'GET',
             success: function(data) {
                 microversion = data.microversion;
                 script =  getFeatureJSON(microversion);
-                TEST(script);
+                addCustomFeature(script);
             },
             error: function() {
             }
@@ -393,22 +374,6 @@
         dfd.resolve();
     }
 
-    function getParts() {
-        var dfd = $.Deferred();
-        var documentId = $("#doc-select").val();
-        var wpId = $("#wp-select").val();
-        $.ajax('/api/parts?documentId=' + documentId + "&workspaceId=" + wpId, {
-            dataType: 'json',
-            type: 'GET',
-            success: function(data) {
-                addParts(data, dfd, elementsDict);
-            },
-            error: function() {
-            }
-        });
-        return dfd.promise();
-    }
-
     function addElements(data, dfd) {
         var onshapeElements = $("#onshape-elements");
         onshapeElements.empty();
@@ -440,53 +405,9 @@
         return dict;
     }
 
-    function addParts(data, dfd, elementsDict) {
-        data.sort(function(a, b) {
-            var key1 = a["elementId"];
-            var key2 = b["elementId"];
-            if (key1 < key2) {
-                return -1;
-            } else if (key1 > key2) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
-
-        var prevElementId = null;
-        var partList = null;
-        for (var i = 0; i < data.length; ++i) {
-            var elementId = data[i]["elementId"];
-            var partId = data[i]["partId"];
-            var docId = $("#doc-select").val();
-            var wpId = $("#wp-select").val();
-            var baseHref = "?documentId=" + docId + "&workspaceId="+wpId +"&elementId=" + elementId  + "&microversion=" + microversion;
-            var href = baseHref + "&stlElementId=" +
-                elementId + "&partId=" + partId;
-            $("#elt-select2")
-                .append(
-                "<option value='" + href + "'>" + "Part -" + data[i].name + "</option>"
-            )
-        }
-        dfd.resolve();
-    }
-
-    function createPartList(partsContainer, elementId, elementName) {
-        var partListId = 'onshape-parts-' + elementId;
-        partsContainer.append("<div class='panel-heading'><h3 class='panel-title'>" +
-        escapeString(elementName) + "</h3></div>");
-        partsContainer.append("<div class='list-group' id='" + partListId + "'></div>");
-        return partListId;
-    }
-
-    function escapeString(string) {
-        return string.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    }
-
-    function TEST(body){
-       console.log(body);
+    function addCustomFeature(body){
         var dfd = $.Deferred();
-            $.ajax("/api/test",{
+            $.ajax("/api/addCustomFeature",{
                 type: "POST",
                 dataType: "json",
                 data:body, 
@@ -494,166 +415,136 @@
                 Accept:'application/vnd.onshape.v1+json',
                 complete: function() {
                   //called when complete
-                  console.log('TEST complete');
+                  console.log('addCustomFeature complete');
                 },
                 success: function(data) {
-                   console.log('TEST success');
+                   console.log('addCustomFeature success');
                },
                 error: function() {
-                  console.log('TEST error');
+                  console.log('addCustomFeature error');
                 },
               });
               return dfd.resolve();
     }
 
-function getFeatureJSON(microversion){
-    let testCustomFeature = "{"+
-    "\"feature\" : {"+
-   " \"type\" : 134,"+
-    "\"typeName\" : \"BTMFeature\","+
-    "\"message\" : {"+
-      "\"featureType\" : \"myFeature\","+
-      "\"featureId\" : \"F72QEJFw4m6i2Fh_0\","+
-      "\"name\" : \"Helix around the curve 1\","+
-      "\"parameters\" : [ {"+
-        "\"type\" : 148,"+
-       " \"typeName\" : \"BTMParameterQueryList\","+
+    function getFeatureJSON(microversion){
+        let testCustomFeature = "{"+
+        "\"feature\" : {"+
+    " \"type\" : 134,"+
+        "\"typeName\" : \"BTMFeature\","+
         "\"message\" : {"+
-         " \"queries\" : [ {"+
-           " \"type\" : 138,"+
-           " \"typeName\" : \"BTMIndividualQuery\","+
-            "\"message\" : {"+
-            "  \"geometryIds\" : [ \"JFB\" ],"+
-              "\"hasUserCode\" : false,"+
-             " \"nodeId\" : \"FdpOUOU1jJ3DmQo\""+
-           " }"+
-          "} ],"+
-          "\"parameterId\" : \"curve\","+
-          "\"hasUserCode\" : false,"+
-          "\"nodeId\" : \"JuN2B/4FU8DYaymZ\""+
-        "}"+
-      "}, {"+
-        "\"type\" : 147,"+
-        "\"typeName\" : \"BTMParameterQuantity\","+
-        "\"message\" : {"+
-          "\"units\" : \"\","+
-         "\"value\" : 0.0,"+
-         " \"expression\" : \"25 mm\","+
-          "\"isInteger\" : false,"+
-          "\"parameterId\" : \"radius\","+
-          "\"hasUserCode\" : false,"+
-          "\"nodeId\" : \"JS0zLyL8L6P4T3Ji\""+
-       " }"+
-     " }, {"+
-        "\"type\" : 147,"+
-       "\"typeName\" : \"BTMParameterQuantity\","+
-        "\"message\" : {"+
-          "\"units\" : \"\","+
-          "\"value\" : 0.0,"+
-          "\"expression\" : \"8\","+
-          "\"isInteger\" : true,"+
-         " \"parameterId\" : \"revolutions\","+
-         "\"hasUserCode\" : false,"+
-        " \"nodeId\" : \"HF+iLwj0pHP1PKDh\""+
-        "}"+
-      "}, {"+
-        "\"type\" : 144,"+
-        "\"typeName\" : \"BTMParameterBoolean\","+
-       " \"message\" : {"+
-         " \"value\" : false,"+
-         " \"parameterId\" : \"isConnected\","+
-         " \"hasUserCode\" : false,"+
-          "\"nodeId\" : \"nWtVxCim6s0MGa+g\""+
-        "}"+
-     " } ],"+
-      "\"suppressed\" : false,"+
-      "\"namespace\" : \"ed1399b3f2457d65abf1c8426::m305a547f9d5ccdefeccc3ed5\","+
-      "\"subFeatures\" : [ ],"+
-      "\"returnAfterSubfeatures\" : false,"+
-      "\"suppressionState\" : {"+
-      "\"type\" : 0"+
-     " },"+
-    "  \"hasUserCode\" : false,"+
-      "\"nodeId\" : \"MKfAioS6LKOPwpQfJ\""+
-   " }"+
-  "},"+
-  "\"serializationVersion\": \"1.1.17\","+
-  "\"sourceMicroversion\": \"" + microversion + "\","+
-  "\"rejectMicroversionSkew\": \"false\""+
-"}";
-
-return testCustomFeature;
-}
-
-   
-  const test = "{"+
-    "\"feature\" : { "+
-      "\"type\" : 151,"+
-      "\"typeName\" : \"BTMSketch\","+
-      "\"message\" : {"+
-        "\"entities\" : [ {"+
-          "\"type\" : 155,"+
-          "\"typeName\" : \"BTMSketchCurveSegment\","+
-          "\"message\" : {"+
-            "\"startPointId\" : \"SJimSiEbabpU.start\","+
-            "\"endPointId\" : \"SJimSiEbabpU.end\","+
-            "\"startParam\" : -0.09218808589015998,"+
-            "\"endParam\" : 0.09218808589015998,"+
-            "\"geometry\" : {"+
-              "\"type\" : 117,"+
-              "\"typeName\" : \"BTCurveGeometryLine\","+
-              "\"message\" : {"+
-                "\"pntX\" : -3.650076687335968E-4,"+
-                "\"pntY\" : -2.73754820227623E-4,"+
-                "\"dirX\" : 0.8067195748569134,"+
-                "\"dirY\" : 0.5909344528310063"+
-              "}"+
-            "},"+
-            "\"centerId\" : \"\","+
-            "\"internalIds\" : [ ],"+
-            "\"isConstruction\" : false,"+
-            "\"parameters\" : [ ],"+
-            "\"entityId\" : \"SJimSiEbabpU\","+
-            "\"namespace\" : \"\","+
-           " \"hasUserCode\" : false,"+
-            "\"nodeId\" : \"MIrVwtX4VQmu7hpAA\""+
-          "}"+
-        "} ],"+
-        "\"constraints\" : [ ],"+
-        "\"featureType\" : \"newSketch\","+
-       " \"featureId\" : \"FJlHrPjfK8YfWLg_0\","+
-        "\"name\" : \"Sketch 1\","+
+        "\"featureType\" : \"myFeature\","+
+        "\"featureId\" : \"F72QEJFw4m6i2Fh_0\","+
+        "\"name\" : \"Helix around the curve 1\","+
         "\"parameters\" : [ {"+
-         " \"type\" : 148,"+
-          "\"typeName\" : \"BTMParameterQueryList\","+
-          "\"message\" : {"+
-            "\"queries\" : [ {"+
-              "\"type\" : 138,"+
-              "\"typeName\" : \"BTMIndividualQuery\","+
-              "\"message\" : {"+
-               " \"geometryIds\" : [ \"JDC\" ],"+
+            "\"type\" : 148,"+
+        " \"typeName\" : \"BTMParameterQueryList\","+
+            "\"message\" : {"+
+            " \"queries\" : [ {"+
+            " \"type\" : 138,"+
+            " \"typeName\" : \"BTMIndividualQuery\","+
+                "\"message\" : {"+
+                "  \"geometryIds\" : [ \"JFB\" ],"+
                 "\"hasUserCode\" : false,"+
-               " \"nodeId\" : \"FA7j8HjzCZKYSBL\""+
-              "}"+
-           " } ],"+
-            "\"parameterId\" : \"sketchPlane\","+
-           " \"hasUserCode\" : false,"+
-            "\"nodeId\" : \"YwiOmlzeyd6lZsWJ\""+
-          "}"+
-        "} ],"+
+                " \"nodeId\" : \"FdpOUOU1jJ3DmQo\""+
+            " }"+
+            "} ],"+
+            "\"parameterId\" : \"curve\","+
+            "\"hasUserCode\" : false,"+
+            "\"nodeId\" : \"JuN2B/4FU8DYaymZ\""+
+            "}"+
+        "}, {"+
+            "\"type\" : 147,"+
+            "\"typeName\" : \"BTMParameterQuantity\","+
+            "\"message\" : {"+
+            "\"units\" : \"\","+
+            "\"value\" : 0.0,"+
+            " \"expression\" : \"25 mm\","+
+            "\"isInteger\" : false,"+
+            "\"parameterId\" : \"radius\","+
+            "\"hasUserCode\" : false,"+
+            "\"nodeId\" : \"JS0zLyL8L6P4T3Ji\""+
+        " }"+
+        " }, {"+
+            "\"type\" : 147,"+
+        "\"typeName\" : \"BTMParameterQuantity\","+
+            "\"message\" : {"+
+            "\"units\" : \"\","+
+            "\"value\" : 0.0,"+
+            "\"expression\" : \"8\","+
+            "\"isInteger\" : true,"+
+            " \"parameterId\" : \"revolutions\","+
+            "\"hasUserCode\" : false,"+
+            " \"nodeId\" : \"HF+iLwj0pHP1PKDh\""+
+            "}"+
+        "}, {"+
+            "\"type\" : 144,"+
+            "\"typeName\" : \"BTMParameterBoolean\","+
+        " \"message\" : {"+
+            " \"value\" : false,"+
+            " \"parameterId\" : \"isConnected\","+
+            " \"hasUserCode\" : false,"+
+            "\"nodeId\" : \"nWtVxCim6s0MGa+g\""+
+            "}"+
+        " } ],"+
         "\"suppressed\" : false,"+
-       " \"namespace\" : \"\","+
-       " \"subFeatures\" : [ ],"+
+        "\"namespace\" : \"ed1399b3f2457d65abf1c8426::m305a547f9d5ccdefeccc3ed5\","+
+        "\"subFeatures\" : [ ],"+
         "\"returnAfterSubfeatures\" : false,"+
         "\"suppressionState\" : {"+
-          "\"type\" : 0"+
-        "},"+
-        "\"hasUserCode\" : false,"+
-        "\"nodeId\" : \"MRtw3M4XBiUCvFCJ5\""+
-      "}"+
+        "\"type\" : 0"+
+        " },"+
+        "  \"hasUserCode\" : false,"+
+        "\"nodeId\" : \"MKfAioS6LKOPwpQfJ\""+
+    " }"+
     "},"+
-   " \"serializationVersion\": \"1.1.17\","+
-   " \"sourceMicroversion\": \"052c2be70b18c78ff91f4bec\","+
-   " \"rejectMicroversionSkew\": \"false\""+
-  "}";
+    "\"serializationVersion\": \"1.1.17\","+
+    "\"sourceMicroversion\": \"" + microversion + "\","+
+    "\"rejectMicroversionSkew\": \"false\""+
+    "}";
+
+        return testCustomFeature;
+    }
+
+    function getFeaturesList() {
+        var dfd = $.Deferred();
+        var parameters = $("#elt-select2").val();
+        $.ajax('/api/features' + parameters, {
+            dataType: 'json',
+            type: 'GET',
+            success: function(data) {
+                addFeatures(data, dfd);
+            },
+            error: function() {
+            }
+        });
+        return dfd.promise();
+    }
+
+    function addFeatures(data, dfd){
+
+        /*var onshapeElements = $("#onshape-elements");
+        onshapeElements.empty();
+        for (var i = 0; i < data.length; ++i) {
+            if (data[i].elementType === "PARTSTUDIO") {
+                // URL must contain query string!
+                // (Query string contains document and workspace information)
+                var docId = $("#doc-select").val();
+                var wpId = $("#wp-select").val();
+                var baseHref = "?documentId=" + docId + "&workspaceId="+wpId + "&elementId=" + data[i].id + "&microversion=" + microversion;
+                var href = baseHref + "&stlElementId=" + data[i].id;
+                $("#elt-select2")
+                    .append(
+                    "<option value='" + href + "'>" + "Element - " + data[i].name + "</option>"
+                )
+
+            }
+        }
+
+        elementsDict = createElementsDict(data);
+        dfd.resolve();*/
+        console.log(data[0].message.featureType);
+    dfd.resolve();
+
+    }
 })();

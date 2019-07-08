@@ -300,9 +300,31 @@ var getEncodedConfigString = function(req, res) {
       });
       };
 
+      var getCustomFeatures = function(req, res) {
+        request.get({
+          uri: apiUrl + '/api/partstudios/d/' + req.query.documentId + 
+        '/w/' + req.query.workspaceId + 
+        '/e/' + req.query.elementId + 
+        '/features',
+          headers: {
+            'Authorization': 'Bearer ' + req.user.accessToken
+          }
+        }).then(function(data) {
+          res.send(data);
+        }).catch(function(data) {
+          if (data.statusCode === 401) {
+            authentication.refreshOAuthToken(req, res).then(function() {
+              getConfigString(req, res);
+            }).catch(function(err) {
+              console.log('Error refreshing token or getting documents: ', err);
+            });
+          } else {
+            console.log('GET /api/documents error: ', data);
+          }
+        });
+      };
 
-
-      var testCustomFeature = function(req, res) {
+      var addCustomFeature = function(req, res) {
         request.post({
         uri: apiUrl + '/api/partstudios/d/11597718228663b148db1e40/w/78aeb556259d6f6bb1171aad/e/410a74ea5a40b14bf4967157/features',
           headers: {
@@ -327,14 +349,10 @@ var getEncodedConfigString = function(req, res) {
 
   const jsonParser = express.json();
 
-router.post('/test', jsonParser, testCustomFeature);
-router.post('/updateConfig', jsonParser, updateConfigString);
-router.post('/encodeConfig', jsonParser, encodeConfigString);
-router.get('/getEncodedConfig', getEncodedConfigString);
-router.get('/getDecodedConfig', getDecodedConfigString);
+router.post('/addCustomFeature', jsonParser, addCustomFeature);
 router.get('/documents', getDocuments);
+router.get('/features', getCustomFeatures);
 router.get('/elements', getElementList);
-router.get('/stl', getStl);
 router.get('/parts', getPartsList);
 router.get('/workplaces', getWorkPlaces);
 router.get('/microversion', getMicroversion);
