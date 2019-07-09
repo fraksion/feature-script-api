@@ -463,11 +463,11 @@
 
     function changeParametersValue(){
         let currentFeature = getCurrentFeature();
-        let count =  currentFeature.message.parameters.length;
         let arrayOfParameters = [];
         let i=0;
         while ($('#first-input-test' + i).val()!==undefined){
             arrayOfParameters.push($('#first-input-test' + i));
+            i++;
         }
         currentFeature.message.parameters.forEach(parameter => {
             if (parameter.type === 147){
