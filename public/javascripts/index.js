@@ -440,7 +440,6 @@
         let currentFeature = getCurrentFeature();
         currentFeature.message.parameters.forEach(parameter => {
             if (parameter.type === 147){
-                console.log(parameter.message.expression);
                 let valueArray = parameter.message.expression.split(' ');
                 if (valueArray[1] == undefined)
                 valueArray[1] = '';
@@ -465,6 +464,7 @@
     }
 
     function changeParametersValue(){
+        let currentFeature = getCurrentFeature();
         let count =  currentFeature.message.parameters.length;
         let arrayOfParameters = [];
         for (var i=0;;i++){
