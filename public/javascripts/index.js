@@ -456,9 +456,24 @@
                 if (parameter.message.value == true){
                     val = 'checked';
                 }
-                $('<p><input class="inputValues" type="checkbox" class="custom-control-input" ' + val + '>'+ parameter.message.parameterId + ' </p>').appendTo(list);
+                $('<p><input class="inputValues" type="checkbox" class="custom-control-input" id="first-input-test' + i + '" ' + val + '>'+ parameter.message.parameterId + ' </p>').appendTo(list);
+                i++;
             }
         });
+
+        changeParametersValue();
+    }
+
+    function changeParametersValue(){
+        let count =  currentFeature.message.parameters.length;
+        let arrayOfParameters = [];
+        for (var i=0;;i++){
+            if ($('#first-input-test' + i).val()===undefined)
+            break;
+            arrayOfParameters.push($('#first-input-test' + i).val());
+
+        }
+        console.log(arrayOfParameters);
     }
 
     function getCurrentFeature(){
