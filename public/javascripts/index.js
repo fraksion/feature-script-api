@@ -421,10 +421,11 @@
                 Accept:'application/vnd.onshape.v1+json',
                 complete: function() {
                   //called when complete
+                  alert("Custom feature added");
                   console.log('addCustomFeature complete');
                 },
                 success: function(data) {
-                   console.log('addCustomFeature success');
+                   //console.log('addCustomFeature success');
                    alert("Custom feature added");
                },
                 error: function() {
