@@ -213,7 +213,7 @@
 
     function addCustomFeature(body){
         var dfd = $.Deferred();
-            $.ajax("/api/addCustomFeature",{
+            $.ajax("/api/addCustomFeature" + $('#elt-select2').val(),{
                 type: "POST",
                 dataType: "json",
                 data: JSON.stringify(body), 
