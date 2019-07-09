@@ -71,7 +71,6 @@
             $("#elt-select2").empty();
             $("#elt-select2").append("<option>-- Top of List --</option>");
             getElements();
-            getFeaturesList();
             getCurrentMicroversion();
         });
         
