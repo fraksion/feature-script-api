@@ -326,7 +326,7 @@ var getEncodedConfigString = function(req, res) {
 
       var addCustomFeature = function(req, res) {
         request.post({
-        uri: apiUrl + '/api/partstudios/d/11597718228663b148db1e40/w/78aeb556259d6f6bb1171aad/e/410a74ea5a40b14bf4967157/features',
+        uri: apiUrl + '/api/partstudios/d/' + req.query.documentId + '/w/' + req.query.workspaceId + '/e/' + req.query.elementId + '/features',
           headers: {
             'Authorization': 'Bearer ' + req.user.accessToken,
           },

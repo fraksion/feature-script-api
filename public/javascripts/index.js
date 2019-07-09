@@ -32,7 +32,7 @@
             $('#configDiv').css("display","none");
             $('#config-btn').css("display","none");
             $('#stl-tolerance-btn').css("display","none");
-            deleteModels();
+
             getCurrentMicroversion();
 
             $('#stl-tolerance-btn').css("display","block");
@@ -50,7 +50,7 @@
         });
 
         $('#doc-select').change(function(){
-            deleteModels();
+
             var selectedDocID = $("#doc-select").val();
             $("#wp-select").empty();
             $('#configDiv').css("display","none");
@@ -64,7 +64,7 @@
         });
 
         $('#wp-select').change(function(){
-            deleteModels();
+
             $('#configDiv').css("display","none");
             $('#config-btn').css("display","none");
             $('#stl-tolerance-btn').css("display","none");
