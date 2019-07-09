@@ -314,7 +314,7 @@ var getEncodedConfigString = function(req, res) {
         }).catch(function(data) {
           if (data.statusCode === 401) {
             authentication.refreshOAuthToken(req, res).then(function() {
-              getConfigString(req, res);
+              getCustomFeatures(req, res);
             }).catch(function(err) {
               console.log('Error refreshing token or getting documents: ', err);
             });
@@ -333,11 +333,11 @@ var getEncodedConfigString = function(req, res) {
           json:true,
           body: req.body
         }).then(function(data){
-         // res.json(data);
+          res.json(data);
         }).catch(function(data) {
           if (data.statusCode === 401) {
             authentication.refreshOAuthToken(req, res).then(function() {
-              encodeConfigString(req, res);
+              addCustomFeature(req, res);
             }).catch(function(err) {
               console.log('Error refreshing token or getting documents: ', err);
             });
@@ -347,8 +347,32 @@ var getEncodedConfigString = function(req, res) {
         });
         };
 
-  const jsonParser = express.json();
 
+        var evaluateFeatureScript = function(req, res) {
+          request.post({
+          uri: apiUrl + '/api/partstudios/d/' + req.query.documentId + '/w/' + req.query.workspaceId + '/e/' + req.query.elementId + '/featurescript',
+            headers: {
+              'Authorization': 'Bearer ' + req.user.accessToken,
+            },
+            json:true,
+            body: req.body
+          }).then(function(data){
+            res.json(data);
+          }).catch(function(data) {
+            if (data.statusCode === 401) {
+              authentication.refreshOAuthToken(req, res).then(function() {
+                evaluateFeatureScript(req, res);
+              }).catch(function(err) {
+                console.log('Error refreshing token or getting documents: ', err);
+              });
+            } else {
+              console.log('GET /api/documents error: ', data);
+            }
+          });
+          };
+
+  const jsonParser = express.json();
+router.post('/featurescript', jsonParser, evaluateFeatureScript);
 router.post('/addCustomFeature', jsonParser, addCustomFeature);
 router.get('/documents', getDocuments);
 router.get('/features', getCustomFeatures);

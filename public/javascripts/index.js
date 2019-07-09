@@ -78,9 +78,11 @@
             addFeatureParameters();
         })
 
-        init();
-        //loadStl(-1, -1);
+        $('#get-id-btn').click(function(){
+            evaluateFeatureScript();
+        })
 
+        init();
     }
 
     function init() {
@@ -359,5 +361,28 @@
             "queries" : queries
         }
         return result;
+    }
+
+    function evaluateFeatureScript(){
+        var dfd = $.Deferred();
+            $.ajax("/api/featurescript",{
+                type: "POST",
+                dataType: "json",
+                data: FeatureScriptBody(getIdScript, []), 
+                contentType: "application/json",
+                Accept:'application/vnd.onshape.v1+json',
+                complete: function(data) {
+                  //called when complete
+                  alert("evaluateFeatureScript complete");
+                  console.log(data);
+                },
+                success: function(data) {
+                   alert("Custom feature added");
+               },
+                error: function() {
+                  console.log('addCustomFeature error');
+                },
+              });
+              return dfd.resolve();
     }
 })();
