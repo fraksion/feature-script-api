@@ -44,9 +44,9 @@
             if (microversion===undefined){
                 getCurrentMicroversion();
             }
-            let body =  getFeatureJSON(microversion);
-            changeParametersValue();
-           // addCustomFeature(body);
+            let feature = changeParametersValue();
+            let body =  getFeatureJSON(microversion, feature);
+            addCustomFeature(body);
         });
 
         $('#doc-select').change(function(){
@@ -482,6 +482,7 @@
             }
             console.log(parameter);
         });
+        return currentFeature;
     }
 
     function getCurrentFeature(){
@@ -495,16 +496,9 @@
 
     }
 
-    function getFeatureJSON(microversion){
-        let tempFeature;
-        for (var i=0; i< features.length; i++){
-            if (features[i].message.name == $("#feature-select").val()){
-                tempFeature = features[i];
-                break;
-            }
-        }
+    function getFeatureJSON(microversion, feature){
         let body ={
-            feature :  tempFeature,
+            feature :  feature,
             serializationVersion: "1.1.17",
             sourceMicroversion: microversion,
             rejectMicroversionSkew: false
