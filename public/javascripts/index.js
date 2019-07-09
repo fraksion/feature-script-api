@@ -45,7 +45,8 @@
                 getCurrentMicroversion();
             }
             let body =  getFeatureJSON(microversion);
-            addCustomFeature(body);
+            changeParametersValue();
+           // addCustomFeature(body);
         });
 
         $('#doc-select').change(function(){
@@ -451,29 +452,36 @@
                 i++;
             }
             else if (parameter.type === 144){
-                let val='';
-                if (parameter.message.value == true){
-                    val = 'checked';
-                }
-                $('<p><input class="inputValues" type="checkbox" class="custom-control-input" id="first-input-test' + i + '" ' + val + '>'+ parameter.message.parameterId + ' </p>').appendTo(list);
+
+                $('<p><input class="inputValues" type="checkbox" class="custom-control-input" id="first-input-test' + i + '" >'+ parameter.message.parameterId + ' </p>').appendTo(list);
                 i++;
             }
         });
 
-        changeParametersValue();
+        
     }
 
     function changeParametersValue(){
         let currentFeature = getCurrentFeature();
         let count =  currentFeature.message.parameters.length;
         let arrayOfParameters = [];
-        for (var i=0;;i++){
-            if ($('#first-input-test' + i).val()===undefined)
-            break;
-            arrayOfParameters.push($('#first-input-test' + i).val());
-
+        let i=0;
+        while ($('#first-input-test' + i).val()!==undefined){
+            arrayOfParameters.push($('#first-input-test' + i));
         }
-        console.log(arrayOfParameters);
+        currentFeature.message.parameters.forEach(parameter => {
+            if (parameter.type === 147){
+                let valueArray = parameter.message.expression.split(' ');
+                if (valueArray[1] == undefined)
+                valueArray[1] = '';
+                valueArray[0] = arrayOfParameters.shift().val();
+                parameter.message.expression = valueArray.join(' ');
+            }
+            else if (parameter.type === 144){
+                parameter.message.value = arrayOfParameters.shift().is(":checked");
+            }
+            console.log(parameter);
+        });
     }
 
     function getCurrentFeature(){
