@@ -425,6 +425,7 @@
                 },
                 success: function(data) {
                    console.log('addCustomFeature success');
+                   alert("Custom feature added");
                },
                 error: function() {
                   console.log('addCustomFeature error');
@@ -524,16 +525,40 @@
     function addFeatures(data, dfd){
 
         $("#feature-select").empty();
+        let prevFeature;
         features = data.features;
         data.features.forEach(element => {
             if (element.message.featureType == 'myFeature'){
-
+                
                 $("#feature-select")
                 .append(
                 "<option value='" + element.message.name + "'>" + element.message.name + "</option>"
-            )
+            );
+            prevFeature = element.message;
             }
         }); 
     dfd.resolve();
+    }
+
+    const getIdScript = "function(context is Context, queries)"+
+    "{"+
+        "var top =  qCreatedBy(makeId(\"Top\"), EntityType.EDGE);"+
+       " var right =  qCreatedBy(makeId(\"Right\"), EntityType.EDGE);"+
+       " var front =  qCreatedBy(makeId(\"Front\"), EntityType.EDGE);"+
+       " var edges = evaluateQuery(context, qSubtraction(qEverything(EntityType.EDGE), qUnion([top, right, front])));"+
+        "var result = makeArray(size(edges));"+
+        "for (var i = 0; i < size(edges); i += 1)"+
+        "{"+
+           " result[i] = transientQueriesToStrings(edges[i]);"+
+        "}"+
+        "return {\"curves\" : result};"+
+    "}";
+
+    function FeatureScriptBody(script, queries){
+        let result = {
+            "script" : script, 
+            "queries" : queries
+        }
+        return result;
     }
 })();
