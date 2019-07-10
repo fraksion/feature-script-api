@@ -136,34 +136,6 @@
         window.addEventListener( 'resize', onWindowResize, false );
     }
 
-    function loadStlData(data) {
-
-        var material = new THREE.MeshPhongMaterial({
-            ambient: 0x555555,
-            color: 0x0072BB,
-            specular: 0x111111,
-            shininess: 200
-        });
-        // Initialize loader
-        var loader = new THREE.STLLoader();
-        // Load using loader.parse rather than loader.load because we are loading
-        // from data rather than from a file
-        var geometry = loader.parse(data);
-
-        // Zoom Camera to model
-        THREE.GeometryUtils.center(geometry);
-        geometry.computeBoundingSphere();
-        fitToWindow(geometry.boundingSphere.radius);
-
-        // Add mesh to scene
-        var mesh = new THREE.Mesh(geometry, material);
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
-
-        loadedModels.push(mesh);
-        scene.add(mesh);
-    }
-
     function deleteModels() {
         for (var i = loadedModels.length - 1; i >= 0; --i) {
             scene.remove(loadedModels[i]);
@@ -554,7 +526,23 @@
     }
 
     function translatePoints(data, dfd){
-        console.log('getSketchPoints success');
-        console.log(data);
+        let tessellationPoints = data.sketchEntities[0].tessellationPoints;
+
+        let material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+        let geometry = new THREE.Geometry();
+
+        tessellationPoints.forEach(point => {
+            geometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
+        });
+        let line = new THREE.Line( geometry, material );
+        
+
+        // Zoom Camera to model
+        THREE.GeometryUtils.center(geometry);
+        geometry.computeBoundingSphere();
+        fitToWindow(geometry.boundingSphere.radius);
+
+        loadedModels.push(line);
+        scene.add(line);
     }
 })();
