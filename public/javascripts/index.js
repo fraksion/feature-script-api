@@ -538,7 +538,12 @@
                 geometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
             });
             let line = new THREE.Line( geometry, material );
-            
+            if (i>0)
+            {
+                line.position.x = data.sketchEntities[i].tessellationPoints[data.sketchEntities[i].tessellationPoints.length-1][0];
+                line.position.y = data.sketchEntities[i].tessellationPoints[data.sketchEntities[i].tessellationPoints.length-1][1];
+                line.position.z = data.sketchEntities[i].tessellationPoints[data.sketchEntities[i].tessellationPoints.length-1][2];
+            }
     
             // Zoom Camera to model
             THREE.GeometryUtils.center(geometry);
