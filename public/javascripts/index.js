@@ -532,9 +532,8 @@
         let circleIndexes = [];
         for (let i=0; i<data.sketchEntities.length; i++)
         {
-            if (data.sketchEntities[i].tessellationPoints === data.sketchEntities[i].tessellationPoints[data.sketchEntities[i].tessellationPoints.length -1])
+            if (data.sketchEntities[i].tessellationPoints[0] === data.sketchEntities[i].tessellationPoints[data.sketchEntities[i].tessellationPoints.length -1])
             {
-                console.log('CIRCLE!');
                 circleIndexes.push(i);
                 continue;
             }
@@ -546,6 +545,20 @@
         }
         let line = new THREE.Line( geometry, material );
         
+        if (circleIndexes!=[]){
+            let circleGeometry = new THREE.Geometry();
+            for (let i=0; i<circleIndexes.length; i++)
+            {
+                let tessellationPoints = data.sketchEntities[i].tessellationPoints;
+                tessellationPoints.forEach(point => {
+                    circleGeometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
+                });
+            }
+            let circle = new THREE.Line( circleGeometry, material );
+            loadedModels.push(circle);
+            scene.add(circle);
+        }
+
         // Zoom Camera to model
         THREE.GeometryUtils.center(geometry);
         geometry.computeBoundingSphere();
