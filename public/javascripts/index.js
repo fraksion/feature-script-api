@@ -485,6 +485,7 @@
             );
             }
         }); 
+        getSketchesIDs();
     dfd.resolve();
     }
 
