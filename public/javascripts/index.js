@@ -532,7 +532,7 @@
         let circleIndexes = [];
         for (let i=0; i<data.sketchEntities.length; i++)
         {
-            if (data.sketchEntities[0].tessellationPoints === data.sketchEntities[i].tessellationPoints[data.sketchEntities[i].tessellationPoints.length -1])
+            if (data.sketchEntities[i].tessellationPoints === data.sketchEntities[i].tessellationPoints[data.sketchEntities[i].tessellationPoints.length -1])
             {
                 console.log('CIRCLE!');
                 circleIndexes.push(i);
