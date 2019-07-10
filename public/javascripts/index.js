@@ -408,8 +408,8 @@
 
                     let items = [];
                         element.message.entities.forEach(item => {
-                            items.push({entityId : item.entityId, 
-                            isConstruction : item.isConstruction});
+                            items.push({entityId : item.message.entityId, 
+                            isConstruction : item.message.isConstruction});
                             });
                     let sketch = {
                         sketchId : element.message.featureId,
