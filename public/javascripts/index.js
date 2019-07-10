@@ -7,6 +7,7 @@
     var microversion;
     var configString;
     var features;
+    let sketches;
     const medium = {angleTolerance: 0.1090830782496456, chordTolerance:  0.004724409448818898, minFacetWidth: 0.009999999999999998};
     const coarse = {angleTolerance: 0.2181661564992912, chordTolerance:  0.009448818897637795, minFacetWidth: 0.024999999999999998};
     const fine = {angleTolerance: 0.04363323129985824, chordTolerance:  0.002362204724409449, minFacetWidth: 0.001};
@@ -38,6 +39,7 @@
             $('#stl-tolerance-btn').css("display","block");
             $('#stl-tolerance-modal').modal('hide');
             getFeaturesList();
+            getSketchesIDs();
         });
 
         $('#add-feature-btn').click(function(){
@@ -91,6 +93,131 @@
         $("#doc-select").append("<option>-- Top of List --</option>");
         $("#wp-select").append("<option>-- Top of List --</option>");
         getDocuments();
+
+        // Initialize Camera
+        camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 0.1, 1e6);
+        camera.position.set(3, 3, 3); // must initialize camera position
+
+        // Initialize Controls
+        controls = new THREE.TrackballControls(camera);
+        controls.minDistance = 0.5;
+
+        // Initialize Scene
+        scene = new THREE.Scene();
+        scene.fog = new THREE.Fog(0xffffff, 0.1, 1e6);
+
+        createLights();
+
+        // Renderer
+        renderer = new THREE.WebGLRenderer( { antialias: true } );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        renderer.setClearColor( scene.fog.color, 1 );
+
+        renderer.gammaInput = true;
+        renderer.gammaOutput = true;
+
+        renderer.shadowMapEnabled = true;
+        renderer.shadowMapCullFace = THREE.CullFaceBack;
+
+        // Stats
+        stats = new Stats();
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.top = '0px';
+
+        // Add to DOM
+        container = $('#stl-viewport');
+        container.append(renderer.domElement);
+        container.append( stats.domElement );
+
+        window.addEventListener( 'resize', onWindowResize, false );
+    }
+
+    function loadStlData(data) {
+
+        var material = new THREE.MeshPhongMaterial({
+            ambient: 0x555555,
+            color: 0x0072BB,
+            specular: 0x111111,
+            shininess: 200
+        });
+        // Initialize loader
+        var loader = new THREE.STLLoader();
+        // Load using loader.parse rather than loader.load because we are loading
+        // from data rather than from a file
+        var geometry = loader.parse(data);
+
+        // Zoom Camera to model
+        THREE.GeometryUtils.center(geometry);
+        geometry.computeBoundingSphere();
+        fitToWindow(geometry.boundingSphere.radius);
+
+        // Add mesh to scene
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+
+        loadedModels.push(mesh);
+        scene.add(mesh);
+    }
+
+    function deleteModels() {
+        for (var i = loadedModels.length - 1; i >= 0; --i) {
+            scene.remove(loadedModels[i]);
+            loadedModels.pop();
+        }
+    }
+
+    function createLights() {
+        scene.add( new THREE.AmbientLight( 0x777777 ) );
+        addShadowedLight( 10, 10, 15, 0xffffff, 1.35 );
+        addShadowedLight( 5, 10, -10, 0xffffff, 1 );
+        addShadowedLight( -10, -5, -10, 0xffffff, 1 );
+    }
+
+    function addShadowedLight(x, y, z, color, intensity) {
+        var directionalLight = new THREE.DirectionalLight( color, intensity );
+        directionalLight.position.set( x, y, z );
+        scene.add( directionalLight );
+
+        var d = 1;
+        directionalLight.shadowCameraLeft = -d;
+        directionalLight.shadowCameraRight = d;
+        directionalLight.shadowCameraTop = d;
+        directionalLight.shadowCameraBottom = -d;
+
+        directionalLight.shadowCameraNear = 1;
+        directionalLight.shadowCameraFar = 4;
+
+        directionalLight.shadowMapWidth = 1024;
+        directionalLight.shadowMapHeight = 1024;
+
+        directionalLight.shadowBias = -0.005;
+        directionalLight.shadowDarkness = 0.15;
+    }
+
+    function fitToWindow(boundingSphereRadius) {
+        var dist = camera.aspect * boundingSphereRadius / Math.tan(camera.fov * (Math.PI / 180));
+
+        var cameraUnitVector = camera.position.clone().normalize();
+        camera.position = cameraUnitVector.multiplyScalar(dist);
+    }
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        render();
+        stats.update();
+    }
+
+    function render() {
+        controls.update();
+        renderer.render(scene, camera);
     }
 
     // Functions to support loading list of models to view ...
@@ -258,6 +385,12 @@
                 $('<p><input class="inputValues" type="checkbox" class="custom-control-input" id="first-input-test' + i + '" >'+ parameter.message.parameterId + ' </p>').appendTo(list);
                 i++;
             }
+            sketches.forEach(element => {
+                $("#sketch-select")
+                    .append(
+                    "<option value='" + element.sketchId + "'>"  + element.sketchName + "</option>"
+                );
+            });
         });
 
         
@@ -295,7 +428,20 @@
                     }
             } 
         }
+    }
 
+    function getSketchesIDs(){
+        if (features != undefined){
+            features.forEach(element => {
+                if (element.message.featureType == 'newSketch'){
+                    let sketch = {
+                        sketchId : element.message.featureId,
+                        sketchName : element.message.name
+                    }
+                    sketches.push(sketch);
+                }
+            });
+        }
     }
 
     function getFeatureJSON(microversion, feature){
@@ -326,7 +472,6 @@
     function addFeatures(data, dfd){
 
         $("#feature-select").empty();
-        let prevFeature;
         features = data.features;
         data.features.forEach(element => {
             if (element.message.featureType == 'myFeature'){
@@ -335,7 +480,6 @@
                 .append(
                 "<option value='" + element.message.name + "'>" + element.message.name + "</option>"
             );
-            prevFeature = element.message;
             }
         }); 
     dfd.resolve();
