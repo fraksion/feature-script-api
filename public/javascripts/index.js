@@ -529,19 +529,34 @@
         deleteModels();
         let material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
         let geometry = new THREE.Geometry();
+        let circleIndexes = [];
         for (let i=0; i<data.sketchEntities.length; i++)
         {
+            if (data.sketchEntities[0].tessellationPoints === data.sketchEntities[i].tessellationPoints[data.sketchEntities[i].tessellationPoints.length -1])
+            {
+                circleIndexes.push(i);
+                continue;
+            }
             let tessellationPoints = data.sketchEntities[i].tessellationPoints;
-
-
-    
             tessellationPoints.forEach(point => {
                 geometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
             });
 
         }
         let line = new THREE.Line( geometry, material );
-    
+        if (circleIndexes.length > 0){
+            let circleGgeometry = new THREE.Geometry();
+            for (let i=0; i < circleIndexes.length; i++){
+                let tessellationPoints = data.sketchEntities[i].tessellationPoints;
+                tessellationPoints.forEach(point => {
+                    circleGeometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
+                });
+            }
+            let circle = new THREE.Line( circleGeometry, material );
+            loadedModels.push(circle);
+            scene.add(circle);
+        }
+
         // Zoom Camera to model
         THREE.GeometryUtils.center(geometry);
         geometry.computeBoundingSphere();
