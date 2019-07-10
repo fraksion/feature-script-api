@@ -540,8 +540,8 @@
     function getSketchPoints() {
         var dfd = $.Deferred();
         var elId = $('#elt-select2').val();
-        var skId = $('#feature-select').val();
-        $.ajax('/api/tesselatedSketch?' + elId + "&sketchId=" + skId, {
+        var skId = $('#sketch-select').val();
+        $.ajax('/api/tesselatedSketch' + elId + "&sketchId=" + skId, {
             dataType: 'json',
             type: 'GET',
             success: function(data) {
