@@ -424,8 +424,10 @@
     }
 
     function getSketchesIDs(){
+        console.log('start');
         if (features != undefined){
             features.forEach(element => {
+                console.log(element);
                 if (element.message.featureType == 'newSketch'){
                     let sketch = {
                         sketchId : element.message.featureId,
