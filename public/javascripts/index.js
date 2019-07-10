@@ -385,15 +385,8 @@
                 $('<p><input class="inputValues" type="checkbox" class="custom-control-input" id="first-input-test' + i + '" >'+ parameter.message.parameterId + ' </p>').appendTo(list);
                 i++;
             }
-            sketches.forEach(element => {
-                $("#sketch-select")
-                    .append(
-                    "<option value='" + element.sketchId + "'>"  + element.sketchName + "</option>"
-                );
-            });
+            
         });
-
-        
     }
 
     function changeParametersValue(){
@@ -440,6 +433,13 @@
                     }
                     sketches.push(sketch);
                 }
+            });
+            console.log(sketches);
+            sketches.forEach(element => {
+                $("#sketch-select")
+                    .append(
+                    "<option value='" + element.sketchId + "'>"  + element.sketchName + "</option>"
+                );
             });
         }
     }
