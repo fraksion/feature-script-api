@@ -82,7 +82,8 @@
         })
 
         $('#get-id-btn').click(function(){
-            evaluateFeatureScript();
+            //evaluateFeatureScript();
+            getSketchPoints();
         })
 
         init();
@@ -447,7 +448,6 @@
                 );
             });
         }
-        getSketchPoints();
     }
 
     function getFeatureJSON(microversion, feature){
