@@ -401,6 +401,7 @@
     getSelectedSketch = () =>{
         sketches.forEach(item=>{
             console.log(item);
+            console.log($('#sketch-select').val());
             if (item.sketchId === $('#sketch-select').val())
             return item;
         })
