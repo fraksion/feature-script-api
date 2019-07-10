@@ -400,6 +400,7 @@
 
     function getSketchesIDs(){
         console.log('start');
+        console.log(features);
         if (features != undefined){
             features.forEach(element => {
                 console.log(element);
