@@ -85,6 +85,7 @@
         })
 
         init();
+        animate();
     }
 
     function init() {
