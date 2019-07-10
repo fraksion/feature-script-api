@@ -400,15 +400,23 @@
 
     function getSketchesIDs(){
         console.log('start');
-        console.log(features);
         if (features != undefined){
             features.forEach(element => {
                 console.log(element);
                 if (element.message.featureType == 'newSketch'){
                     let sketch = {
                         sketchId : element.message.featureId,
-                        sketchName : element.message.name
+                        sketchName : element.message.name,
+                        entities : ()=>{
+                            let items = [];
+                            element.message.entities.forEach(item => {
+                                items.push({entityId : item.entityId, 
+                                    isConstruction : item.isConstruction});
+                            });
+                            return items;
+                        }
                     }
+
                     sketches.push(sketch);
                 }
             });
