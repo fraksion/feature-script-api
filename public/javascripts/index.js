@@ -550,7 +550,7 @@
             getSelectedSketch().entities.forEach(item => {
                if (item.entityId === data.sketchEntities.entityId && item.isConstruction) 
                isConstruction = true;
-               break;
+               return;
             });
             if (isConstruction){
                 continue;
