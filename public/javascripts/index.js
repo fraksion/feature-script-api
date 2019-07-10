@@ -399,12 +399,11 @@
     }
 
     getSelectedSketch = () =>{
-        sketches.forEach(item=>{
-            console.log(item);
-            console.log($('#sketch-select').val());
+        let temp = sketches.forEach(item=>{
             if (item.sketchId === $('#sketch-select').val())
             return item;
         })
+        return temp;
     }
 
     function getSketchesIDs(){
@@ -550,6 +549,7 @@
         {
             let isConstruction = false;
             let selectedSketch =  getSelectedSketch();
+            console.log(selectedSketch);
             selectedSketch.entities.forEach(item => {
                if (item.entityId === data.sketchEntities.entityId && item.isConstruction) 
                isConstruction = true;
