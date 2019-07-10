@@ -398,6 +398,13 @@
         }
     }
 
+    getSelectedSketch = () =>{
+        sketches.forEach(item=>{
+            if (item.sketchId === $('#sketch-select').val())
+            return item;
+        })
+    }
+
     function getSketchesIDs(){
         console.log('start');
         console.log(features);
@@ -539,6 +546,15 @@
         let geometry = new THREE.Geometry();
         for (let i=0; i<data.sketchEntities.length; i++)
         {
+            let isConstruction = false;
+            getSelectedSketch().entities.forEach(item => {
+               if (item.entityId === data.sketchEntities.entityId && item.isConstruction) 
+               isConstruction = true;
+               break;
+            });
+            if (isConstruction){
+                continue;
+            }
             let tessellationPoints = data.sketchEntities[i].tessellationPoints;
             tessellationPoints.forEach(point => {
                 geometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
