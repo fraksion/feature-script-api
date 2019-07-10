@@ -545,7 +545,7 @@
         }
         let line = new THREE.Line( geometry, material );
         if (circleIndexes.length > 0){
-            let circleGgeometry = new THREE.Geometry();
+            let circleGeometry = new THREE.Geometry();
             for (let i=0; i < circleIndexes.length; i++){
                 let tessellationPoints = data.sketchEntities[i].tessellationPoints;
                 tessellationPoints.forEach(point => {
