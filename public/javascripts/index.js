@@ -534,4 +534,26 @@
               });
               return dfd.resolve();
     }
+
+    function getSketchPoints() {
+        var dfd = $.Deferred();
+        var documentId = $("#doc-select").val();
+        var wpId = $("#wp-select").val();
+        var elId = $('#elt-select2').val();
+        var skId = $('#feature-select').val();
+        $.ajax('/api/elements?documentId=' + documentId + "&workspaceId=" + wpId + "&elementId=" + elId + "&sketchId=" + skId, {
+            dataType: 'json',
+            type: 'GET',
+            success: function(data) {
+                translatePoints(data, dfd);
+            },
+            error: function() {
+            }
+        });
+        return dfd.promise();
+    }
+
+    function translatePoints(data, dfd){
+        console.log(data);
+    }
 })();

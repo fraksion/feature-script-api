@@ -371,9 +371,34 @@ var getEncodedConfigString = function(req, res) {
           });
           };
 
+          var tesselateSketch = function(req, res) {
+            request.get({
+              uri: apiUrl + '/api/partstudios/d/' + req.query.documentId + 
+            '/w/' + req.query.workspaceId + 
+            '/e/' + req.query.elementId + 
+            '/sketches/' + req.query.sketchId + '/tessellatedentities',
+              headers: {
+                'Authorization': 'Bearer ' + req.user.accessToken
+              }
+            }).then(function(data) {
+              res.send(data);
+            }).catch(function(data) {
+              if (data.statusCode === 401) {
+                authentication.refreshOAuthToken(req, res).then(function() {
+                  tesselateSketch(req, res);
+                }).catch(function(err) {
+                  console.log('Error refreshing token or getting documents: ', err);
+                });
+              } else {
+                console.log('GET /api/documents error: ', data);
+              }
+            });
+          };
+
   const jsonParser = express.json();
 router.post('/featurescript', jsonParser, evaluateFeatureScript);
 router.post('/addCustomFeature', jsonParser, addCustomFeature);
+router.get('/tesselatedSketch', tesselateSketch)
 router.get('/documents', getDocuments);
 router.get('/features', getCustomFeatures);
 router.get('/elements', getElementList);
