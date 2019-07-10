@@ -40,6 +40,7 @@
             $('#stl-tolerance-modal').modal('hide');
             getFeaturesList();
             getSketchesIDs();
+            getSketchPoints();
         });
 
         $('#add-feature-btn').click(function(){
@@ -541,7 +542,7 @@
         var wpId = $("#wp-select").val();
         var elId = $('#elt-select2').val();
         var skId = $('#feature-select').val();
-        $.ajax('/api/elements?documentId=' + documentId + "&workspaceId=" + wpId + "&elementId=" + elId + "&sketchId=" + skId, {
+        $.ajax('/api/tesselatedSketch?documentId=' + documentId + "&workspaceId=" + wpId + "&elementId=" + elId + "&sketchId=" + skId, {
             dataType: 'json',
             type: 'GET',
             success: function(data) {
@@ -554,6 +555,7 @@
     }
 
     function translatePoints(data, dfd){
+        console.log('getSketchPoints success');
         console.log(data);
     }
 })();
