@@ -544,5 +544,6 @@
 
         loadedModels.push(line);
         scene.add(line);
+        return dfd.resolve();
     }
 })();
