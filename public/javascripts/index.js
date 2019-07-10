@@ -404,17 +404,16 @@
             features.forEach(element => {
                 console.log(element);
                 if (element.message.featureType == 'newSketch'){
+
+                    let items = [];
+                        element.message.entities.forEach(item => {
+                            items.push({entityId : item.entityId, 
+                            isConstruction : item.isConstruction});
+                            });
                     let sketch = {
                         sketchId : element.message.featureId,
                         sketchName : element.message.name,
-                        entities : ()=>{
-                            let items = [];
-                            element.message.entities.forEach(item => {
-                                items.push({entityId : item.entityId, 
-                                    isConstruction : item.isConstruction});
-                            });
-                            return items;
-                        }
+                        entities : items
                     }
 
                     sketches.push(sketch);
