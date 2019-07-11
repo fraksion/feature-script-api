@@ -562,6 +562,7 @@
             tessellationPoints.forEach(point => {
                 geometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
             });
+            console.log(material);
             let line = new THREE.Line( geometry, material );
             testcSys.add(line);
         }
