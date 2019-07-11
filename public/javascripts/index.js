@@ -559,6 +559,9 @@
                 geometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
             });
             let line = new THREE.Line( geometry, material );
+            line.position.x = tessellationPoints[0][0];
+            line.position.y = tessellationPoints[0][1];
+            line.position.z = tessellationPoints[0][2];
                     // Zoom Camera to model
                     THREE.GeometryUtils.center(geometry);
                     geometry.computeBoundingSphere();
