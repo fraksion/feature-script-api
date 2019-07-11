@@ -513,16 +513,17 @@
         $.ajax("/api/featurescript" + parameters, {
             type: "POST",
             dataType: "json",
-            data: body,
+            data: JSON.stringify(body),
             contentType: "application/json",
             Accept: 'application/vnd.onshape.v1+json',
             complete: function (data) {
                 //called when complete
                 alert("evaluateFeatureScript complete");
-                console.log(data);
+                
             },
             success: function (data) {
                 alert("Custom feature added");
+                console.log(data);
             },
             error: function () {
                 console.log('addCustomFeature error');
