@@ -551,16 +551,16 @@
                
                return;
             });
-            if (isConstruction){
+            if (isConstruction){//LineDashedMaterial 
                 continue;
             }
             let tessellationPoints = data.sketchEntities[i].tessellationPoints;
             tessellationPoints.forEach(point => {
                 geometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
             });
-            let line = new THREE.Line( geometry, material );
+
         }
-       
+        let line = new THREE.Line( geometry, material );
 
         // Zoom Camera to model
         THREE.GeometryUtils.center(geometry);
