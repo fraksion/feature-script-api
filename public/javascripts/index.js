@@ -29,14 +29,13 @@
         });
 
         $('#elt-select2').change(function () {
-            $('#feature-parameters').empty();
+            $('#feature-parameters').clear();
+            $("#feature-select").empty();
             $("#sketch-select").empty();
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
             $('#stl-tolerance-btn').css("display", "none");
-
             getCurrentMicroversion();
-
             $('#stl-tolerance-btn').css("display", "block");
             $('#stl-tolerance-modal').modal('hide');
             getFeaturesList();
@@ -56,7 +55,8 @@
         $('#doc-select').change(function () {
 
             var selectedDocID = $("#doc-select").val();
-            $('#feature-parameters').empty();
+            $("#feature-select").empty();
+            $('#feature-parameters').clear();
             $("#wp-select").empty();
             $("#sketch-select").empty();
             $('#configDiv').css("display", "none");
@@ -71,7 +71,8 @@
 
         $('#wp-select').change(function () {
 
-            $('#feature-parameters').empty();
+            $("#feature-select").empty();
+            $('#feature-parameters').clear();
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
             $('#stl-tolerance-btn').css("display", "none");
