@@ -413,7 +413,6 @@
         if (features != undefined){
             features.forEach(element => {
                 if (element.message.featureType == 'newSketch'){
-                    console.log(element);
                     let items = [];
                         element.message.entities.forEach(item => {
                             items.push({entityId : item.message.entityId, 
@@ -428,7 +427,7 @@
                     sketches.push(sketch);
                 }
             });
-            //console.log(sketches);
+            console.log(sketches);
             sketches.forEach(element => {
                 $("#sketch-select")
                     .append(
