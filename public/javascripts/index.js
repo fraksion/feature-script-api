@@ -572,7 +572,7 @@
                 break;
             }
         }
-        material =  material = new THREE.LineDashedMaterial({ color: "red", dashSize: 1, gapSize: 1 }); 
+        material =  new THREE.LineBasicMaterial({ color: "red" }); 
         let testGeo  = new THREE.Geometry();
         testGeo.vertices.push(1,0,0);
         testGeo.vertices.push(0,0,0);
