@@ -540,7 +540,7 @@
     function translatePoints(data, dfd){
         deleteModels();
         let material;
-        let objects;
+        let objects=[];
         let testcSys = new THREE.Object3D();
         for (let i=0; i<data.sketchEntities.length; i++)
         {
