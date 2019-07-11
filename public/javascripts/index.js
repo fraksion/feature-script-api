@@ -551,7 +551,7 @@
                
                return;
             });
-            if (isConstruction){//LineDashedMaterial 
+            if (isConstruction){
                 continue;
             }
             let tessellationPoints = data.sketchEntities[i].tessellationPoints;
