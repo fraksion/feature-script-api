@@ -569,7 +569,7 @@
         geometry.computeBoundingSphere();
         fitToWindow(geometry.boundingSphere.radius);
 
-        loadedModels.push(line);
+        loadedModels.push(testcSys);
         scene.add(testcSys);
         return dfd.resolve();
     }
