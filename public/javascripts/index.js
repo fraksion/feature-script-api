@@ -540,9 +540,9 @@
     function translatePoints(data, dfd){
         deleteModels();
         let material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
-      
+        let geometry = new THREE.Geometry();
         for (let i=0; i<data.sketchEntities.length; i++)
-        {  let geometry = new THREE.Geometry();
+        {
             let isConstruction = false;
             let selectedSketch =  getSelectedSketch();
             selectedSketch.entities.forEach(item => {
@@ -559,22 +559,16 @@
                 geometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
             });
             let line = new THREE.Line( geometry, material );
-            line.position.x = tessellationPoints[0][0];
-            line.position.y = tessellationPoints[0][1];
-            line.position.z = tessellationPoints[0][2];
-                    // Zoom Camera to model
-                    THREE.GeometryUtils.center(geometry);
-                    geometry.computeBoundingSphere();
-                    fitToWindow(geometry.boundingSphere.radius);
-
-
-            loadedModels.push(line);
-            scene.add(line);
         }
        
 
+        // Zoom Camera to model
+        THREE.GeometryUtils.center(geometry);
+        geometry.computeBoundingSphere();
+        fitToWindow(geometry.boundingSphere.radius);
 
-
+        loadedModels.push(line);
+        scene.add(line);
         return dfd.resolve();
     }
 })();
