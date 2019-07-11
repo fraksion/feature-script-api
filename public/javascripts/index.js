@@ -508,11 +508,12 @@
 
     function evaluateFeatureScript() {
         var dfd = $.Deferred();
+        let body = FeatureScriptBody(getIdScript, []);
         var parameters = $("#elt-select2").val();
         $.ajax("/api/featurescript" + parameters, {
             type: "POST",
             dataType: "json",
-            data: FeatureScriptBody(getIdScript, []),
+            data: body,
             contentType: "application/json",
             Accept: 'application/vnd.onshape.v1+json',
             complete: function (data) {
