@@ -540,11 +540,11 @@
     function translatePoints(data, dfd){
         deleteModels();
         let material;
-        
+        let geometry = new THREE.Geometry();
         let testcSys = new THREE.Object3D();
         for (let i=0; i<data.sketchEntities.length; i++)
         {
-            let geometry = new THREE.Geometry();
+            
             let isConstruction = false;
             let selectedSketch =  getSelectedSketch();
             selectedSketch.entities.forEach(item => {
@@ -568,31 +568,8 @@
             THREE.GeometryUtils.center(geometry);
             geometry.computeBoundingSphere();
             fitToWindow(geometry.boundingSphere.radius);
-            if (i==1){
-                break;
-            }
         }
-        material =  new THREE.LineBasicMaterial({ color: "red" }); 
-        let testGeo  = new THREE.Geometry();
-        testGeo.vertices.push(1,0,0);
-        testGeo.vertices.push(0,0,0);
-         line = new THREE.Line( testGeo, material );
-         testcSys.add(line);
-
-         testGeo  = new THREE.Geometry();
-         testGeo.vertices.push(0,1,0);
-         testGeo.vertices.push(0,0,0);
-         line = new THREE.Line( testGeo, material );
-         testcSys.add(line);
-
-         testGeo  = new THREE.Geometry();
-         testGeo.vertices.push(0,0,1);
-         testGeo.vertices.push(0,0,0);
-         line = new THREE.Line( testGeo, material ); 
-         testcSys.add(line);
-        
         // Zoom Camera to model
-
 
         loadedModels.push(testcSys);
         scene.add(testcSys);
