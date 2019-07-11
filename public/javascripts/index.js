@@ -540,7 +540,7 @@
     function translatePoints(data, dfd){
         deleteModels();
         let material;
-        let objects=[];
+        
         let testcSys = new THREE.Object3D();
         for (let i=0; i<data.sketchEntities.length; i++)
         {
@@ -564,7 +564,6 @@
                 geometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
             });
             let line = new THREE.Line( geometry, material );
-            objects.push(line);
             testcSys.add(line);
             THREE.GeometryUtils.center(geometry);
             geometry.computeBoundingSphere();
@@ -574,12 +573,7 @@
             }
         }
         
-        objects.forEach((node) => {
-            const axes = new THREE.AxesHelper();
-            axes.material.depthTest = false;
-            axes.renderOrder = 1;
-            node.add(axes);
-          });
+
         // Zoom Camera to model
 
 
