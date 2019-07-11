@@ -29,6 +29,7 @@
         });
 
         $('#elt-select2').change(function () {
+            $('#feature-parameters').empty();
             $("#sketch-select").empty();
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
@@ -55,6 +56,7 @@
         $('#doc-select').change(function () {
 
             var selectedDocID = $("#doc-select").val();
+            $('#feature-parameters').empty();
             $("#wp-select").empty();
             $("#sketch-select").empty();
             $('#configDiv').css("display", "none");
@@ -69,6 +71,7 @@
 
         $('#wp-select').change(function () {
 
+            $('#feature-parameters').empty();
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
             $('#stl-tolerance-btn').css("display", "none");
