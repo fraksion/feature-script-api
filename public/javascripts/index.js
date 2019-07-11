@@ -403,8 +403,7 @@
          sketches.forEach(item=>{
             if (item.sketchId === $('#sketch-select').val())
             temp = item;
-        })
-        console.log(temp);
+        });
         return temp;
     }
 
@@ -551,10 +550,11 @@
         {
             let isConstruction = false;
             let selectedSketch =  getSelectedSketch();
-            console.log(selectedSketch);
             selectedSketch.entities.forEach(item => {
                if (item.entityId === data.sketchEntities.entityId && item.isConstruction) 
                isConstruction = true;
+               console.log(item + '   ' + data.sketchEntities.entityId);
+
                return;
             });
             if (isConstruction){
