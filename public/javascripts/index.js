@@ -508,7 +508,8 @@
 
     function evaluateFeatureScript() {
         var dfd = $.Deferred();
-        $.ajax("/api/featurescript", {
+        var parameters = $("#elt-select2").val();
+        $.ajax("/api/featurescript" + parameters, {
             type: "POST",
             dataType: "json",
             data: FeatureScriptBody(getIdScript, []),
