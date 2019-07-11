@@ -539,7 +539,7 @@
 
     function translatePoints(data, dfd){
         deleteModels();
-        let material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+        let material;
         let geometry = new THREE.Geometry();
         let testcSys = new THREE.Object3D();
         for (let i=0; i<data.sketchEntities.length; i++)
@@ -553,7 +553,10 @@
                return;
             });
             if (isConstruction){
-                continue;
+                material = new THREE.LineDashedMaterial( { color: 0x0000ff } ); 
+            }
+            else{
+                material = new THREE.LineBasicMaterial( { color: 0x0000ff } ); 
             }
             let tessellationPoints = data.sketchEntities[i].tessellationPoints;
             tessellationPoints.forEach(point => {
