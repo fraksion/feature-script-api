@@ -553,7 +553,7 @@
                return;
             });
             if (isConstruction){
-                material = new THREE.LineBasicMaterial( { color: 0xFF0000 } ); 
+                material = new THREE.LineDashedMaterial({ color: "black", dashSize: 1, gapSize: 1 }); 
             }
             else{
                 material = new THREE.LineBasicMaterial( { color: 0x0000ff } ); 
