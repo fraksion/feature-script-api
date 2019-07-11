@@ -550,10 +550,11 @@
         {
             let isConstruction = false;
             let selectedSketch =  getSelectedSketch();
+            console.log(selectedSketch.entities);
             selectedSketch.entities.forEach(item => {
                if (item.entityId === data.sketchEntities[i].entityId && item.isConstruction===true) 
                isConstruction = true;
-               console.log(data.sketchEntities[i]);
+               
                return;
             });
             if (isConstruction){
