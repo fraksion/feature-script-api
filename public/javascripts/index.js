@@ -568,6 +568,9 @@
             THREE.GeometryUtils.center(geometry);
             geometry.computeBoundingSphere();
             fitToWindow(geometry.boundingSphere.radius);
+            if (i==1){
+                break;
+            }
         }
         
 
