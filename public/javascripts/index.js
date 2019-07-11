@@ -412,9 +412,8 @@
         //console.log(features);
         if (features != undefined){
             features.forEach(element => {
-                console.log(element);
                 if (element.message.featureType == 'newSketch'){
-
+                    console.log(element);
                     let items = [];
                         element.message.entities.forEach(item => {
                             items.push({entityId : item.message.entityId, 
