@@ -408,15 +408,11 @@
     }
 
     function getSketchesIDs(){
-        //console.log('start');
-        //console.log(features);
         if (features != undefined){
             features.forEach(element => {
-                console.log(element);
                 if (element.message.featureType == 'newSketch'){
                     let items = [];
                         element.message.entities.forEach(item => {
-                            console.log(item);
                             items.push({entityId : item.message.entityId, 
                             isConstruction : item.message.isConstruction});
                             });
@@ -429,7 +425,6 @@
                     sketches.push(sketch);
                 }
             });
-            console.log(sketches);
             sketches.forEach(element => {
                 $("#sketch-select")
                     .append(
