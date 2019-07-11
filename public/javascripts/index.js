@@ -572,8 +572,25 @@
                 break;
             }
         }
-        
+        material =  material = new THREE.LineDashedMaterial({ color: "red", dashSize: 1, gapSize: 1 }); 
+        let testGeo  = new THREE.Geometry();
+        testGeo.vertices.push(1,0,0);
+        testGeo.vertices.push(0,0,0);
+         line = new THREE.Line( testGeo, material );
+         testcSys.add(line);
 
+         testGeo  = new THREE.Geometry();
+         testGeo.vertices.push(0,1,0);
+         testGeo.vertices.push(0,0,0);
+         line = new THREE.Line( testGeo, material );
+         testcSys.add(line);
+
+         testGeo  = new THREE.Geometry();
+         testGeo.vertices.push(0,0,1);
+         testGeo.vertices.push(0,0,0);
+         line = new THREE.Line( testGeo, material ); 
+         testcSys.add(line);
+        
         // Zoom Camera to model
 
 
