@@ -553,7 +553,7 @@
             selectedSketch.entities.forEach(item => {
                if (item.entityId === data.sketchEntities.entityId && item.isConstruction) 
                isConstruction = true;
-               console.log(item + '   ' + data.sketchEntities.entityId);
+               console.log(data.sketchEntities);
 
                return;
             });
