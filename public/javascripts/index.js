@@ -541,6 +541,7 @@
         deleteModels();
         let material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
         let geometry = new THREE.Geometry();
+        let testcSys = new THREE.Object3D();
         for (let i=0; i<data.sketchEntities.length; i++)
         {
             let isConstruction = false;
@@ -558,9 +559,10 @@
             tessellationPoints.forEach(point => {
                 geometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
             });
-
+            let line = new THREE.Line( geometry, material );
+            testcSys.add(line);
         }
-        let line = new THREE.Line( geometry, material );
+        
 
         // Zoom Camera to model
         THREE.GeometryUtils.center(geometry);
@@ -568,7 +570,7 @@
         fitToWindow(geometry.boundingSphere.radius);
 
         loadedModels.push(line);
-        scene.add(line);
+        scene.add(testcSys);
         return dfd.resolve();
     }
 })();
