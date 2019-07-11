@@ -553,7 +553,7 @@
                return;
             });
             if (isConstruction){
-                material = new THREE.LineDashedMaterial({ color: "black", dashSize: 1, gapSize: 1 }); 
+              continue;
             }
             else{
                 material = new THREE.LineBasicMaterial( { color: 0x0000ff } ); 
@@ -562,8 +562,9 @@
             tessellationPoints.forEach(point => {
                 geometry.vertices.push(new THREE.Vector3( point[0], point[1], point[2] ));
             });
-            console.log(material);
+            
             let line = new THREE.Line( geometry, material );
+            console.log(material);
             testcSys.add(line);
         }
         
