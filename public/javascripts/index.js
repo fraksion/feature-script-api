@@ -407,11 +407,11 @@
     }
 
     function getSketchesIDs(){
-        console.log('start');
-        console.log(features);
+        //console.log('start');
+        //console.log(features);
         if (features != undefined){
             features.forEach(element => {
-                console.log(element);
+                //console.log(element);
                 if (element.message.featureType == 'newSketch'){
 
                     let items = [];
@@ -428,7 +428,7 @@
                     sketches.push(sketch);
                 }
             });
-            console.log(sketches);
+            //console.log(sketches);
             sketches.forEach(element => {
                 $("#sketch-select")
                     .append(
