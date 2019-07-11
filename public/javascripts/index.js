@@ -565,9 +565,6 @@
             });
             let line = new THREE.Line( geometry, material );
             testcSys.add(line);
-            THREE.GeometryUtils.center(geometry);
-            geometry.computeBoundingSphere();
-            fitToWindow(geometry.boundingSphere.radius);
 
         }
         // Zoom Camera to model
