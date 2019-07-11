@@ -415,6 +415,7 @@
                 if (element.message.featureType == 'newSketch'){
                     let items = [];
                         element.message.entities.forEach(item => {
+                            console.log(item);
                             items.push({entityId : item.message.entityId, 
                             isConstruction : item.message.isConstruction});
                             });
