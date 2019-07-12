@@ -567,7 +567,7 @@
                     isConstruction = true;
             });
             if (isConstruction) {
-                material = new THREE.LineDashedMaterial({ color: "gray", dashSize: 0.1, gapSize: 0.2 });
+                material = new THREE.LineDashedMaterial({ color: "gray", dashSize: 1, gapSize: 0.5 });
             }
             else {
                 material = new THREE.LineBasicMaterial({ color: 0x0000ff });
@@ -577,6 +577,7 @@
                 geometry.vertices.push(new THREE.Vector3(point[0], point[1], point[2]));
             });
             let line = new THREE.Line(geometry, material);
+            line.computeLineDistances();
 
             testcSys.add(line);
             //THREE.GeometryUtils.center(geometry);
