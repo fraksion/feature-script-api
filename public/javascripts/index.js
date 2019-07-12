@@ -564,15 +564,16 @@
                     isConstruction = true;
             });
             if (isConstruction) {
-                material = new THREE.LineDashedMaterial({ color: "gray", dashSize: 1, gapSize: 0.5 });
+                material = new THREE.LineDashedMaterial({ color: "gray", dashSize: 1, gapSize: 0.5, linewidth: 2  });
             }
             else {
-                material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+                material = new THREE.LineBasicMaterial({ color: 0x0000ff , linewidth: 2 });
             }
             let tessellationPoints = data.sketchEntities[i].tessellationPoints;
             tessellationPoints.forEach(point => {
                 geometry.vertices.push(new THREE.Vector3(point[0], point[1], point[2]));
             });
+            geometry.computeLineDistances();
             let line = new THREE.Line(geometry, material);
 
             testcSys.add(line);
