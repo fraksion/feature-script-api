@@ -557,7 +557,7 @@
         let testcSys = new THREE.Object3D();
         for (let i = 0; i < data.sketchEntities.length; i++) {
             let geometry = new THREE.Geometry();
-            let pointsArray;
+            let pointsArray=[];
             let isConstruction = false;
             let selectedSketch = getSelectedSketch();
             selectedSketch.entities.forEach(item => {
