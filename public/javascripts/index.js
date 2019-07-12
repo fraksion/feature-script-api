@@ -574,15 +574,13 @@
                 geometry.vertices.push(new THREE.Vector3(point[0], point[1], point[2]));
             });
             let line = new THREE.Line(geometry, material);
-            line.computeLineDistances();
+            geometry.computeLineDistances();
 
             testcSys.add(line);
             //THREE.GeometryUtils.center(geometry);
             geometry.computeBoundingSphere();
             fitToWindow(geometry.boundingSphere.radius);
-
         }
-
 
         loadedModels.push(testcSys);
         scene.add(testcSys);
