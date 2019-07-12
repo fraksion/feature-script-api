@@ -573,9 +573,9 @@
             tessellationPoints.forEach(point => {
                 geometry.vertices.push(new THREE.Vector3(point[0], point[1], point[2]));
             });
-            
+            geometry.computeLineDistances();
             let line = new THREE.Line(geometry, material);
-            line.computeLineDistances();
+
             testcSys.add(line);
             //THREE.GeometryUtils.center(geometry);
             geometry.computeBoundingSphere();
