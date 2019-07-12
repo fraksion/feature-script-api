@@ -1,3 +1,4 @@
+import * as THREE from './threejs/three.module';
 (function () {
     if (!Detector.webgl) Detector.addGetWebGLMessage();
     var container, stats;
