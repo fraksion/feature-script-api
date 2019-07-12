@@ -89,7 +89,7 @@
             getSketchPoints();
         })
 
-        $('#script-btn').click(()=>{
+        $('#script-btn').click(() => {
             evaluateFeatureScript();
         });
 
@@ -350,25 +350,28 @@
         let i = 0;
         var list = document.getElementById('feature-parameters');
         let currentFeature = getCurrentFeature();
-        currentFeature.message.parameters.forEach(parameter => {
-            if (parameter.type === 147) {
-                let valueArray = parameter.message.expression.split(' ');
-                if (valueArray[1] == undefined)
-                    valueArray[1] = '';
+        if (currentFeature !== undefined) {
+            currentFeature.message.parameters.forEach(parameter => {
+                if (parameter.type === 147) {
+                    let valueArray = parameter.message.expression.split(' ');
+                    if (valueArray[1] == undefined)
+                        valueArray[1] = '';
 
-                $('<label for="first-input-test' + i + '">' + parameter.message.parameterId + '</label>').appendTo(list);
+                    $('<label for="first-input-test' + i + '">' + parameter.message.parameterId + '</label>').appendTo(list);
 
-                $('<p><input class="inputValues" style="border-top: none; border-left: none; border-right: none; border-bottom: 1px solid dimgray;" type="number" value= "' + valueArray[0] + '" type="number" step="1" id="first-input-test' + i + '"> <label id="first-input-label' + i + '">' + valueArray[1] + '</label> </p>').appendTo(list);
+                    $('<p><input class="inputValues" style="border-top: none; border-left: none; border-right: none; border-bottom: 1px solid dimgray;" type="number" value= "' + valueArray[0] + '" type="number" step="1" id="first-input-test' + i + '"> <label id="first-input-label' + i + '">' + valueArray[1] + '</label> </p>').appendTo(list);
 
-                i++;
-            }
-            else if (parameter.type === 144) {
+                    i++;
+                }
+                else if (parameter.type === 144) {
 
-                $('<p><input class="inputValues" type="checkbox" class="custom-control-input" id="first-input-test' + i + '" >' + parameter.message.parameterId + ' </p>').appendTo(list);
-                i++;
-            }
+                    $('<p><input class="inputValues" type="checkbox" class="custom-control-input" id="first-input-test' + i + '" >' + parameter.message.parameterId + ' </p>').appendTo(list);
+                    i++;
+                }
 
-        });
+            });
+        }
+
     }
 
     function changeParametersValue() {
@@ -521,7 +524,7 @@
             complete: function (data) {
                 //called when complete
                 alert("evaluateFeatureScript complete");
-                
+
             },
             success: function (data) {
                 alert("Custom feature added");
@@ -564,10 +567,10 @@
                     isConstruction = true;
             });
             if (isConstruction) {
-                material = new THREE.LineDashedMaterial({ color: "gray", dashSize: 1, gapSize: 0.5, linewidth: 2  });
+                material = new THREE.LineDashedMaterial({ color: "gray", dashSize: 1, gapSize: 0.5, linewidth: 2 });
             }
             else {
-                material = new THREE.LineBasicMaterial({ color: 0x0000ff , linewidth: 2 });
+                material = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth: 2 });
             }
             let tessellationPoints = data.sketchEntities[i].tessellationPoints;
             tessellationPoints.forEach(point => {
