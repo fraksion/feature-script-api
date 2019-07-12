@@ -578,10 +578,10 @@
             });
             geometry.computeLineDistances();
             let line = new THREE.Line(geometry, material);
-
+            line.computeBoundingSphere();
             testcSys.add(line);
             //THREE.GeometryUtils.center(geometry);
-            geometry.computeBoundingSphere();
+
             fitToWindow(geometry.boundingSphere.radius);
         }
 
