@@ -1,4 +1,3 @@
-import * as THREE from './threejs/three.module';
 (function () {
     if (!Detector.webgl) Detector.addGetWebGLMessage();
     var container, stats;
@@ -558,7 +557,6 @@ import * as THREE from './threejs/three.module';
         let testcSys = new THREE.Object3D();
         for (let i = 0; i < data.sketchEntities.length; i++) {
             let geometry = new THREE.Geometry();
-            let pointsArray=[];
             let isConstruction = false;
             let selectedSketch = getSelectedSketch();
             selectedSketch.entities.forEach(item => {
@@ -573,10 +571,9 @@ import * as THREE from './threejs/three.module';
             }
             let tessellationPoints = data.sketchEntities[i].tessellationPoints;
             tessellationPoints.forEach(point => {
-                pointsArray.push(new THREE.Vector3(point[0], point[1], point[2]));
+                geometry.vertices.push(new THREE.Vector3(point[0], point[1], point[2]));
             });
-            var geometrySpline = new THREE.BufferGeometry().setFromPoints( pointsArray );
-            let line = new THREE.Line(geometrySpline, material);
+            let line = new THREE.Line(geometry, material);
 
             testcSys.add(line);
             //THREE.GeometryUtils.center(geometry);
