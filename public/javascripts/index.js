@@ -574,7 +574,8 @@
                 geometry.vertices.push(new THREE.Vector3(point[0], point[1], point[2]));
             });
             let line = new THREE.Line(geometry, material);
-            geometry.computeLineDistances();
+            if (isConstruction){line.computeLineDistances();}
+            
 
             testcSys.add(line);
             //THREE.GeometryUtils.center(geometry);
