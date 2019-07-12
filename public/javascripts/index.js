@@ -1,4 +1,5 @@
 (function () {
+    var THREE = require('./threejs/three.module');
     if (!Detector.webgl) Detector.addGetWebGLMessage();
     var container, stats;
     var camera, controls, scene, renderer;
