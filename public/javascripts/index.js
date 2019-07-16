@@ -558,7 +558,6 @@
         deleteModels();
         let material;
 
-        let testcSys = new THREE.Object3D();
         for (let i = 0; i < data.sketchEntities.length; i++) {
             let geometry = new THREE.Geometry();
             let isConstruction = false;
@@ -578,7 +577,7 @@
                 geometry.vertices.push(new THREE.Vector3(point[0], point[1], point[2]));
             });
 
-            let line = new THREE.Line( geometry, material );
+            let line = new THREE.Line(geometry, material);
 
             line.computeLineDistances();
             scene.add(line);
@@ -586,9 +585,6 @@
             geometry.computeBoundingSphere();
             fitToWindow(geometry.boundingSphere.radius);
         }
-
-        
-       // scene.add(testcSys);
 
         return dfd.resolve();
     }
