@@ -568,7 +568,7 @@
                     isConstruction = true;
             });
             if (isConstruction) {
-                material = new THREE.LineDashedMaterial({ color: "gray", dashSize: 0.1, gapSize: 0.05, linewidth: 2 });
+                material = new THREE.LineDashedMaterial({ color: "gray", dashSize: 0.001, gapSize: 0.005, linewidth: 2 });
             }
             else {
                 material = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth: 2 });
