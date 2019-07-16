@@ -568,7 +568,7 @@
                     isConstruction = true;
             });
             if (isConstruction) {
-                material = new THREE.LineDashedMaterial({ color: 0x0000ff, dashSize: 0.01, gapSize: 0.01, linewidth: 2 });
+                material = new THREE.LineDashedMaterial({ color: 0x0000ff, dashSize: 0.005, gapSize: 0.001, linewidth: 2 });
             }
             else {
                 material = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth: 2 });
@@ -578,20 +578,17 @@
                 geometry.vertices.push(new THREE.Vector3(point[0], point[1], point[2]));
             });
 
-            var line = new THREE.Line( geometry, material );
+            let line = new THREE.Line( geometry, material );
 
             line.computeLineDistances();
-           // geometry.computeLineDistances();
-           // let line = new THREE.Line(geometry, material);
-
-            testcSys.add(line);
-            //THREE.GeometryUtils.center(geometry);
+            scene.add(line);
+            loadedModels.push(line);
             geometry.computeBoundingSphere();
             fitToWindow(geometry.boundingSphere.radius);
         }
 
-        loadedModels.push(testcSys);
-        scene.add(testcSys);
+        
+       // scene.add(testcSys);
 
         return dfd.resolve();
     }
