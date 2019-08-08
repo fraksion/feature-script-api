@@ -105,9 +105,15 @@
         $("#wp-select").append("<option>-- Top of List --</option>");
         getDocuments();
 
+        
+
         // Initialize Camera
         camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1e6);
         camera.position.set(3, 3, 3); // must initialize camera position
+
+        $('#camera-position-btn').click(()=>{
+            camera.position.set(3, 3, 3);
+        })
 
         // Initialize Controls
         controls = new THREE.TrackballControls(camera);
