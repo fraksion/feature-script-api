@@ -331,12 +331,10 @@
             Accept: 'application/vnd.onshape.v1+json',
             complete: function () {
                 //called when complete
-                alert("Custom feature added");
                 console.log('addCustomFeature complete');
             },
             success: function (data) {
                 //console.log('addCustomFeature success');
-                alert("Custom feature added");
             },
             error: function () {
                 console.log('addCustomFeature error');
@@ -524,11 +522,9 @@
             Accept: 'application/vnd.onshape.v1+json',
             complete: function (data) {
                 //called when complete
-                alert("evaluateFeatureScript complete");
 
             },
             success: function (data) {
-                alert("Custom feature added");
                 console.log(data);
             },
             error: function () {
