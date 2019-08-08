@@ -563,10 +563,10 @@
                     isConstruction = true;
             });
             if (isConstruction) {
-                material = new THREE.LineDashedMaterial({ color: 0x0000ff, dashSize: 0.005, gapSize: 0.001, linewidth: 2 });
+                material = new THREE.LineDashedMaterial({ color: 0x000000, dashSize: 0.005, gapSize: 0.001, linewidth: 2 });
             }
             else {
-                material = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth: 2 });
+                material = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
             }
             let tessellationPoints = data.sketchEntities[i].tessellationPoints;
             tessellationPoints.forEach(point => {
