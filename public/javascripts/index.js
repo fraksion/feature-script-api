@@ -593,6 +593,7 @@
                 axes.material.depthTest = false;
                 axes.renderOrder = 1;
                 scene.add(axes);
+                loadedModels.push(axes);
             }
             line.computeLineDistances();
             scene.add(line);
