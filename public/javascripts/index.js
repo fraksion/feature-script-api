@@ -574,7 +574,12 @@
             });
 
             let line = new THREE.Line(geometry, material);
-
+            if (i==0){
+                const axes = new THREE.AxesHelper();
+                axes.material.depthTest = false;
+                axes.renderOrder = 1;
+                scene.add(axes);
+            }
             line.computeLineDistances();
             scene.add(line);
             loadedModels.push(line);
