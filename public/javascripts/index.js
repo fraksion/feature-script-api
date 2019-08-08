@@ -87,6 +87,7 @@
 
         $('#get-id-btn').click(function () {
             //evaluateFeatureScript();
+            deleteModels();
             $('#stl-progress-bar').css("display", "block");
             getSketchPoints();
             
