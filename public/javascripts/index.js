@@ -87,7 +87,9 @@
 
         $('#get-id-btn').click(function () {
             //evaluateFeatureScript();
+            $('#stl-progress-bar').css("display", "block");
             getSketchPoints();
+            
         })
 
         $('#script-btn').click(() => {
@@ -355,7 +357,6 @@
     }
 
     function addFeatureParameters() {
-
         $('#feature-parameters').empty();
         let i = 0;
         var list = document.getElementById('feature-parameters');
@@ -554,6 +555,7 @@
             type: 'GET',
             success: function (data) {
                 translatePoints(data, dfd);
+                $('#stl-progress-bar').css("display", "none");
             },
             error: function () {
             }
