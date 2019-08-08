@@ -120,7 +120,7 @@
         $('#camera-position-btn').click(()=>{
             camera.position.set(3, 3, 3);
             camera.rotation.set(0,0,0);
-            controls.update();
+            controls.reset();
             
         })
 
