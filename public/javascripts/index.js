@@ -345,7 +345,7 @@
                 console.log('addCustomFeature complete');
             },
             success: function (data) {
-                //console.log('addCustomFeature success');
+                alert('addCustomFeature success');
             },
             error: function () {
                 console.log('addCustomFeature error');
