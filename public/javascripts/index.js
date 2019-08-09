@@ -545,7 +545,7 @@
         'var startingIndices;'+
     'if (!(queries.csvData[0] is array))'+
     '{'+ 
-       ' debug(context,     qEverything()); return;'+
+       ' debug(context, queries.csvData); return;'+
     '}'+
    ' for (var rowIndex = 0; rowIndex < size(queries.csvData); rowIndex += 1)'+
     '{'+
@@ -584,7 +584,7 @@
 
     function evaluateFeatureScript() {
         var dfd = $.Deferred();
-        let body = FeatureScriptBody(SplinePointSctipt, [SplinePointSctiptQuery]);
+        let body = FeatureScriptBody(SplinePointSctipt, SplinePointSctiptQuery);
         console.log(JSON.stringify(body));
         var parameters = $("#elt-select2").val();
         $.ajax("/api/featurescript" + parameters, {
