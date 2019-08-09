@@ -544,10 +544,8 @@
     const SplinePointSctipt = 'function(context is Context, queries is map) {'+
         'var startingIndices;'+
     'if (!(queries.csvData[0] is array))'+
-    '{ var testId = makeId("test");'+ 'opPoint(context, testId, {'+
-             '"point" : vector(1,1,1)*meter'+
-     '});'+
-       '  return;'+
+    '{'+ 
+       ' debug(context, queries.csvData); return;'+
     '}'+
    ' for (var rowIndex = 0; rowIndex < size(queries.csvData); rowIndex += 1)'+
     '{'+
