@@ -252,7 +252,7 @@
             }
             
         }
-        SplinePointSctiptQuery = { "key" : "csvData", "value" : "csvPointsArray" };
+        SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
     }
 
     // Functions to support loading list of models to view ...
