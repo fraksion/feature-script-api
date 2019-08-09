@@ -576,8 +576,8 @@
 
     function FeatureScriptBody(script, queries) {
         let result = {
-            "script": script,
-            "queries": queries
+            script: script,
+            queries: queries
         }
         return result;
     }
@@ -590,7 +590,7 @@
         $.ajax("/api/featurescript" + parameters, {
             type: "POST",
             dataType: "json",
-            data: body,
+            data: JSON.stringify(body),
             contentType: "application/json",
             Accept: 'application/vnd.onshape.v1+json',
             complete: function (data) {
