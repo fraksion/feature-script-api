@@ -35,6 +35,8 @@
         $('#elt-select2').change(function () {
             //sketches = [];
             features = [];
+            deleteModels();
+            $('#stl-progress-bar').css("display", "block");
             $("#feature-select").empty();
             $('#feature-parameters').empty();
             $("#sketch-select").empty();
@@ -45,6 +47,7 @@
             $('#stl-tolerance-btn').css("display", "block");
             $('#stl-tolerance-modal').modal('hide');
             getFeaturesList();
+            $('#stl-progress-bar').css("display", "none");
            // getSketchesIDs();
 
         });
