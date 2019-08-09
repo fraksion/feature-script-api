@@ -95,10 +95,36 @@
 
         $('#script-btn').click(() => {
             //evaluateFeatureScript();
-            parseMe('../csv_files/3Dtrunc.csv', (result) =>{
-                console.log(result);
-            });
         });
+
+        
+    var submit_button = document.getElementById('submit_button');
+    submit_button.addEventListener('click', parse_array);
+    
+    
+    function parse_array ()
+    {
+      console.log('Parsing Array!');
+      var newArray=[];
+      var file = document.getElementById("file").files[0];
+      parseMe(file, doStuff);
+      console.log('(Log no.2) After parse call but before complete fired, newArray:', newArray, new Date()); //log no. 2
+    }
+    
+    function parseMe(url, callBack){
+        Papa.parse(url, {
+            complete: function(results) {
+            callBack(results.data[0]);
+            }
+        });
+    }
+    
+    function doStuff(data){
+      // NOTE: this throws an Error in strict mode:
+      //console.log('after stuff done, new Array is:', newArray);
+        var newArray=data;
+        console.log('(Log no.1) In OnComplete callback, Array is:', new Date(), newArray); //log no. 1
+    }
 
         init();
         animate();
@@ -637,11 +663,9 @@
     function parseMe(url, callBack){
         Papa.parse(url, {
             complete: function(results) {
-            callBack(results.data);
+            callBack(results);
             }
         });
     };
-
-    var testArray = [];
 
 })();
