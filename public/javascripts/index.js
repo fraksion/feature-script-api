@@ -547,6 +547,9 @@
         dfd.resolve();
     }
 
+    const testScript = 'function(context is Context, queries is map) {'+
+    'opPoint(context, makeId("test") + point1, {"point" : vector (1,1,1)*meter });}'
+
     function getScript(){
         return 'function(context is Context, queries is map) {'+
         'var startingIndices; '+ 'var testPoints = ' + csvPointsArray + ';'+
@@ -594,7 +597,7 @@
 
     function evaluateFeatureScript() {
         var dfd = $.Deferred();
-        let body = FeatureScriptBody(getScript(), []);
+        let body = FeatureScriptBody(testScript, []);
         console.log(JSON.stringify(body));
         var parameters = $("#elt-select2").val();
         $.ajax("/api/featurescript" + parameters, {
