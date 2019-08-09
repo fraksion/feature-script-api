@@ -650,39 +650,41 @@
         deleteModels();
         let material;
 
-        for (let i = 0; i < data.sketchEntities.length; i++) {
-            let geometry = new THREE.Geometry();
-            let isConstruction = false;
-            let selectedSketch = getSelectedSketch();
-            selectedSketch.entities.forEach(item => {
-                if (item.entityId === data.sketchEntities[i].entityId && item.isConstruction === true)
-                    isConstruction = true;
-            });
-            if (isConstruction) {
-                material = new THREE.LineDashedMaterial({ color: 0x000000, dashSize: 0.005, gapSize: 0.001, linewidth: 2 });
+        if (data !== undefined && data.sketchEntities !== undefined){
+            for (let i = 0; i < data.sketchEntities.length; i++) {
+                let geometry = new THREE.Geometry();
+                let isConstruction = false;
+                let selectedSketch = getSelectedSketch();
+                selectedSketch.entities.forEach(item => {
+                    if (item.entityId === data.sketchEntities[i].entityId && item.isConstruction === true)
+                        isConstruction = true;
+                });
+                if (isConstruction) {
+                    material = new THREE.LineDashedMaterial({ color: 0x000000, dashSize: 0.005, gapSize: 0.001, linewidth: 2 });
+                }
+                else {
+                    material = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+                }
+                let tessellationPoints = data.sketchEntities[i].tessellationPoints;
+                console.log(tessellationPoints);
+                tessellationPoints.forEach(point => {
+                    geometry.vertices.push(new THREE.Vector3(point[0], point[1], point[2]));
+                });
+    
+                let line = new THREE.Line(geometry, material);
+                if (i == 0) {
+                    const axes = new THREE.AxesHelper();
+                    axes.material.depthTest = false;
+                    axes.renderOrder = 1;
+                    scene.add(axes);
+                    loadedModels.push(axes);
+                }
+                line.computeLineDistances();
+                scene.add(line);
+                loadedModels.push(line);
+                geometry.computeBoundingSphere();
+                fitToWindow(geometry.boundingSphere.radius);
             }
-            else {
-                material = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
-            }
-            let tessellationPoints = data.sketchEntities[i].tessellationPoints;
-            console.log(tessellationPoints);
-            tessellationPoints.forEach(point => {
-                geometry.vertices.push(new THREE.Vector3(point[0], point[1], point[2]));
-            });
-
-            let line = new THREE.Line(geometry, material);
-            if (i == 0) {
-                const axes = new THREE.AxesHelper();
-                axes.material.depthTest = false;
-                axes.renderOrder = 1;
-                scene.add(axes);
-                loadedModels.push(axes);
-            }
-            line.computeLineDistances();
-            scene.add(line);
-            loadedModels.push(line);
-            geometry.computeBoundingSphere();
-            fitToWindow(geometry.boundingSphere.radius);
         }
 
         return dfd.resolve();
