@@ -503,6 +503,7 @@
                     sketches.push(sketch);
                 }
             });
+            $("#sketch-select").empty();
             sketches.forEach(element => {
                 $("#sketch-select")
                     .append(
