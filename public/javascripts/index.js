@@ -545,7 +545,7 @@
         'var startingIndices;'+
     'if (!(queries.csvData[0] is array))'+
     '{'+ 
-       ' debug(context, queries.csvData); return;'+
+       ' debug(context,     qEverything()); return;'+
     '}'+
    ' for (var rowIndex = 0; rowIndex < size(queries.csvData); rowIndex += 1)'+
     '{'+
