@@ -9,7 +9,7 @@
     var configString;
     var features;
     let sketches = [];
-    let csvPointsArray;
+    let csvPointsArray = [];
     let SplinePointSctiptQuery;
     const medium = { angleTolerance: 0.1090830782496456, chordTolerance: 0.004724409448818898, minFacetWidth: 0.009999999999999998 };
     const coarse = { angleTolerance: 0.2181661564992912, chordTolerance: 0.009448818897637795, minFacetWidth: 0.024999999999999998 };
@@ -240,8 +240,8 @@
     }
 
     function doStuff(data) {
-        csvPointsArray = data;
-        if (csvPointsArray[csvPointsArray.length-1] === null){
+        csvPointsArray.push(data);
+        if (csvPointsArray[0][csvPointsArray.length-1] === null){
             csvPointsArray.pop();
         }
         SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
