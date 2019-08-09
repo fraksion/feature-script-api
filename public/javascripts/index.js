@@ -95,7 +95,7 @@
 
         $('#script-btn').click(() => {
             //evaluateFeatureScript();
-            parseMe('../../csv_files/3Dtrunc.csv', (result) =>{
+            parseMe('../csv_files/3Dtrunc.csv', (result) =>{
                 console.log(result);
             });
         });
@@ -637,7 +637,7 @@
     function parseMe(url, callBack){
         Papa.parse(url, {
             complete: function(results) {
-            callBack(results.data[0]);
+            callBack(results.data);
             }
         });
     };
