@@ -548,7 +548,7 @@
     }
 
     const SplinePointSctipt = 'function(context is Context, queries is map) {'+
-        'var startingIndices; '+ `var testPoints = ${csvPointsArray};`+
+        'var startingIndices; '+ 'var testPoints = ' + csvPointsArray + ';'+
     'if (!(queries.csvData[0] is array))'+
     '{'+ 
        ' debug(context, testPoints); return;'+
@@ -590,7 +590,7 @@
 
     function evaluateFeatureScript() {
         var dfd = $.Deferred();
-        let body = FeatureScriptBody(SplinePointSctipt, [SplinePointSctiptQuery]);
+        let body = FeatureScriptBody(SplinePointSctipt, []);
         console.log(JSON.stringify(body));
         var parameters = $("#elt-select2").val();
         $.ajax("/api/featurescript" + parameters, {
