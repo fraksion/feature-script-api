@@ -96,13 +96,13 @@
 
         })
 
-        $('#script-btn').click(() => {
-            evaluateFeatureScript();
-        });
+        //$('#script-btn').click(() => {
+        //    evaluateFeatureScript();
+        //});
 
 
-        var submit_button = document.getElementById('submit_button');
-        submit_button.addEventListener('click', parse_array);
+        //var submit_button = document.getElementById('submit_button');
+        //submit_button.addEventListener('click', parse_array);
 
         init();
         animate();
@@ -547,15 +547,6 @@
         dfd.resolve();
     }
 
-    const testScript =         'function(context is Context, queries is map) { var sketch1 = newSketch(context, makeId("test") + "sketch1", {'+
-                                    '        "sketchPlane" : qCreatedBy(makeId("Top"), EntityType.FACE)'+
-                                    '});'+
-                                    'skCircle(sketch1, "circle1", {'+
-                                    '        "center" : vector(0, 0) * inch,'+
-                                    '        "radius" : 1 * inch'+
-                                    '});'+
-                                    'skSolve(sketch1);}';
-
     function getScript(){
         return 'function(context is Context, queries is map) {'+
         'var startingIndices; '+ 'var testPoints = ' + csvPointsArray + ';'+
@@ -590,8 +581,6 @@
         // '});'+
     '}';
     }
-
-    
 
     function FeatureScriptBody(script, queries) {
         let result = {
