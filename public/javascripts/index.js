@@ -555,12 +555,12 @@
         '{'+
            ' const row = queries.csvData[i];'+
             'const point = vector(row[startColumn], row[startColumn + 1], row[startColumn + 2]) * meter;'+
-           ' points = append(points, point); debug(context, points);'+
-      //      'opPoint(context, id + "point" + i, {'+
-    //                '"point" : point'+
-      //      '});'+
-      //  '}'+
-       //  'opFitSpline(context, id + "fitSpline1", {'+
+           ' points = append(points, point);'+
+            //'opPoint(context, id + "point" + i, {'+
+           //         '"point" : point'+
+           // '});'+
+        '}'+
+         //'opFitSpline(context, id + "fitSpline1", {'+
        //          '"points" : points'+
         // '});'+
     '}';
