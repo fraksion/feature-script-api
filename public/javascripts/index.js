@@ -252,8 +252,14 @@
             }
             
         }
+        let testStringArray = '[';
+        csvPointsArray[0].forEach(item => {
+            testStringArray += `[${item[0]}, ${item[1]}, ${item[2]}],`;
+        });
+        testStringArray.pop();
+        testStringArray+=']';
         SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
-        console.log(`test = ${SplinePointSctiptQuery}`);
+        console.log(testStringArray);
     }
 
     // Functions to support loading list of models to view ...
