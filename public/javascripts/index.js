@@ -9,6 +9,7 @@
     var configString;
     var features;
     let sketches = [];
+    let csvPointsArray;
     const medium = { angleTolerance: 0.1090830782496456, chordTolerance: 0.004724409448818898, minFacetWidth: 0.009999999999999998 };
     const coarse = { angleTolerance: 0.2181661564992912, chordTolerance: 0.009448818897637795, minFacetWidth: 0.024999999999999998 };
     const fine = { angleTolerance: 0.04363323129985824, chordTolerance: 0.002362204724409449, minFacetWidth: 0.001 };
@@ -90,43 +91,16 @@
             deleteModels();
             $('#stl-progress-bar').css("display", "block");
             getSketchPoints();
-            
+
         })
 
         $('#script-btn').click(() => {
             //evaluateFeatureScript();
         });
 
-        
-    var submit_button = document.getElementById('submit_button');
-    submit_button.addEventListener('click', parse_array);
-    
-    
-    function parse_array ()
-    {
-      console.log('Parsing Array!');
-      var newArray=[];
-      var file = document.getElementById("file").files[0];
-      parseMe(file, doStuff);
-      console.log('(Log no.2) After parse call but before complete fired, newArray:', newArray, new Date()); //log no. 2
-    }
-    
-    function parseMe(url, callBack){
-        Papa.parse(url, {
-            dynamicTyping: true,
-            complete: function(results) {
-            callBack(results.data);
-            },
-            
-        });
-    }
-    
-    function doStuff(data){
-      // NOTE: this throws an Error in strict mode:
-      //console.log('after stuff done, new Array is:', newArray);
-        var newArray=data;
-        console.log('(Log no.1) In OnComplete callback, Array is:', new Date(), newArray); //log no. 1
-    }
+
+        var submit_button = document.getElementById('submit_button');
+        submit_button.addEventListener('click', parse_array);
 
         init();
         animate();
@@ -139,7 +113,7 @@
         $("#wp-select").append("<option>-- Top of List --</option>");
         getDocuments();
 
-        
+
 
         // Initialize Camera
         camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1e6);
@@ -151,11 +125,11 @@
         controls = new THREE.TrackballControls(camera);
         controls.minDistance = 0.5;
 
-        $('#camera-position-btn').click(()=>{
+        $('#camera-position-btn').click(() => {
             camera.position.set(3, 3, 3);
-            camera.rotation.set(0,0,0);
+            camera.rotation.set(0, 0, 0);
             controls.reset();
-            
+
         })
 
         // Initialize Scene
@@ -246,6 +220,29 @@
     function render() {
         controls.update();
         renderer.render(scene, camera);
+    }
+
+    function parse_array() {
+        console.log('Parsing Array!');
+        var file = document.getElementById("file").files[0];
+        parseMe(file, doStuff);
+    }
+
+    function parseMe(url, callBack) {
+        Papa.parse(url, {
+            dynamicTyping: true,
+            complete: function (results) {
+                callBack(results.data);
+            },
+
+        });
+    }
+
+    function doStuff(data) {
+        csvPointsArray = data;
+        if (csvPointsArray[csvPointsArray.length-1] === null){
+            csvPointsArray.pop();
+        }
     }
 
     // Functions to support loading list of models to view ...
@@ -532,19 +529,40 @@
         dfd.resolve();
     }
 
-    const getIdScript = "function(context is Context, queries)" +
-        "{" +
-        "var top =  qCreatedBy(makeId(\"Top\"), EntityType.EDGE);" +
-        " var right =  qCreatedBy(makeId(\"Right\"), EntityType.EDGE);" +
-        " var front =  qCreatedBy(makeId(\"Front\"), EntityType.EDGE);" +
-        " var edges = evaluateQuery(context, qSubtraction(qEverything(EntityType.EDGE), qUnion([top, right, front])));" +
-        "var result = makeArray(size(edges));" +
-        "for (var i = 0; i < size(edges); i += 1)" +
-        "{" +
-        " result[i] = transientQueriesToStrings(edges[i]);" +
-        "}" +
-        "return {\"curves\" : result};" +
-        "}";
+    const SplinePointSctipt = 'function(context is Context, queries) {'+
+        'var startingIndices;'+
+    'if (!(queries.csvData[0] is array))'+
+    '{'+
+       ' throw regenError("Cannot create profile from a single-line CSV file");'+
+    '}'+
+   ' for (var rowIndex = 0; rowIndex < size(queries.csvData); rowIndex += 1)'+
+    '{'+
+        'var row = queries.csvData[rowIndex];'+
+        'for (var columnIndex = 0; columnIndex < size(queries.csvData); columnIndex += 1)'+
+        '{'+
+           ' if (row[columnIndex] is number) {'+
+                'startingIndices = [rowIndex, columnIndex];'+
+            '}'+
+        '}'+
+    '}'+
+        'const startRow = startingIndices[0];'+
+        'const startColumn = startingIndices[1];'+
+        'var points = [];'+
+        'for (var i = startRow; i < size(queries.csvData); i += 1)'+
+        '{'+
+           ' const row = queries.csvData[i];'+
+            'const point = vector(row[startColumn], row[startColumn + 1], row[startColumn + 2]) * meter;'+
+           ' points = append(points, point);'+
+            'opPoint(context, id + "point" + i, {'+
+                    '"point" : point'+
+            '});'+
+        '}'+
+         'opFitSpline(context, id + "fitSpline1", {'+
+                 '"points" : points'+
+         '});'+
+    '}';
+
+    let SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray }
 
     function FeatureScriptBody(script, queries) {
         let result = {
@@ -556,7 +574,7 @@
 
     function evaluateFeatureScript() {
         var dfd = $.Deferred();
-        let body = FeatureScriptBody(getIdScript, []);
+        let body = FeatureScriptBody(SplinePointSctipt, [SplinePointSctiptQuery]);
         var parameters = $("#elt-select2").val();
         $.ajax("/api/featurescript" + parameters, {
             type: "POST",
@@ -619,7 +637,7 @@
             });
 
             let line = new THREE.Line(geometry, material);
-            if (i==0){
+            if (i == 0) {
                 const axes = new THREE.AxesHelper();
                 axes.material.depthTest = false;
                 axes.renderOrder = 1;
@@ -635,39 +653,4 @@
 
         return dfd.resolve();
     }
-
-    let papaConfig = {
-        delimiter: "",	// auto-detect
-        newline: "",	// auto-detect
-        quoteChar: '"',
-        escapeChar: '"',
-        header: false,
-        transformHeader: undefined,
-        dynamicTyping: true,
-        preview: 0,
-        encoding: "",
-        worker: false,
-        comments: false,
-        step: undefined,
-        complete: undefined,
-        error: undefined,
-        download: false,
-        downloadRequestHeaders: undefined,
-        skipEmptyLines: false,
-        chunk: undefined,
-        fastMode: undefined,
-        beforeFirstChunk: undefined,
-        withCredentials: undefined,
-        transform: undefined,
-        delimitersToGuess: [',', '\t', '|', ';', Papa.RECORD_SEP, Papa.UNIT_SEP]
-    };
-
-    function parseMe(url, callBack){
-        Papa.parse(url, {
-            complete: function(results) {
-            callBack(results);
-            }
-        });
-    };
-
 })();
