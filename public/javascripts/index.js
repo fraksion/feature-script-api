@@ -45,7 +45,7 @@
             $('#stl-tolerance-btn').css("display", "block");
             $('#stl-tolerance-modal').modal('hide');
             getFeaturesList();
-            getSketchesIDs();
+           // getSketchesIDs();
 
         });
 
@@ -485,6 +485,7 @@
     }
 
     function getSketchesIDs() {
+        sketches = [];
         if (features != undefined) {
             features.forEach(element => {
                 if (element.message.featureType == 'newSketch') {
