@@ -33,7 +33,8 @@
         });
 
         $('#elt-select2').change(function () {
-            sketches = [];
+            //sketches = [];
+            features = [];
             $("#feature-select").empty();
             $('#feature-parameters').empty();
             $("#sketch-select").empty();
@@ -503,9 +504,7 @@
                     sketches.push(sketch);
                 }
             });
-            $("#sketch-select").find('option')
-            .remove()
-            .end();
+            $("#sketch-select").empty();
             sketches.forEach(element => {
                 $("#sketch-select")
                     .append(
