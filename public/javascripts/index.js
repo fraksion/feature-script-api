@@ -46,7 +46,7 @@
             $('#stl-tolerance-btn').css("display", "block");
             $('#stl-tolerance-modal').modal('hide');
             getFeaturesList();
-            $('#stl-progress-bar').css("display", "none");
+            
         });
 
         $('#add-feature-btn').click(function () {
@@ -438,7 +438,7 @@
 
             });
         }
-
+        $('#stl-progress-bar').css("display", "none");
     }
 
     function changeParametersValue() {
