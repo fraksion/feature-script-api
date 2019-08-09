@@ -252,7 +252,7 @@
             }
             
         }
-        SplinePointSctiptQuery = { "key" : "csvData", "value" : 'csvPointsArray' };
+        SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
     }
 
     // Functions to support loading list of models to view ...
@@ -540,11 +540,11 @@
     }
 
     const SplinePointSctipt = 'function(context is Context, queries is map) {'+
-        'var startingIndices;'+
+        'var startingIndices; '+ `var testPoints = ${csvPointsArray};`+
     'if (!(queries.csvData[0] is array))'+
     '{'+ 
        ' debug(context, queries); return;'+
-    '} return;'+
+    '}'+
    ' for (var rowIndex = 0; rowIndex < size(queries.csvData); rowIndex += 1)'+
     '{'+
         'var row = queries.csvData[rowIndex];'+
