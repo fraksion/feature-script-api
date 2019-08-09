@@ -503,7 +503,9 @@
                     sketches.push(sketch);
                 }
             });
-            $("#sketch-select").empty();
+            $("#sketch-select").find('option')
+            .remove()
+            .end();
             sketches.forEach(element => {
                 $("#sketch-select")
                     .append(
