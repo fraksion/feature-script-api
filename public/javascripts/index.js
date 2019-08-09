@@ -258,8 +258,9 @@
         });
         testStringArray = testStringArray.substr(0,testStringArray.length-1);
         testStringArray+=']';
-        SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
-        console.log(testStringArray);
+        csvPointsArray = testStringArray;
+       // SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
+       // console.log(testStringArray);
     }
 
     // Functions to support loading list of models to view ...
