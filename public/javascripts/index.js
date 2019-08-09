@@ -543,7 +543,7 @@
         'var startingIndices; '+ `var testPoints = ${csvPointsArray};`+
     'if (!(queries.csvData[0] is array))'+
     '{'+ 
-       ' debug(context, queries); return;'+
+       ' debug(context, testPoints); return;'+
     '}'+
    ' for (var rowIndex = 0; rowIndex < size(queries.csvData); rowIndex += 1)'+
     '{'+
