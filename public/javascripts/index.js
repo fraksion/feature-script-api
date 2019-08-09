@@ -252,7 +252,7 @@
             
         }
 
-        SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
+        SplinePointSctiptQuery = { "key" : "csvData", "value" : [csvPointsArray] };
         console.log(SplinePointSctiptQuery);
     }
 
