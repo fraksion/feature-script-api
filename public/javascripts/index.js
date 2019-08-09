@@ -95,7 +95,7 @@
         })
 
         $('#script-btn').click(() => {
-            //evaluateFeatureScript();
+            evaluateFeatureScript();
         });
 
 
