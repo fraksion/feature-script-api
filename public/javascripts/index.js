@@ -576,8 +576,8 @@
 
     function FeatureScriptBody(script, queries) {
         let result = {
-            "script": script,
-            "queries": queries
+            script: script,
+            queries: queries
         }
         return result;
     }
@@ -585,6 +585,7 @@
     function evaluateFeatureScript() {
         var dfd = $.Deferred();
         let body = FeatureScriptBody(SplinePointSctipt, [SplinePointSctiptQuery]);
+        console.log
         var parameters = $("#elt-select2").val();
         $.ajax("/api/featurescript" + parameters, {
             type: "POST",
