@@ -542,9 +542,10 @@
 
     const SplinePointSctipt = 'function(context is Context, queries) {'+
         'var startingIndices;'+
+        
     'if (!(queries.csvData[0] is array))'+
     '{'+
-       ' debug(context, queries.csvData); return;'+
+       ' debug(context, queries); return;'+
     '}'+
    ' for (var rowIndex = 0; rowIndex < size(queries.csvData); rowIndex += 1)'+
     '{'+
