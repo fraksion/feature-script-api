@@ -11,6 +11,7 @@
     let sketches = [];
     let csvPointsArray;
     let SplinePointSctiptQuery;
+    let SplinePointSctiptQueryString;
     const medium = { angleTolerance: 0.1090830782496456, chordTolerance: 0.004724409448818898, minFacetWidth: 0.009999999999999998 };
     const coarse = { angleTolerance: 0.2181661564992912, chordTolerance: 0.009448818897637795, minFacetWidth: 0.024999999999999998 };
     const fine = { angleTolerance: 0.04363323129985824, chordTolerance: 0.002362204724409449, minFacetWidth: 0.001 };
@@ -251,8 +252,10 @@
             }
             
         }
+        SplinePointSctiptQueryString = csvPointsArray.join(',');
+
         SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
-        console.log(SplinePointSctiptQuery);
+        console.log(SplinePointSctiptQueryString);
     }
 
     // Functions to support loading list of models to view ...
@@ -541,7 +544,6 @@
 
     const SplinePointSctipt = 'function(context is Context, queries is map) {'+
         'var startingIndices;'+
-        
     'if (!(queries.csvData[0] is array))'+
     '{'+
        ' debug(context, queries); return;'+
