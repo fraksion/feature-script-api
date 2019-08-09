@@ -67,6 +67,7 @@
             $("#elt-select2").empty();
             $("#elt-select2").append("<option>-- Top of List --</option>");
             $("#wp-select").append("<option>-- Top of List --</option>");
+            $('#add-feature-btn').css("display", "none");
             getWorkplaces(selectedDocID);
             // getCurrentMicroversion();
         });
@@ -80,6 +81,7 @@
             $("#sketch-select").empty();
             $("#elt-select2").empty();
             $("#elt-select2").append("<option>-- Top of List --</option>");
+            $('#add-feature-btn').css("display", "none");
             getElements();
             getCurrentMicroversion();
         });
@@ -530,7 +532,7 @@
     }
 
     function addFeatures(data, dfd) {
-
+        $('#add-feature-btn').css("display", "none");
         $("#feature-select").empty();
         features = data.features;
         data.features.forEach(element => {
@@ -540,6 +542,7 @@
                     .append(
                         "<option value='" + element.message.name + "'>" + element.message.name + "</option>"
                     );
+                    $('#add-feature-btn').css("display", "block");
             }
         });
         getSketchesIDs();
