@@ -251,7 +251,6 @@
             }
             
         }
-
         SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
         console.log(SplinePointSctiptQuery);
     }
@@ -540,7 +539,7 @@
         dfd.resolve();
     }
 
-    const SplinePointSctipt = 'function(context is Context, queries) {'+
+    const SplinePointSctipt = 'function(context is Context, queries is map) {'+
         'var startingIndices;'+
         
     'if (!(queries.csvData[0] is array))'+
