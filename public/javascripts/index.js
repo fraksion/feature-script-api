@@ -114,7 +114,7 @@
     function parseMe(url, callBack){
         Papa.parse(url, {
             complete: function(results) {
-            callBack(results.data[0]);
+            callBack(results.data);
             }
         });
     }
