@@ -256,7 +256,7 @@
         csvPointsArray[0].forEach(item => {
             testStringArray += `[${item[0]}, ${item[1]}, ${item[2]}],`;
         });
-        testStringArray.pop();
+        testStringArray.substr(testStringArray.length-1,1);
         testStringArray+=']';
         SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
         console.log(testStringArray);
