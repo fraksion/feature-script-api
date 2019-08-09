@@ -231,7 +231,7 @@
 
     function parseMe(url, callBack) {
         Papa.parse(url, {
-            //dynamicTyping: true,
+            dynamicTyping: true,
             complete: function (results) {
                 callBack(results.data);
             },
@@ -252,7 +252,7 @@
             
         }
 
-        SplinePointSctiptQuery = { "key" : "csvData", "value" : [csvPointsArray] };
+        SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
         console.log(SplinePointSctiptQuery);
     }
 
