@@ -544,14 +544,16 @@
         $('#add-feature-btn').css("display", "none");
         $("#feature-select").empty();
         features = data.features;
+        let prevFeatureName;
         data.features.forEach(element => {
-            if (element.message.featureType == 'myFeature') {
-
+            if (element.message.featureType == 'myFeature' && element.message.name !== prevFeatureName) {
+                
                 $("#feature-select")
                     .append(
                         "<option value='" + element.message.name + "'>" + element.message.name + "</option>"
                     );
                     $('#add-feature-btn').css("display", "inline");
+                    prevFeatureName =  element.message.name; 
             }
         });
         getSketchesIDs();
