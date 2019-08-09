@@ -542,7 +542,7 @@
                     .append(
                         "<option value='" + element.message.name + "'>" + element.message.name + "</option>"
                     );
-                    $('#add-feature-btn').css("display", "block");
+                    $('#add-feature-btn').css("display", "inline");
             }
         });
         getSketchesIDs();
