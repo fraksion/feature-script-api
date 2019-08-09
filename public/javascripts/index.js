@@ -559,40 +559,40 @@
         dfd.resolve();
     }
 
-    function getScript(){
-        return 'function(context is Context, queries is map) {'+
-        'var startingIndices; '+ 'var testPoints = ' + csvPointsArray + ';'+
-    'if (!(testPoints[0] is array))'+
-    '{'+ 
-       ' debug(context, testPoints); return;'+
-    '}'+
-   ' for (var rowIndex = 0; rowIndex < size(testPoints); rowIndex += 1)'+
-    '{'+
-        'var row = testPoints[rowIndex];'+
-        'for (var columnIndex = 0; columnIndex < size(testPoints); columnIndex += 1)'+
-        '{'+
-           ' if (row[columnIndex] is number) {'+
-                'startingIndices = [rowIndex, columnIndex];'+
-            '}'+
-        '}'+
-    '}'+
-        'const startRow = startingIndices[0];'+
-        'const startColumn = startingIndices[1];'+
-        'var points = [];'+
-        'for (var i = startRow; i < size(testPoints); i += 1)'+
-        '{'+
-           ' const row = testPoints[i];'+
-            'const point = vector(row[startColumn], row[startColumn + 1], row[startColumn + 2]) * meter;'+
-           ' points = append(points, point);'+
-            //'opPoint(context, id + "point" + i, {'+
-           //         '"point" : point'+
-           // '});'+
-        '}'+
-         //'opFitSpline(context, id + "fitSpline1", {'+
-       //          '"points" : points'+
-        // '});'+
-    '}';
-    }
+//     function getScript(){
+//         return 'function(context is Context, queries is map) {'+
+//         'var startingIndices; '+ 'var testPoints = ' + csvPointsArray + ';'+
+//     'if (!(testPoints[0] is array))'+
+//     '{'+ 
+//        ' debug(context, testPoints); return;'+
+//     '}'+
+//    ' for (var rowIndex = 0; rowIndex < size(testPoints); rowIndex += 1)'+
+//     '{'+
+//         'var row = testPoints[rowIndex];'+
+//         'for (var columnIndex = 0; columnIndex < size(testPoints); columnIndex += 1)'+
+//         '{'+
+//            ' if (row[columnIndex] is number) {'+
+//                 'startingIndices = [rowIndex, columnIndex];'+
+//             '}'+
+//         '}'+
+//     '}'+
+//         'const startRow = startingIndices[0];'+
+//         'const startColumn = startingIndices[1];'+
+//         'var points = [];'+
+//         'for (var i = startRow; i < size(testPoints); i += 1)'+
+//         '{'+
+//            ' const row = testPoints[i];'+
+//             'const point = vector(row[startColumn], row[startColumn + 1], row[startColumn + 2]) * meter;'+
+//            ' points = append(points, point);'+
+//             //'opPoint(context, id + "point" + i, {'+
+//            //         '"point" : point'+
+//            // '});'+
+//         '}'+
+//          //'opFitSpline(context, id + "fitSpline1", {'+
+//        //          '"points" : points'+
+//         // '});'+
+//     '}';
+//     }
 
     function FeatureScriptBody(script, queries) {
         let result = {
