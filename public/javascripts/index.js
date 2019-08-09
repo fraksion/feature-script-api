@@ -253,7 +253,7 @@
             
         }
         SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
-        console.log(`test = ${SplinePointSctipt}`);
+        console.log(`test = ${SplinePointSctiptQuery}`);
     }
 
     // Functions to support loading list of models to view ...
