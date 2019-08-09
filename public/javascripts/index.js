@@ -115,7 +115,8 @@
         Papa.parse(url, {
             complete: function(results) {
             callBack(results.data);
-            }
+            }, 
+            config: papaConfig
         });
     }
     
