@@ -663,6 +663,7 @@
                 material = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
             }
             let tessellationPoints = data.sketchEntities[i].tessellationPoints;
+            console.log(tessellationPoints);
             tessellationPoints.forEach(point => {
                 geometry.vertices.push(new THREE.Vector3(point[0], point[1], point[2]));
             });
