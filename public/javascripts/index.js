@@ -94,7 +94,10 @@
         })
 
         $('#script-btn').click(() => {
-            evaluateFeatureScript();
+            //evaluateFeatureScript();
+            parseMe('../../csv_files/3Dtrunc.csv', (result) =>{
+                console.log(result);
+            });
         });
 
         init();
@@ -604,4 +607,41 @@
 
         return dfd.resolve();
     }
+
+    let papaConfig = {
+        delimiter: "",	// auto-detect
+        newline: "",	// auto-detect
+        quoteChar: '"',
+        escapeChar: '"',
+        header: false,
+        transformHeader: undefined,
+        dynamicTyping: true,
+        preview: 0,
+        encoding: "",
+        worker: false,
+        comments: false,
+        step: undefined,
+        complete: undefined,
+        error: undefined,
+        download: false,
+        downloadRequestHeaders: undefined,
+        skipEmptyLines: false,
+        chunk: undefined,
+        fastMode: undefined,
+        beforeFirstChunk: undefined,
+        withCredentials: undefined,
+        transform: undefined,
+        delimitersToGuess: [',', '\t', '|', ';', Papa.RECORD_SEP, Papa.UNIT_SEP]
+    };
+
+    function parseMe(url, callBack){
+        Papa.parse(url, {
+            complete: function(results) {
+            callBack(results.data[0]);
+            }
+        });
+    };
+
+    var testArray = [];
+
 })();
