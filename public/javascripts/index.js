@@ -544,7 +544,7 @@
         'var startingIndices;'+
     'if (!(queries.csvData[0] is array))'+
     '{'+
-       ' throw regenError("Cannot create profile from a single-line CSV file");'+
+       ' debug(context, queries.csvData[0]); return;'+
     '}'+
    ' for (var rowIndex = 0; rowIndex < size(queries.csvData); rowIndex += 1)'+
     '{'+
