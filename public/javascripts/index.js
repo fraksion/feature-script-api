@@ -547,8 +547,14 @@
         dfd.resolve();
     }
 
-    const testScript = 'function(context is Context, queries is map) {'+
-    'opPoint(context, makeId("test") + "point1", {"point" : vector (1,1,1)*meter });}';
+    const testScript =         'var sketch1 = newSketch(context, makeId("test") + "sketch1", {'
+                                    '        "sketchPlane" : qCreatedBy(makeId("Top"), EntityType.FACE)'
+                                    '});'
+                                    'skCircle(sketch1, "circle1", {'
+                                    '        "center" : vector(0, 0) * inch,'
+                                    '        "radius" : 1 * inch'
+                                    '});'
+                                    'skSolve(sketch1);'
 
     function getScript(){
         return 'function(context is Context, queries is map) {'+
