@@ -231,7 +231,7 @@
 
     function parseMe(url, callBack) {
         Papa.parse(url, {
-            dynamicTyping: true,
+            //dynamicTyping: true,
             complete: function (results) {
                 callBack(results.data);
             },
@@ -585,7 +585,7 @@
     function evaluateFeatureScript() {
         var dfd = $.Deferred();
         let body = FeatureScriptBody(SplinePointSctipt, [SplinePointSctiptQuery]);
-        console.log
+        console.log(JSON.stringify(body));
         var parameters = $("#elt-select2").val();
         $.ajax("/api/featurescript" + parameters, {
             type: "POST",
