@@ -34,6 +34,7 @@
 
         $('#elt-select2').change(function () {
             $("#feature-select").empty();
+            $('#feature-parameters').empty();
             $("#sketch-select").empty();
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
@@ -59,6 +60,7 @@
 
             var selectedDocID = $("#doc-select").val();
             $("#feature-select").empty();
+            $('#feature-parameters').empty();
             $("#wp-select").empty();
             $("#sketch-select").empty();
             $('#configDiv').css("display", "none");
@@ -75,6 +77,7 @@
         $('#wp-select').change(function () {
 
             $("#feature-select").empty();
+            $('#feature-parameters').empty();
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
             $('#stl-tolerance-btn').css("display", "none");
