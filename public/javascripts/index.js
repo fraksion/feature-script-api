@@ -252,9 +252,7 @@
             }
             
         }
-
-        SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
-        console.log(SplinePointSctiptQueryString);
+        SplinePointSctiptQuery = { "key" : "csvData", "value" : "csvPointsArray" };
     }
 
     // Functions to support loading list of models to view ...
@@ -584,7 +582,7 @@
 
     function evaluateFeatureScript() {
         var dfd = $.Deferred();
-        let body = FeatureScriptBody(SplinePointSctipt, SplinePointSctiptQuery);
+        let body = FeatureScriptBody(SplinePointSctipt, [SplinePointSctiptQuery]);
         console.log(JSON.stringify(body));
         var parameters = $("#elt-select2").val();
         $.ajax("/api/featurescript" + parameters, {
