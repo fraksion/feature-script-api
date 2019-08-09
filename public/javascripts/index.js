@@ -547,7 +547,8 @@
         dfd.resolve();
     }
 
-    const SplinePointSctipt = 'function(context is Context, queries is map) {'+
+    function getScript(){
+        return 'function(context is Context, queries is map) {'+
         'var startingIndices; '+ 'var testPoints = ' + csvPointsArray + ';'+
     'if (!(queries.csvData[0] is array))'+
     '{'+ 
@@ -579,6 +580,9 @@
        //          '"points" : points'+
         // '});'+
     '}';
+    }
+
+    
 
     function FeatureScriptBody(script, queries) {
         let result = {
@@ -590,7 +594,7 @@
 
     function evaluateFeatureScript() {
         var dfd = $.Deferred();
-        let body = FeatureScriptBody(SplinePointSctipt, []);
+        let body = FeatureScriptBody(getScript(), []);
         console.log(JSON.stringify(body));
         var parameters = $("#elt-select2").val();
         $.ajax("/api/featurescript" + parameters, {
