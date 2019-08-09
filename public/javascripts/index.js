@@ -548,7 +548,7 @@
     }
 
     const testScript = 'function(context is Context, queries is map) {'+
-    'opPoint(context, makeId("test") + point1, {"point" : vector (1,1,1)*meter });}'
+    'opPoint(context, makeId("test") + point1, {"point" : vector (1,1,1)*meter });}';
 
     function getScript(){
         return 'function(context is Context, queries is map) {'+
