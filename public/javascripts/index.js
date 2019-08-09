@@ -243,8 +243,8 @@
         csvPointsArray = data;
         while(true)
         {
-            if (csvPointsArray[csvPointsArray.length-1] === [null]){
-                csvPointsArray.pop();
+            if (csvPointsArray[csvPointsArray.length-1][0] === null){
+                let tes = csvPointsArray.pop();
             }
             else{
                 break;
