@@ -113,9 +113,7 @@
     
     function parseMe(url, callBack){
         Papa.parse(url, {
-            config: {
-                dynamicTyping: true
-            },
+            dynamicTyping: true,
             complete: function(results) {
             callBack(results.data);
             },
