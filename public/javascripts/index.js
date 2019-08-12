@@ -397,6 +397,7 @@
     }
 
     function addCustomFeature(body) {
+        generateLogMessage('Addidng custom feature...');
         var dfd = $.Deferred();
         $.ajax("/api/addCustomFeature" + $('#elt-select2').val(), {
             type: "POST",
