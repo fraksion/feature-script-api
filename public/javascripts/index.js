@@ -692,7 +692,7 @@
                 let line = new THREE.Line(geometry, material);
                 if (i == 0) {
                     const axes = new THREE.AxesHelper();
-                    axes.material.depthTest = false;
+                    //axes.material.depthTest = false;
                     axes.renderOrder = 1;
                     scene.add(axes);
                     loadedModels.push(axes);
