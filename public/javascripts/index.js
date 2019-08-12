@@ -702,7 +702,7 @@
 
     function generateLogMessage(message){
         let logDiv = document.getElementById('log-div');
-        let lastMessage =  logDiv.innerText + '\n' + message;
+        let lastMessage =  logDiv.innerText + '\n' + '--' + message;
         logDiv.innerText = lastMessage;
     }
 })();
