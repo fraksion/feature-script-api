@@ -541,8 +541,10 @@
             type: 'GET',
             success: function (data) {
                 addFeatures(data, dfd);
+                generateLogMessage('Loading sketches entities and all custom features successfully');
             },
             error: function () {
+                generateLogMessage('Loading sketches entities and all custom features error!');
             }
         });
         return dfd.promise();
