@@ -556,9 +556,10 @@
         $("#feature-select").empty();
         features = data.features;
         let prevFeatureName;
+        let isContainsCustomFeature = false;
         data.features.forEach(element => {
             if (element.message.featureType == 'myFeature' && element.message.name !== prevFeatureName) {
-                
+                isContainsCustomFeature = true;
                 $("#feature-select")
                     .append(
                         "<option value='" + element.message.name + "'>" + element.message.name + "</option>"
@@ -567,6 +568,12 @@
                     prevFeatureName =  element.message.name; 
             }
         });
+        if (isContainsCustomFeature){
+            $('.custom-feature').css("display", "block");
+        }
+        else{
+            $('.custom-feature').css("display", "none");
+        }
         getSketchesIDs();
         addFeatureParameters();
         dfd.resolve();

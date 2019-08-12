@@ -18,6 +18,10 @@
   margin: 10px;
 }
 
+.custom-feature{
+  display: none;
+}
+
 table,
 th {
   font-family: "Open-Sans";
