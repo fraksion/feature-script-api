@@ -60,6 +60,7 @@
 
         $('#doc-select').change(function () {
 
+            deleteModels();
             var selectedDocID = $("#doc-select").val();
             sketches = [];
             $("#feature-select").empty();
@@ -79,6 +80,7 @@
 
         $('#wp-select').change(function () {
 
+            deleteModels();
             $("#feature-select").empty();
             sketches = [];
             $('#feature-parameters').empty();
@@ -268,8 +270,6 @@
         testStringArray = testStringArray.substr(0,testStringArray.length-1);
         testStringArray+=']';
         csvPointsArray = testStringArray;
-       // SplinePointSctiptQuery = { "key" : "csvData", "value" : csvPointsArray };
-       // console.log(testStringArray);
     }
 
     // Functions to support loading list of models to view ...
