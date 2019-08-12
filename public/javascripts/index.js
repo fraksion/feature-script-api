@@ -699,7 +699,8 @@
     }
 
     function generateLogMessage(message){
-        var logDiv = document.getElementById('log-div');
-        logDiv.innerText += message;
+        let logDiv = document.getElementById('log-div');
+        let lastMessage =  logDiv.innerText + '\n' + message;
+        logDiv.innerText = lastMessage;
     }
 })();
