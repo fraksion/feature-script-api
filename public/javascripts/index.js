@@ -693,7 +693,7 @@
                 if (i == 0) {
                     const axes = new THREE.AxesHelper();
                     //axes.material.depthTest = false;
-                    axes.renderOrder = 10;
+                    axes.renderOrder = 0;
                     scene.add(axes);
                     loadedModels.push(axes);
                 }
