@@ -10,6 +10,10 @@
   margin: 3px;
 }
 
+#log-div{
+  border: 1px solid gray;
+}
+
 table,
 th {
   font-family: "Open-Sans";
