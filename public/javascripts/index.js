@@ -290,14 +290,17 @@
     }
 
     function getWorkplaces(docId) {
+        generateLogMessage('Loading workplaces...');
         var dfd = $.Deferred();
         $.ajax('/api/workplaces?documentId=' + docId, {
             dataType: 'json',
             type: 'GET',
             success: function (data) {
                 addWorkplaces(data, dfd);
+                generateLogMessage('Workplaces successfully loaded');
             },
             error: function () {
+                generateLogMessage('Loading workplaces error');
             }
         });
         return dfd.promise();
@@ -688,5 +691,10 @@
         }
 
         return dfd.resolve();
+    }
+
+    function generateLogMessage(message){
+        var logDiv = document.getElementById('log-div');
+        logDiv.innerText = message;
     }
 })();
