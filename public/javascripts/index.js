@@ -1,5 +1,3 @@
-import { debug } from "util";
-
 (function () {
 
     let microversion;
