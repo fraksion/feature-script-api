@@ -189,7 +189,8 @@
                         "<option value='" + href + "'>" + "Element - " + data[i].name + "</option>"
                     )
             }
-            else if (data[i].elementType === "FEATURESTUDIO"){
+            if (data[i].elementType === "FEATURESTUDIO"){
+                console.log(data[i]);
                 var docId = $("#doc-select").val();
                 var wpId = $("#wp-select").val();
                 var href = "?documentId=" + docId + "&workspaceId=" + wpId + "&elementId=" + data[i].id + "&microversion=" + microversion;
