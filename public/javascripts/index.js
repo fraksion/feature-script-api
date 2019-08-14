@@ -23,6 +23,10 @@
             }
         });
 
+        $('#create-feature-submit').click(()=>{
+            createFeatureStudio();
+        })
+
         $('#elt-select2').change(function () {
             features = [];
             $('#stl-progress-bar').css("display", "block");
@@ -207,6 +211,7 @@
     }
 
     function getFeatureStudioSpecs(href) {
+        customFeatures = [];
         var dfd = $.Deferred();
         $.ajax('/api/featureStudioSpecs' + href, {
             dataType: 'json',
@@ -242,7 +247,7 @@
     function addCustomFeaturesToBOM(customFeatures){
             $("#feature-select")
             .append(
-                "<option value='" + customFeatures.name + "'>"  + customFeatures.name + "</option>"
+                "<option class=\"my-feature\" value='" + customFeatures.name + "'>"  + customFeatures.name + "</option>"
             )
     }
 
@@ -293,30 +298,6 @@
         $('#stl-progress-bar').css("display", "none");
     }
 
-    function changeParametersValue() {
-        let currentFeature = getCurrentFeature();
-        let arrayOfParameters = [];
-        let i = 0;
-        while ($('#first-input-test' + i).val() !== undefined) {
-            arrayOfParameters.push($('#first-input-test' + i));
-            i++;
-        }
-        currentFeature.message.parameters.forEach(parameter => {
-            if (parameter.type === 147) {
-                let valueArray = parameter.message.expression.split(' ');
-                if (valueArray[1] == undefined)
-                    valueArray[1] = '';
-                valueArray[0] = arrayOfParameters.shift().val();
-                parameter.message.expression = valueArray.join(' ');
-            }
-            else if (parameter.type === 144) {
-                parameter.message.value = arrayOfParameters.shift().is(":checked");
-            }
-            console.log(parameter);
-        });
-        return currentFeature;
-    }
-
     function getCurrentFeature() {
         if (features != undefined) {
             for (var i = 0; i < features.length; i++) {
@@ -324,46 +305,6 @@
                     return features[i];
                 }
             }
-        }
-    }
-
-    getSelectedSketch = () => {
-        let temp;
-        sketches.forEach(item => {
-            if (item.sketchId === $('#sketch-select').val())
-                temp = item;
-        });
-        return temp;
-    }
-
-    function getSketchesIDs() {
-        sketches = [];
-        if (features != undefined) {
-            features.forEach(element => {
-                if (element.message.featureType == 'newSketch') {
-                    let items = [];
-                    element.message.entities.forEach(item => {
-                        items.push({
-                            entityId: item.message.entityId,
-                            isConstruction: item.message.isConstruction
-                        });
-                    });
-                    let sketch = {
-                        sketchId: element.message.featureId,
-                        sketchName: element.message.name,
-                        entities: items
-                    }
-
-                    sketches.push(sketch);
-                }
-            });
-            $("#sketch-select").empty();
-            sketches.forEach(element => {
-                $("#sketch-select")
-                    .append(
-                        "<option value='" + element.sketchId + "'>" + element.sketchName + "</option>"
-                    );
-            });
         }
     }
 
@@ -377,76 +318,26 @@
         return body;
     }
 
-    function getFeaturesList() {
+    
+    function createFeatureStudio() {
         var dfd = $.Deferred();
-        var parameters = $("#elt-select2").val();
-        $.ajax('/api/features' + parameters, {
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                addFeatures(data, dfd);
-            },
-            error: function () {
-            }
-        });
-        return dfd.promise();
-    }
-
-    function addFeatures(data, dfd) {
-        $('#add-feature-btn').css("display", "none");
-        features = data.features;
-        let prevFeatureName;
-        let isContainsCustomFeature = false;
-        data.features.forEach(element => {
-            if (element.message.featureType == 'myFeature' && element.message.name !== prevFeatureName) {
-                isContainsCustomFeature = true;
-                $("#feature-select")
-                    .append(
-                        "<option value='" + element.message.name + "'>" + element.message.name + "</option>"
-                    );
-                    $('#add-feature-btn').css("display", "inline");
-                    prevFeatureName =  element.message.name; 
-            }
-        });
-        if (isContainsCustomFeature){
-            $('.custom-feature').css("display", "block");
-        }
-        else{
-            $('.custom-feature').css("display", "none");
-        }
-        getSketchesIDs();
-        addFeatureParameters();
-        dfd.resolve();
-    }
-
-    function FeatureScriptBody(script, queries) {
-        let result = {
-            script: script,
-            queries: queries
-        }
-        return result;
-    }
-
-    function evaluateFeatureScript() {
-        var dfd = $.Deferred();
-        let body = FeatureScriptBody(testScript, []);
-        console.log(JSON.stringify(body));
-        var parameters = $("#elt-select2").val();
-        $.ajax("/api/featurescript" + parameters, {
+        $.ajax("/api/addCustomFeature" + $('#elt-select2').val(), {
             type: "POST",
             dataType: "json",
-            data: JSON.stringify(body),
+            data: $('feature-studio-name').val(),
             contentType: "application/json",
             Accept: 'application/vnd.onshape.v1+json',
-            complete: function (data) {
-                //called when complete
-
+            complete: function () {
             },
             success: function (data) {
-                console.log(data);
+                getElements();
+                let newFeature;
+                let customFeatures = document.getElementsByClassName('my-feature');
+                console.log(customFeatures);
+                //customFeatures.filter(customFeature=>customFeature.value)
+
             },
             error: function () {
-                console.log('addCustomFeature error');
             },
         });
         return dfd.resolve();
