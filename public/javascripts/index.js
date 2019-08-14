@@ -195,7 +195,7 @@
                 featureStudios.push(href);
             }
         }
-
+        dfd.resolve();
         elementsDict = createElementsDict(data);
         featureStudios.forEach(studio => {
             getFeatureStudioSpecs(studio);
