@@ -342,7 +342,7 @@
                console.log('customFeature');
                 console.log(customFeatures);
                 console.log('option = ');
-                console.log(customFeatures[0].option['my-feature'])
+                console.log(customFeatures[0].innerText)
     // customFeatures.filter(customFeature=>customFeature.option.innerText === data.name);
 
             },
