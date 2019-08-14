@@ -69,8 +69,6 @@
             $('#add-feature-btn').css("display", "none");
             getElements();
             getCurrentMicroversion();
-            addCustomFeaturesToBOM();
-        
         });
 
         init();
@@ -239,18 +237,17 @@
                 rejectMicroversionSkew: data.rejectMicroversionSkew
             }
             console.log(feature);
+            addCustomFeaturesToBOM(feature);
             customFeatures.push(feature);
         }
         dfd.resolve();
     }
 
-    function addCustomFeaturesToBOM(){
-        customFeatures.forEach(feature => {
+    function addCustomFeaturesToBOM(customFeatures){
             $("#feature-select")
             .append(
-                "<option value='" + feature.name + "'>"  + feature.name + "</option>"
+                "<option value='" + customFeatures.name + "'>"  + customFeatures.name + "</option>"
             )
-        });
     }
 
     function sendCustomFeature(body) {
