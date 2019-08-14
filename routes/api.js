@@ -394,10 +394,60 @@ var tesselateSketch = function (req, res) {
   });
 };
 
+var createFeatureStudio = function (req, res) {
+  request.post({
+    uri: apiUrl + '/api/featurestudios/d/' + req.query.documentId + '/w/' + req.query.workspaceId,
+    headers: {
+      'Authorization': 'Bearer ' + req.user.accessToken,
+    },
+    json: true,
+    body: req.body
+  }).then(function (data) {
+    res.json(data);
+  }).catch(function (data) {
+    if (data.statusCode === 401) {
+      authentication.refreshOAuthToken(req, res).then(function () {
+        createFeatureStudio(req, res);
+      }).catch(function (err) {
+        console.log('Error refreshing token or getting documents: ', err);
+      });
+    } else {
+      console.log('POST createFeatureStudio error: ', data);
+    }
+  });
+};
+
+var getFeatureStudioSpecs = function (req, res) {
+  request.get({
+    uri: apiUrl + '/api/featurestudios/d/' + req.query.documentId +
+      '/w/' + req.query.workspaceId +
+      '/e/' + req.query.elementId +
+      '/featurespecs/',
+    headers: {
+      'Authorization': 'Bearer ' + req.user.accessToken
+    }
+  }).then(function (data) {
+    res.send(data);
+  }).catch(function (data) {
+    if (data.statusCode === 401) {
+      authentication.refreshOAuthToken(req, res).then(function () {
+        getFeatureStudioSpecs(req, res);
+      }).catch(function (err) {
+        console.log('Error refreshing token or getting documents: ', err);
+      });
+    } else {
+      console.log('GET /api/featurestudios error: ', data);
+    }
+  });
+};
+
+
 const jsonParser = express.json();
 router.post('/featurescript', jsonParser, evaluateFeatureScript);
 router.post('/addCustomFeature', jsonParser, addCustomFeature);
-router.get('/tesselatedSketch', tesselateSketch)
+router.post('/createFeatureStudio', createFeatureStudio);
+router.get('featureStudioSpecs', getFeatureStudioSpecs);
+router.get('/tesselatedSketch', tesselateSketch);
 router.get('/documents', getDocuments);
 router.get('/features', getCustomFeatures);
 router.get('/elements', getElementList);

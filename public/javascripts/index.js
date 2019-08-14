@@ -1,20 +1,11 @@
 (function () {
 
-    if (!Detector.webgl) Detector.addGetWebGLMessage();
-    var container, stats;
-    var camera, controls, scene, renderer;
-    var loadedModels = [];
-    var previousData = false;
-    var microversion;
-    var configString;
+    let microversion;
+    let featureStudios = [];
     var features;
     let sketches = [];
-    let csvPointsArray;
-    let SplinePointSctiptQuery;
-    let SplinePointSctiptQueryString;
-    const medium = { angleTolerance: 0.1090830782496456, chordTolerance: 0.004724409448818898, minFacetWidth: 0.009999999999999998 };
-    const coarse = { angleTolerance: 0.2181661564992912, chordTolerance: 0.009448818897637795, minFacetWidth: 0.024999999999999998 };
-    const fine = { angleTolerance: 0.04363323129985824, chordTolerance: 0.002362204724409449, minFacetWidth: 0.001 };
+    let customFeatures = [];
+
 
     window.onload = function () {
         // prevent mouse clicks from going to model while dialog is open
@@ -45,17 +36,8 @@
             getCurrentMicroversion();
             $('#stl-tolerance-btn').css("display", "block");
             $('#stl-tolerance-modal').modal('hide');
-            getFeaturesList();
+            //getFeaturesList();
             
-        });
-
-        $('#add-feature-btn').click(function () {
-            if (microversion === undefined) {
-                getCurrentMicroversion();
-            }
-            let feature = changeParametersValue();
-            let body = getFeatureJSON(microversion, feature);
-            addCustomFeature(body);
         });
 
         $('#doc-select').change(function () {
@@ -93,30 +75,12 @@
             $('#add-feature-btn').css("display", "none");
             getElements();
             getCurrentMicroversion();
+            featureStudios.forEach(studio => {
+                getFeatureStudioSpecs(studio);
+            });
         });
 
-        $('#feature-select').change(function () {
-            addFeatureParameters();
-        })
-
-        $('#get-id-btn').click(function () {
-            //evaluateFeatureScript();
-            deleteModels();
-            $('#stl-progress-bar').css("display", "block");
-            getSketchPoints();
-
-        })
-
-        //$('#script-btn').click(() => {
-        //    evaluateFeatureScript();
-        //});
-
-
-        //var submit_button = document.getElementById('submit_button');
-        //submit_button.addEventListener('click', parse_array);
-
         init();
-        animate();
     }
 
     function init() {
@@ -126,150 +90,6 @@
         $("#wp-select").append("<option>-- Top of List --</option>");
         getDocuments();
 
-
-
-        // Initialize Camera
-        camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1e6);
-        camera.position.set(3, 3, 3); // must initialize camera position
-
-
-
-        // Initialize Controls
-        controls = new THREE.TrackballControls(camera);
-        controls.minDistance = 0.5;
-
-        $('#camera-position-btn').click(() => {
-            camera.position.set(3, 3, 3);
-            camera.rotation.set(0, 0, 0);
-            controls.reset();
-
-        })
-
-        // Initialize Scene
-        scene = new THREE.Scene();
-        scene.fog = new THREE.Fog(0xffffff, 0.1, 1e6);
-
-        createLights();
-
-        // Renderer
-        renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-
-        renderer.setClearColor(scene.fog.color, 1);
-
-        renderer.gammaInput = true;
-        renderer.gammaOutput = true;
-
-        renderer.shadowMapEnabled = true;
-        renderer.shadowMapCullFace = THREE.CullFaceBack;
-
-        // Stats
-        stats = new Stats();
-        stats.domElement.style.position = 'absolute';
-        stats.domElement.style.top = '0px';
-
-        // Add to DOM
-        container = $('#stl-viewport');
-        container.append(renderer.domElement);
-        container.append(stats.domElement);
-
-        window.addEventListener('resize', onWindowResize, false);
-    }
-
-    function deleteModels() {
-        for (var i = loadedModels.length - 1; i >= 0; --i) {
-            scene.remove(loadedModels[i]);
-            loadedModels.pop();
-        }
-    }
-
-    function createLights() {
-        scene.add(new THREE.AmbientLight(0x777777));
-        addShadowedLight(10, 10, 15, 0xffffff, 1.35);
-        addShadowedLight(5, 10, -10, 0xffffff, 1);
-        addShadowedLight(-10, -5, -10, 0xffffff, 1);
-    }
-
-    function addShadowedLight(x, y, z, color, intensity) {
-        var directionalLight = new THREE.DirectionalLight(color, intensity);
-        directionalLight.position.set(x, y, z);
-        scene.add(directionalLight);
-
-        var d = 1;
-        directionalLight.shadowCameraLeft = -d;
-        directionalLight.shadowCameraRight = d;
-        directionalLight.shadowCameraTop = d;
-        directionalLight.shadowCameraBottom = -d;
-
-        directionalLight.shadowCameraNear = 1;
-        directionalLight.shadowCameraFar = 4;
-
-        directionalLight.shadowMapWidth = 1024;
-        directionalLight.shadowMapHeight = 1024;
-
-        directionalLight.shadowBias = -0.005;
-        directionalLight.shadowDarkness = 0.15;
-    }
-
-    function fitToWindow(boundingSphereRadius) {
-        var dist = camera.aspect * boundingSphereRadius / Math.tan(camera.fov * (Math.PI / 180));
-
-        var cameraUnitVector = camera.position.clone().normalize();
-        camera.position = cameraUnitVector.multiplyScalar(dist);
-    }
-
-    function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    function animate() {
-        requestAnimationFrame(animate);
-        render();
-        stats.update();
-    }
-
-    function render() {
-        controls.update();
-        renderer.render(scene, camera);
-    }
-
-    function parse_array() {
-        console.log('Parsing Array!');
-        var file = document.getElementById("file").files[0];
-        parseMe(file, doStuff);
-    }
-
-    function parseMe(url, callBack) {
-        Papa.parse(url, {
-            dynamicTyping: true,
-            complete: function (results) {
-                callBack(results.data);
-            },
-
-        });
-    }
-
-    function doStuff(data) {
-        csvPointsArray = data;
-        while(true)
-        {
-            if (csvPointsArray[csvPointsArray.length-1][0] === null){
-                let tes = csvPointsArray.pop();
-            }
-            else{
-                break;
-            }
-            
-        }
-        let testStringArray = '[';
-        csvPointsArray.forEach(item => {
-            testStringArray += `[${item[0]}, ${item[1]}, ${item[2]}],`;
-        });
-        testStringArray = testStringArray.substr(0,testStringArray.length-1);
-        testStringArray+=']';
-        csvPointsArray = testStringArray;
     }
 
     // Functions to support loading list of models to view ...
@@ -374,13 +194,17 @@
                 // (Query string contains document and workspace information)
                 var docId = $("#doc-select").val();
                 var wpId = $("#wp-select").val();
-                var baseHref = "?documentId=" + docId + "&workspaceId=" + wpId + "&elementId=" + data[i].id + "&microversion=" + microversion;
-                var href = baseHref + "&stlElementId=" + data[i].id;
+                var href = "?documentId=" + docId + "&workspaceId=" + wpId + "&elementId=" + data[i].id + "&microversion=" + microversion;
                 $("#elt-select2")
                     .append(
                         "<option value='" + href + "'>" + "Element - " + data[i].name + "</option>"
                     )
-
+            }
+            else if (data[i].elementType === "FEATURESTUDIO"){
+                var docId = $("#doc-select").val();
+                var wpId = $("#wp-select").val();
+                var href = "?documentId=" + docId + "&workspaceId=" + wpId + "&elementId=" + data[i].id + "&microversion=" + microversion;
+                featureStudios.push(href);
             }
         }
 
@@ -396,7 +220,45 @@
         return dict;
     }
 
-    function addCustomFeature(body) {
+    function getFeatureStudioSpecs(href) {
+        var dfd = $.Deferred();
+        $.ajax('/api/featureStudioSpecs' + href, {
+            dataType: 'json',
+            type: 'GET',
+            success: function (data) {
+                addCustomFeature(data, dfd);
+            },
+            error: function () {
+            }
+        });
+        return dfd.promise();
+    }
+
+    function addCustomFeature(data, dfd){
+        for (let i=0; i< data.featureSpecs.length; i++){
+            let feature = {
+                name : data.featureSpecs[i].message.featureTypeName,
+                parameters:  data.featureSpecs[i].message.parameters,
+                serializationVersion: data.serializationVersion,
+                sourceMicroversion: data.sourceMicroversion,
+                rejectMicroversionSkew: data.rejectMicroversionSkew
+            }
+            customFeatures.push(feature);
+            addCustomFeaturesToBOM();
+        }
+        dfd.resolve();
+    }
+
+    function addCustomFeaturesToBOM(){
+        customFeatures.forEach(feature => {
+            $("#feature-select")
+            .append(
+                "<option value='" + feature.name + "'>"  + feature.name + "</option>"
+            )
+        });
+    }
+
+    function sendCustomFeature(body) {
         generateLogMessage('Addidng custom feature...');
         var dfd = $.Deferred();
         $.ajax("/api/addCustomFeature" + $('#elt-select2').val(), {
@@ -579,41 +441,6 @@
         dfd.resolve();
     }
 
-//     function getScript(){
-//         return 'function(context is Context, queries is map) {'+
-//         'var startingIndices; '+ 'var testPoints = ' + csvPointsArray + ';'+
-//     'if (!(testPoints[0] is array))'+
-//     '{'+ 
-//        ' debug(context, testPoints); return;'+
-//     '}'+
-//    ' for (var rowIndex = 0; rowIndex < size(testPoints); rowIndex += 1)'+
-//     '{'+
-//         'var row = testPoints[rowIndex];'+
-//         'for (var columnIndex = 0; columnIndex < size(testPoints); columnIndex += 1)'+
-//         '{'+
-//            ' if (row[columnIndex] is number) {'+
-//                 'startingIndices = [rowIndex, columnIndex];'+
-//             '}'+
-//         '}'+
-//     '}'+
-//         'const startRow = startingIndices[0];'+
-//         'const startColumn = startingIndices[1];'+
-//         'var points = [];'+
-//         'for (var i = startRow; i < size(testPoints); i += 1)'+
-//         '{'+
-//            ' const row = testPoints[i];'+
-//             'const point = vector(row[startColumn], row[startColumn + 1], row[startColumn + 2]) * meter;'+
-//            ' points = append(points, point);'+
-//             //'opPoint(context, id + "point" + i, {'+
-//            //         '"point" : point'+
-//            // '});'+
-//         '}'+
-//          //'opFitSpline(context, id + "fitSpline1", {'+
-//        //          '"points" : points'+
-//         // '});'+
-//     '}';
-//     }
-
     function FeatureScriptBody(script, queries) {
         let result = {
             script: script,
@@ -647,76 +474,4 @@
         return dfd.resolve();
     }
 
-    function getSketchPoints() {
-        var dfd = $.Deferred();
-        var elId = $('#elt-select2').val();
-        var skId = $('#sketch-select').val();
-        $.ajax('/api/tesselatedSketch' + elId + "&sketchId=" + skId, {
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                translatePoints(data, dfd);
-                $('#stl-progress-bar').css("display", "none");
-            },
-            error: function () {
-            }
-        });
-        return dfd.promise();
-    }
-
-    function translatePoints(data, dfd) {
-        deleteModels();
-        let material;
-
-        if (data !== undefined && data.sketchEntities !== undefined){
-            for (let i = 0; i < data.sketchEntities.length; i++) {
-                let geometry = new THREE.Geometry();
-                let isConstruction = false;
-                let selectedSketch = getSelectedSketch();
-                selectedSketch.entities.forEach(item => {
-                    if (item.entityId === data.sketchEntities[i].entityId && item.isConstruction === true)
-                        isConstruction = true;
-                });
-                if (isConstruction) {
-                    material = new THREE.LineDashedMaterial({ color: 0x000000, dashSize: 0.005, gapSize: 0.001, linewidth: 2 });
-                }
-                else {
-                    material = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
-                }
-                let tessellationPoints = data.sketchEntities[i].tessellationPoints;
-                console.log(tessellationPoints);
-                tessellationPoints.forEach(point => {
-                    geometry.vertices.push(new THREE.Vector3(point[0], point[1], point[2]));
-                });
-    
-                let line = new THREE.Line(geometry, material);
-                if (i == 0) {
-                    const axes = new THREE.AxesHelper();
-                    axes.material.depthTest = false;
-                    axes.renderOrder = 1;
-                    scene.add(axes);
-                    loadedModels.push(axes);
-                }
-                line.computeLineDistances();
-                scene.add(line);
-                loadedModels.push(line);
-                geometry.computeBoundingSphere();
-                fitToWindow(geometry.boundingSphere.radius);
-            }
-        }
-
-        return dfd.resolve();
-    }
-
-    function generateLogMessage(message){
-        let logDiv = document.getElementById('log-div');
-        if (logDiv.innerText.length > 0){
-            let lastMessage =  logDiv.innerText + '\n' + '--' + message;
-            logDiv.innerText = lastMessage;
-        }
-        else{
-            logDiv.innerText = '--' + message;
-        }
-
-    }
 })();
