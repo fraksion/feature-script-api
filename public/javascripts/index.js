@@ -337,13 +337,16 @@
                 console.log('createFeatureStudio content: ')
                 let newFeature;
                 let customFeatures = document.getElementsByClassName('my-feature');
-                console.log(data.name);
-                let resultFeature = customFeatures.filter((customFeature)=> {
-                    return customFeatures[0].innerText === data.name;
-                })
-                console.log('result feature');
-                console.log(resultFeature);
-
+                
+                console.log('name = ' + data.name);
+                for (let i=0; i< customFeatures.length; i++){
+                    if (customFeatures[i].innerText === data.name)
+                    {
+                        newFeature = customFeatures[i];
+                        break;
+                    }
+                }
+                console.log('new feature = ' + newFeature);
             },
             error: function () {
             },
