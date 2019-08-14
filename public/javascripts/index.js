@@ -26,7 +26,7 @@
         $('#elt-select2').change(function () {
             features = [];
             $('#stl-progress-bar').css("display", "block");
-            $("#feature-select").empty();
+
             $('#feature-parameters').empty();
             $("#sketch-select").empty();
             $('#configDiv').css("display", "none");
@@ -43,7 +43,6 @@
 
             var selectedDocID = $("#doc-select").val();
             sketches = [];
-            $("#feature-select").empty();
             $('#feature-parameters').empty();
             $("#wp-select").empty();
             $("#sketch-select").empty();
@@ -59,7 +58,6 @@
         });
 
         $('#wp-select').change(function () {
-            $("#feature-select").empty();
             sketches = [];
             $('#feature-parameters').empty();
             $('#configDiv').css("display", "none");
@@ -397,7 +395,6 @@
 
     function addFeatures(data, dfd) {
         $('#add-feature-btn').css("display", "none");
-        $("#feature-select").empty();
         features = data.features;
         let prevFeatureName;
         let isContainsCustomFeature = false;
