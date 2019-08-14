@@ -175,7 +175,6 @@
         var onshapeElements = $("#onshape-elements");
         onshapeElements.empty();
         for (var i = 0; i < data.length; ++i) {
-            console.log(data[i].elementType);
             if (data[i].elementType === "PARTSTUDIO") {
                 // URL must contain query string!
                 // (Query string contains document and workspace information)
@@ -188,7 +187,6 @@
                     )
             }
             else if (data[i].elementType === "FEATURESTUDIO"){
-                console.log(data[i]);
                 var docId = $("#doc-select").val();
                 var wpId = $("#wp-select").val();
                 var href = "?documentId=" + docId + "&workspaceId=" + wpId + "&elementId=" + data[i].id;
@@ -339,11 +337,8 @@
                 console.log('createFeatureStudio content: ')
                 let newFeature;
                 let customFeatures = document.getElementsByClassName('my-feature');
-               console.log('customFeature');
-                console.log(customFeatures);
-                console.log('option = ');
-                console.log(customFeatures[0].innerText)
-    // customFeatures.filter(customFeature=>customFeature.option.innerText === data.name);
+                console.log(data.name);
+                let resultFeature = customFeatures.filter(customFeature=>customFeatures[0].innerText === data.name);
 
             },
             error: function () {
