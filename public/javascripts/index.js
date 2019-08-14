@@ -171,6 +171,7 @@
     }
 
     function addElements(data, dfd) {
+        featureStudios = [];
         var onshapeElements = $("#onshape-elements");
         onshapeElements.empty();
         for (var i = 0; i < data.length; ++i) {
@@ -333,6 +334,7 @@
             },
             success: function (data) {
                 getElements();
+                console.log('createFeatureStudio content: ')
                 let newFeature;
                 let customFeatures = document.getElementsByClassName('my-feature');
                 console.log(customFeatures);
