@@ -69,9 +69,7 @@
             $('#add-feature-btn').css("display", "none");
             getElements();
             getCurrentMicroversion();
-            featureStudios.forEach(studio => {
-                getFeatureStudioSpecs(studio);
-            });
+        
         });
 
         init();
@@ -199,6 +197,9 @@
         }
 
         elementsDict = createElementsDict(data);
+        featureStudios.forEach(studio => {
+            getFeatureStudioSpecs(studio);
+        });
         dfd.resolve();
     }
 
