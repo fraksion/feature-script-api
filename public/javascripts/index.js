@@ -69,6 +69,7 @@
             $('#add-feature-btn').css("display", "none");
             getElements();
             getCurrentMicroversion();
+            addCustomFeaturesToBOM();
         
         });
 
@@ -239,7 +240,6 @@
             }
             console.log(feature);
             customFeatures.push(feature);
-            addCustomFeaturesToBOM();
         }
         dfd.resolve();
     }
