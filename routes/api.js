@@ -418,6 +418,7 @@ var createFeatureStudio = function (req, res) {
 };
 
 var getFeatureStudioSpecs = function (req, res) {
+  console.log('getFeatureStudioSpecs');
   request.get({
     uri: apiUrl + '/api/featurestudios/d/' + req.query.documentId +
       '/w/' + req.query.workspaceId +
