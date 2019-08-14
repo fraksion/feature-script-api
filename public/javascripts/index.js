@@ -67,7 +67,7 @@
             $("#elt-select2").empty();
             $("#elt-select2").append("<option>-- Top of List --</option>");
             $('#add-feature-btn').css("display", "none");
-            getElements();
+            await getElements();
             getCurrentMicroversion();
         });
 
@@ -84,7 +84,7 @@
     }
 
     // Functions to support loading list of models to view ...
-    function getElements() {
+    async function getElements() {
         var dfd = $.Deferred();
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
@@ -333,7 +333,7 @@
             complete: function () {
             },
             success: function (data) {
-                getElements();
+               await  getElements();
                 console.log('createFeatureStudio content: ')
                 let newFeature;
                 let customFeatures = document.getElementsByClassName('my-feature');
