@@ -418,17 +418,14 @@ var createFeatureStudio = function (req, res) {
 };
 
 var getFeatureStudioSpecs = function (req, res) {
-  console.log(apiUrl + '/api/featurestudios/d/' + req.query.documentId +
-  '/w/' + req.query.workspaceId +
-  '/e/' + req.query.elementId +
-  '/featurespecs');
   request.get({
     uri: apiUrl + '/api/featurestudios/d/' + req.query.documentId +
       '/w/' + req.query.workspaceId +
       '/e/' + req.query.elementId +
       '/featurespecs',
     headers: {
-      'Authorization': 'Bearer ' + req.user.accessToken
+      'Authorization': 'Bearer ' + req.user.accessToken,
+      
     }
   }).then(function (data) {
     res.send(data);

@@ -191,7 +191,7 @@
                 console.log(data[i]);
                 var docId = $("#doc-select").val();
                 var wpId = $("#wp-select").val();
-                var href = "?documentId=" + docId + "&workspaceId=" + wpId + "&elementId=" + data[i].id + "&microversion=" + microversion;
+                var href = "?documentId=" + docId + "&workspaceId=" + wpId + "&elementId=" + data[i].id;
                 featureStudios.push(href);
             }
         }
@@ -216,6 +216,8 @@
         $.ajax('/api/featureStudioSpecs' + href, {
             dataType: 'json',
             type: 'GET',
+            contentType: "application/json",
+            Accept: 'application/vnd.onshape.v1+json',
             success: function (data) {
                 addCustomFeature(data, dfd);
             },
