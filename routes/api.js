@@ -419,11 +419,10 @@ var createFeatureStudio = function (req, res) {
 
 var getFeatureStudioSpecs = function (req, res) {
   request.get({
-    uri: apiUrl + '/api/featurestudios/d/11597718228663b148db1e40/w/78aeb556259d6f6bb1171aad/e/d1399b3f2457d65abf1c8426/featurespecs'
-    /*'/api/featurestudios/d/' + req.query.documentId +
+    uri: apiUrl + '/api/featurestudios/d/' + req.query.documentId +
       '/w/' + req.query.workspaceId +
       '/e/' + req.query.elementId +
-      '/featurespecs'*/,
+      '/featurespecs',
     headers: {
       'Authorization': 'Bearer ' + req.user.accessToken,
       'contentType': "application/json",
@@ -449,7 +448,7 @@ const jsonParser = express.json();
 router.post('/featurescript', jsonParser, evaluateFeatureScript);
 router.post('/addCustomFeature', jsonParser, addCustomFeature);
 router.post('/createFeatureStudio', createFeatureStudio);
-router.get('featureStudioSpecs', getFeatureStudioSpecs);
+router.get('/featureStudioSpecs', getFeatureStudioSpecs);
 router.get('/tesselatedSketch', tesselateSketch);
 router.get('/documents', getDocuments);
 router.get('/features', getCustomFeatures);
