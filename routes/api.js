@@ -425,6 +425,8 @@ var getFeatureStudioSpecs = function (req, res) {
       '/featurespecs',
     headers: {
       'Authorization': 'Bearer ' + req.user.accessToken,
+      'contentType': "application/json",
+      'Accept': 'application/vnd.onshape.v1+json',
 
     }
   }).then(function (data) {
