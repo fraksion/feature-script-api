@@ -418,11 +418,15 @@ var createFeatureStudio = function (req, res) {
 };
 
 var getFeatureStudioSpecs = function (req, res) {
+  console.log(apiUrl + '/api/featurestudios/d/' + req.query.documentId +
+  '/w/' + req.query.workspaceId +
+  '/e/' + req.query.elementId +
+  '/featurespecs');
   request.get({
-    uri: '/api/featurestudios/d/11597718228663b148db1e40/w/78aeb556259d6f6bb1171aad/e/d1399b3f2457d65abf1c8426/featurespecs'/*apiUrl + '/api/featurestudios/d/' + req.query.documentId +
+    uri: apiUrl + '/api/featurestudios/d/' + req.query.documentId +
       '/w/' + req.query.workspaceId +
       '/e/' + req.query.elementId +
-      '/featurespecs'*/,
+      '/featurespecs',
     headers: {
       'Authorization': 'Bearer ' + req.user.accessToken
     }

@@ -197,9 +197,9 @@
         }
         dfd.resolve();
         elementsDict = createElementsDict(data);
-        //featureStudios.forEach(studio => {
-            getFeatureStudioSpecs(featureStudios[0]);
-        //});
+        featureStudios.forEach(studio => {
+            getFeatureStudioSpecs(studio);
+        });
         dfd.resolve();
     }
 
