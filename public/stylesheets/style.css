@@ -10,26 +10,6 @@
   margin: 3px;
 }
 
-#feature-script-to-add{
-  border-style: solid;
-  border-color: #408ccb;
-  border-width: 2px;
-  top: 0;
-  position:absolute;
-  right:0;
-  width: 75%;
-  height: 100%;
-  min-height:100%;
-  overflow: scroll;
-  margin: auto;
-}
-
-#feature-script-to-add-name{
-  width: 70%;
-  margin: 10px, 0px;
-  height: 10%;
-}
-
 #log-div{
   border: 1px solid gray;
   overflow: scroll;
