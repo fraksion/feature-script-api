@@ -90,7 +90,6 @@
 
     // Functions to support loading list of models to view ...
     function getElements() {
-        generateLogMessage('Loading elements...');
         var dfd = $.Deferred();
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
@@ -99,27 +98,22 @@
             type: 'GET',
             success: function (data) {
                 addElements(data, dfd);
-                generateLogMessage('Elements successfully loaded');
             },
             error: function () {
-                generateLogMessage('Loading elements error');
             }
         });
         return dfd.promise();
     }
 
     function getWorkplaces(docId) {
-        generateLogMessage('Loading workplaces...');
         var dfd = $.Deferred();
         $.ajax('/api/workplaces?documentId=' + docId, {
             dataType: 'json',
             type: 'GET',
             success: function (data) {
                 addWorkplaces(data, dfd);
-                generateLogMessage('Workplaces successfully loaded');
             },
             error: function () {
-                generateLogMessage('Loading workplaces error');
             }
         });
         return dfd.promise();
@@ -255,7 +249,6 @@
     }
 
     function sendCustomFeature(body) {
-        generateLogMessage('Addidng custom feature...');
         var dfd = $.Deferred();
         $.ajax("/api/addCustomFeature" + $('#elt-select2').val(), {
             type: "POST",
@@ -266,10 +259,8 @@
             complete: function () {
             },
             success: function (data) {
-                generateLogMessage('Custom feature added successfully');
             },
             error: function () {
-                generateLogMessage('Custom feature don`t added');
             },
         });
         return dfd.resolve();
@@ -300,9 +291,6 @@
                 }
 
             });
-        }
-        else{
-            generateLogMessage('selected element don`t have any custom features');
         }
         $('#stl-progress-bar').css("display", "none");
     }
@@ -392,7 +380,6 @@
     }
 
     function getFeaturesList() {
-        generateLogMessage('Loading sketches entities and all custom features...');
         var dfd = $.Deferred();
         var parameters = $("#elt-select2").val();
         $.ajax('/api/features' + parameters, {
@@ -400,10 +387,8 @@
             type: 'GET',
             success: function (data) {
                 addFeatures(data, dfd);
-                generateLogMessage('Loading sketches entities and all custom features successfully');
             },
             error: function () {
-                generateLogMessage('Loading sketches entities and all custom features error!');
             }
         });
         return dfd.promise();
