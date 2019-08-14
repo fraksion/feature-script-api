@@ -10,6 +10,21 @@
   margin: 3px;
 }
 
+#feature-script-to-add{
+  float: right;
+  width: 70%;
+  height: 100%;
+  border-style: solid;
+  border-color: #408ccb;
+  border-width: 2px;
+}
+
+#feature-script-to-add-name{
+  width: 70%;
+  margin: 10px, 0px;
+  height: 10%;
+}
+
 #log-div{
   border: 1px solid gray;
   overflow: scroll;
