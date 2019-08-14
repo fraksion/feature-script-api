@@ -449,7 +449,6 @@ var updateFeatureStudioContents = function (req, res) {
     headers: {
       'Authorization': 'Bearer ' + req.user.accessToken,
     },
-    json: true,
     body: req.body
   }).then(function (data) {
     res.json(data);
