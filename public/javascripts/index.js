@@ -1,3 +1,5 @@
+import { debug } from "util";
+
 (function () {
 
     let microversion;
@@ -179,6 +181,7 @@
         var onshapeElements = $("#onshape-elements");
         onshapeElements.empty();
         for (var i = 0; i < data.length; ++i) {
+            console.log(data[i].elementType);
             if (data[i].elementType === "PARTSTUDIO") {
                 // URL must contain query string!
                 // (Query string contains document and workspace information)
