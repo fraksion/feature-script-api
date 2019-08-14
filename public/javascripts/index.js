@@ -25,7 +25,6 @@
 
         $('#elt-select2').change(function () {
             features = [];
-            deleteModels();
             $('#stl-progress-bar').css("display", "block");
             $("#feature-select").empty();
             $('#feature-parameters').empty();
@@ -42,7 +41,6 @@
 
         $('#doc-select').change(function () {
 
-            deleteModels();
             var selectedDocID = $("#doc-select").val();
             sketches = [];
             $("#feature-select").empty();
@@ -61,8 +59,6 @@
         });
 
         $('#wp-select').change(function () {
-
-            deleteModels();
             $("#feature-select").empty();
             sketches = [];
             $('#feature-parameters').empty();
