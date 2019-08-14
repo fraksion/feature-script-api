@@ -200,7 +200,6 @@
         featureStudios.forEach(studio => {
             getFeatureStudioSpecs(studio);
         });
-        addCustomFeaturesToBOM();
         dfd.resolve();
     }
 
@@ -240,6 +239,7 @@
             }
             console.log(feature);
             customFeatures.push(feature);
+            addCustomFeaturesToBOM();
         }
         dfd.resolve();
     }
