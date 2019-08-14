@@ -23,6 +23,12 @@
             }
         });
 
+        $('#get-id-btn').click(function(){
+            featureStudios.forEach(studio => {
+                 getFeatureStudioSpecs(studio);
+             });
+        })
+
         $('#elt-select2').change(function () {
             features = [];
             $('#stl-progress-bar').css("display", "block");
@@ -199,7 +205,7 @@
         dfd.resolve();
         elementsDict = createElementsDict(data);
         featureStudios.forEach(studio => {
-            getFeatureStudioSpecs(studio);
+           // getFeatureStudioSpecs(studio);
         });
         dfd.resolve();
     }
