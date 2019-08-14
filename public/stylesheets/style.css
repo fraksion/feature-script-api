@@ -6,6 +6,10 @@
   width: 400px;
 }
 
+textarea{
+  resize: none;
+}
+
 #stl-tolerance-btn {
   margin: 3px;
 }
