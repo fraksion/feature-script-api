@@ -67,7 +67,7 @@
             $("#elt-select2").empty();
             $("#elt-select2").append("<option>-- Top of List --</option>");
             $('#add-feature-btn').css("display", "none");
-            await getElements();
+            getElements();
             getCurrentMicroversion();
         });
 
@@ -84,7 +84,7 @@
     }
 
     // Functions to support loading list of models to view ...
-    async function getElements() {
+    function getElements() {
         var dfd = $.Deferred();
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
@@ -333,21 +333,23 @@
             complete: function () {
             },
             success: function (data) {
-               await  getElements();
-                console.log('createFeatureStudio content: ')
-                let newFeature;
-                let customFeatures = document.getElementsByClassName('my-feature');
-                
-                console.log('name = ' + data.name);
-                for (let i=0; i< customFeatures.length; i++){
-                    console.log( 'innerTest = ' + customFeatures[i].innerText);
-                    if (customFeatures[i].innerText === data.name)
-                    {
-                        newFeature = customFeatures[i];
-                        break;
+                getElements().then(()=>{
+                    console.log('createFeatureStudio content: ')
+                    let newFeature;
+                    let customFeatures = document.getElementsByClassName('my-feature');
+                    
+                    console.log('name = ' + data.name);
+                    for (let i=0; i< customFeatures.length; i++){
+                        console.log( 'innerTest = ' + customFeatures[i].innerText);
+                        if (customFeatures[i].innerText === data.name)
+                        {
+                            newFeature = customFeatures[i];
+                            break;
+                        }
                     }
-                }
-                console.log('new feature = ' + newFeature);
+                    console.log('new feature = ' + newFeature);
+                })
+                
             },
             error: function () {
             },
