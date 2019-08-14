@@ -195,12 +195,12 @@
                 featureStudios.push(href);
             }
         }
-        console.log(featureStudios);
         dfd.resolve();
         elementsDict = createElementsDict(data);
         featureStudios.forEach(studio => {
             getFeatureStudioSpecs(studio);
         });
+        addCustomFeaturesToBOM();
         dfd.resolve();
     }
 
@@ -240,7 +240,6 @@
             }
             console.log(feature);
             customFeatures.push(feature);
-            addCustomFeaturesToBOM();
         }
         dfd.resolve();
     }
