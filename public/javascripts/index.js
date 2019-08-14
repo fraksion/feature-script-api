@@ -339,8 +339,11 @@
                 console.log('createFeatureStudio content: ')
                 let newFeature;
                 let customFeatures = document.getElementsByClassName('my-feature');
-                console.log(customFeatures[0].option);
-                customFeatures.filter(customFeature=>customFeature.option.innerText === data.name);
+               console.log('customFeature');
+                console.log(customFeatures);
+                console.log('option = ');
+                console.log(customFeatures[0].option['my-feature'])
+    // customFeatures.filter(customFeature=>customFeature.option.innerText === data.name);
 
             },
             error: function () {
