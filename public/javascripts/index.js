@@ -322,11 +322,12 @@
     
     function createFeatureStudio() {
         var dfd = $.Deferred();
+        console.log($('feature-studio-name').val());
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
         $.ajax("/api/createFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId, {
             type: "POST",
-            dataType: "json",
+            dataType: "string",
             data: $('feature-studio-name').val(),
             contentType: "application/json",
             Accept: 'application/vnd.onshape.v1+json',
