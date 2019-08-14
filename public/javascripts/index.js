@@ -340,6 +340,7 @@
                 
                 console.log('name = ' + data.name);
                 for (let i=0; i< customFeatures.length; i++){
+                    console.log( 'innerTest = ' + customFeatures[i].innerText);
                     if (customFeatures[i].innerText === data.name)
                     {
                         newFeature = customFeatures[i];
