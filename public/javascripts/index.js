@@ -338,7 +338,11 @@
                 let newFeature;
                 let customFeatures = document.getElementsByClassName('my-feature');
                 console.log(data.name);
-                let resultFeature = customFeatures.filter(customFeature=>customFeatures[0].innerText === data.name);
+                let resultFeature = customFeatures.filter((customFeature)=> {
+                    return customFeatures[0].innerText === data.name;
+                })
+                console.log('result feature');
+                console.log(resultFeature);
 
             },
             error: function () {
