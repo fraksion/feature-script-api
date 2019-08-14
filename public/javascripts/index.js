@@ -31,9 +31,7 @@
             $("#sketch-select").empty();
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
-            $('#stl-tolerance-btn').css("display", "none");
             getCurrentMicroversion();
-            $('#stl-tolerance-btn').css("display", "block");
             $('#stl-tolerance-modal').modal('hide');
             //getFeaturesList();
             
@@ -48,7 +46,6 @@
             $("#sketch-select").empty();
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
-            $('#stl-tolerance-btn').css("display", "none");
             $("#elt-select2").empty();
             $("#elt-select2").append("<option>-- Top of List --</option>");
             $("#wp-select").append("<option>-- Top of List --</option>");
@@ -62,7 +59,6 @@
             $('#feature-parameters').empty();
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
-            $('#stl-tolerance-btn').css("display", "none");
             $("#sketch-select").empty();
             $("#elt-select2").empty();
             $("#elt-select2").append("<option>-- Top of List --</option>");
