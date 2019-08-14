@@ -418,7 +418,6 @@ var createFeatureStudio = function (req, res) {
 };
 
 var getFeatureStudioSpecs = function (req, res) {
-  console.log('BBBBBBBBBBBBBBBBBBBBB');
   request.get({
     uri: apiUrl + '/api/featurestudios/d/' + req.query.documentId +
       '/w/' + req.query.workspaceId +
@@ -429,18 +428,15 @@ var getFeatureStudioSpecs = function (req, res) {
 
     }
   }).then(function (data) {
-    console.log('AAAAAAAAAAAAAAAA');
     res.send(data);
   }).catch(function (data) {
     if (data.statusCode === 401) {
       authentication.refreshOAuthToken(req, res).then(function () {
         getFeatureStudioSpecs(req, res);
       }).catch(function (err) {
-        console.log('DDDDDDDDDDDDDDDD');
         console.log('Error refreshing token or getting documents: ', err);
       });
     } else {
-      console.log('CCCCCCCCCCCCCCCCCCCCCCCCC');
       console.log('GET /api/featurestudios error: ', data);
     }
   });

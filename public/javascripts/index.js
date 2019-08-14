@@ -187,7 +187,7 @@
                         "<option value='" + href + "'>" + "Element - " + data[i].name + "</option>"
                     )
             }
-            if (data[i].elementType === "FEATURESTUDIO"){
+            else if (data[i].elementType === "FEATURESTUDIO"){
                 console.log(data[i]);
                 var docId = $("#doc-select").val();
                 var wpId = $("#wp-select").val();
@@ -195,6 +195,7 @@
                 featureStudios.push(href);
             }
         }
+        console.log(featureStudios);
         dfd.resolve();
         elementsDict = createElementsDict(data);
         featureStudios.forEach(studio => {
