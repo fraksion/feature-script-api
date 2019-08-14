@@ -321,7 +321,7 @@
     
     function createFeatureStudio() {
         var dfd = $.Deferred();
-        $.ajax("/api/addCustomFeature" + $('#elt-select2').val(), {
+        $.ajax("/api/createFeatureStudio" + $('#elt-select2').val(), {
             type: "POST",
             dataType: "json",
             data: $('feature-studio-name').val(),
