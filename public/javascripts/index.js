@@ -220,6 +220,7 @@
                 addCustomFeature(data, dfd);
             },
             error: function () {
+                console.log('getFeatureStudioSpecs error');
             }
         });
         return dfd.promise();
@@ -234,6 +235,7 @@
                 sourceMicroversion: data.sourceMicroversion,
                 rejectMicroversionSkew: data.rejectMicroversionSkew
             }
+            console.log(feature);
             customFeatures.push(feature);
             addCustomFeaturesToBOM();
         }

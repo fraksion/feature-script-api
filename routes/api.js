@@ -422,7 +422,7 @@ var getFeatureStudioSpecs = function (req, res) {
     uri: apiUrl + '/api/featurestudios/d/' + req.query.documentId +
       '/w/' + req.query.workspaceId +
       '/e/' + req.query.elementId +
-      '/featurespecs/',
+      '/featurespecs',
     headers: {
       'Authorization': 'Bearer ' + req.user.accessToken
     }
