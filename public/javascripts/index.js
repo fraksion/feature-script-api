@@ -321,7 +321,9 @@
     
     function createFeatureStudio() {
         var dfd = $.Deferred();
-        $.ajax("/api/createFeatureStudio" + $('#elt-select2').val(), {
+        var documentId = $("#doc-select").val();
+        var wpId = $("#wp-select").val();
+        $.ajax("/api/createFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId, {
             type: "POST",
             dataType: "json",
             data: $('feature-studio-name').val(),
