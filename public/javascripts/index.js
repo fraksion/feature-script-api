@@ -336,10 +336,7 @@
             serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
             microversionSkew: false
         }
-        console.log('lastCreatedFeature');
-        console.log(lastCreatedFeature);
         await getCurrentMicroversion();
-        console.log('AAAAAAA');
         await updateFeatureStudioContent();
     }
 
@@ -347,7 +344,7 @@
         console.log('getNewFeatureStudioContent');
 
         let textarea = document.getElementById('feature-studio-content').value;
-        console.log(textarea);
+        console.log(body);
         let body = {
             contents: textarea,
             serializationVersion: lastCreatedFeature.serializationVersion,
