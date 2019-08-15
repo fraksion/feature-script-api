@@ -27,7 +27,8 @@
 
         $('#create-feature-submit').click(async () => {
             await createFeatureStudio();
-            await updateFeatureStudioContent();
+            await getCurrentMicroversion();
+             updateFeatureStudioContent();
         })
 
         $('#elt-select2').change(function () {
@@ -117,7 +118,7 @@
         return dfd.promise();
     }
 
-    function getCurrentMicroversion() {
+     function getCurrentMicroversion() {
         var dfd = $.Deferred();
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
@@ -340,7 +341,7 @@
             complete: function () {
 
             },
-            success: function (data) {
+            success: function (data, dfd) {
                 
                 console.log('createFeatureStudio success');
                 lastCreatedFeature = {
@@ -349,7 +350,8 @@
                     serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
                     microversionSkew: false
                 }
-               getCurrentMicroversion();
+               
+               dfd.resolve();
             },
             error: function () {
             },
