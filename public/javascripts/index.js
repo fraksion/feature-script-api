@@ -369,7 +369,7 @@
       async function updateFeatureStudioContent() {
         console.log('updateFeatureStudioContent');
         var dfd = $.Deferred();
-        let body = await getNewFeatureStudioContent();
+        let body =  getNewFeatureStudioContent();
         console.log(body);
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
