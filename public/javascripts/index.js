@@ -27,7 +27,7 @@
 
         $('#create-feature-submit').click(async () => {
              await createFeatureStudio();
-             updateFeatureStudioContent();
+
         })
 
         $('#elt-select2').change(function () {
@@ -339,6 +339,8 @@
         console.log('lastCreatedFeature');
         console.log(lastCreatedFeature);
         getCurrentMicroversion();
+        console.log('AAAAAAA');
+        await updateFeatureStudioContent();
     }
 
     function getNewFeatureStudioContent() {
