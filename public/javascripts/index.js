@@ -371,7 +371,7 @@
         var dfd = $.Deferred();
         let body;
          getCurrentMicroversion().then(body =  getNewFeatureStudioContent());
-        console.log(body);
+        console.log(JSON.stringify(body));
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
         $.ajax("/api/updateFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId + "&elementId=" + lastCreatedFeature.elementId, {
