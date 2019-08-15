@@ -6,6 +6,7 @@
     let sketches = [];
     let customFeatures = [];
     let lastCreatedFeature;
+    let lastCreatedFeatureContent;
 
 
     window.onload = function () {
@@ -28,7 +29,7 @@
              createFeatureStudio();
         })
 
-        $('#elt-select2').change(async function () {
+        $('#elt-select2').change( function () {
             features = [];
             $('#stl-progress-bar').css("display", "block");
 
@@ -36,7 +37,7 @@
             $("#sketch-select").empty();
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
-            await getCurrentMicroversion();
+             getCurrentMicroversion();
             $('#stl-tolerance-modal').modal('hide');
             //getFeaturesList();
             
@@ -69,7 +70,7 @@
             $("#elt-select2").append("<option>-- Top of List --</option>");
             $('#add-feature-btn').css("display", "none");
             await getElements();
-            await getCurrentMicroversion();
+             getCurrentMicroversion();
         });
 
         init();
@@ -115,7 +116,7 @@
         return dfd.promise();
     }
 
-    async function getCurrentMicroversion() {
+     function getCurrentMicroversion() {
         var dfd = $.Deferred();
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
@@ -336,6 +337,7 @@
             contentType: "application/json",
             Accept: 'application/vnd.onshape.v1+json',
             complete: function () {
+                getCurrentMicroversion();
             },
             success:  function (data) {
                 console.log('createFeatureStudio success');
@@ -369,8 +371,7 @@
 
        function updateFeatureStudioContent() {
         var dfd = $.Deferred();
-        let body;
-         getCurrentMicroversion().then(body =  getNewFeatureStudioContent());
+        let body =  getNewFeatureStudioContent();
         console.log(JSON.stringify(body));
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
