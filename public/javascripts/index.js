@@ -340,7 +340,7 @@
 
             },
             success: function (data) {
-                getCurrentMicroversion();
+                
                 console.log('createFeatureStudio success');
                 lastCreatedFeature = {
                     microversionId: data.microversionId,
@@ -348,7 +348,7 @@
                     serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
                     microversionSkew: false
                 }
-                updateFeatureStudioContent();
+                getCurrentMicroversion().then(updateFeatureStudioContent);
             },
             error: function () {
             },
