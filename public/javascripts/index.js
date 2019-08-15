@@ -360,7 +360,7 @@
         let textarea = document.getElementById('feature-studio-content').value;
         console.log(textarea);
         let body = {
-            content: textarea,
+            contents: textarea,
             serializationVersion: lastCreatedFeature.serializationVersion,
             sourceMicroversion: microversion
         }
@@ -371,8 +371,6 @@
         var dfd = $.Deferred();
         let body;
          getCurrentMicroversion().then(body =  getNewFeatureStudioContent());
-        console.log('updateFeatureStudioContent');
-        //let body =  getNewFeatureStudioContent();
         console.log(body);
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
