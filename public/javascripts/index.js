@@ -25,11 +25,11 @@
             }
         });
 
-        $('#create-feature-submit').click( ()=>{
-             createFeatureStudio();
+        $('#create-feature-submit').click(() => {
+            createFeatureStudio();
         })
 
-        $('#elt-select2').change( function () {
+        $('#elt-select2').change(function () {
             features = [];
             $('#stl-progress-bar').css("display", "block");
 
@@ -37,10 +37,10 @@
             $("#sketch-select").empty();
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
-             getCurrentMicroversion();
+            getCurrentMicroversion();
             $('#stl-tolerance-modal').modal('hide');
             //getFeaturesList();
-            
+
         });
 
         $('#doc-select').change(async function () {
@@ -70,7 +70,7 @@
             $("#elt-select2").append("<option>-- Top of List --</option>");
             $('#add-feature-btn').css("display", "none");
             await getElements();
-             getCurrentMicroversion();
+            getCurrentMicroversion();
         });
 
         init();
@@ -116,7 +116,7 @@
         return dfd.promise();
     }
 
-     function getCurrentMicroversion() {
+    function getCurrentMicroversion() {
         var dfd = $.Deferred();
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
@@ -189,7 +189,7 @@
                         "<option value='" + href + "'>" + "Element - " + data[i].name + "</option>"
                     )
             }
-            else if (data[i].elementType === "FEATURESTUDIO"){
+            else if (data[i].elementType === "FEATURESTUDIO") {
                 var docId = $("#doc-select").val();
                 var wpId = $("#wp-select").val();
                 var href = "?documentId=" + docId + "&workspaceId=" + wpId + "&elementId=" + data[i].id;
@@ -231,27 +231,27 @@
         return dfd.promise();
     }
 
-    function addCustomFeature(data, dfd){
+    function addCustomFeature(data, dfd) {
         console.log('addCustomFeature');
-        for (let i=0; i< data.featureSpecs.length; i++){
+        for (let i = 0; i < data.featureSpecs.length; i++) {
             let feature = {
-                name : data.featureSpecs[i].message.featureTypeName,
-                parameters:  data.featureSpecs[i].message.parameters,
+                name: data.featureSpecs[i].message.featureTypeName,
+                parameters: data.featureSpecs[i].message.parameters,
                 serializationVersion: data.serializationVersion,
                 sourceMicroversion: data.sourceMicroversion,
                 rejectMicroversionSkew: data.rejectMicroversionSkew
             }
-           // console.log(feature);
+            // console.log(feature);
             addCustomFeaturesToBOM(feature);
             customFeatures.push(feature);
         }
         dfd.resolve();
     }
 
-    function addCustomFeaturesToBOM(customFeatures){
-            $("#feature-select")
+    function addCustomFeaturesToBOM(customFeatures) {
+        $("#feature-select")
             .append(
-                "<option class=\"my-feature\" value='" + customFeatures.name + "'>"  + customFeatures.name + "</option>"
+                "<option class=\"my-feature\" value='" + customFeatures.name + "'>" + customFeatures.name + "</option>"
             )
     }
 
@@ -322,11 +322,11 @@
         return body;
     }
 
-    
-     function createFeatureStudio() {
+
+    function createFeatureStudio() {
         console.log('createFeatureStudio');
         var dfd = $.Deferred();
-        let body = { name: $('#feature-studio-name').val()};
+        let body = { name: $('#feature-studio-name').val() };
         //console.log($('#feature-studio-name').val());
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
@@ -337,18 +337,18 @@
             contentType: "application/json",
             Accept: 'application/vnd.onshape.v1+json',
             complete: function () {
-                getCurrentMicroversion();
+
             },
-            success:  function (data) {
+            success: function (data) {
+                getCurrentMicroversion();
                 console.log('createFeatureStudio success');
                 lastCreatedFeature = {
                     microversionId: data.microversionId,
-                    elementId: data.id, 
+                    elementId: data.id,
                     serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
-                    microversionSkew: false 
+                    microversionSkew: false
                 }
-                console.log('createFeatureStudio success');
-                 updateFeatureStudioContent();
+                updateFeatureStudioContent();
             },
             error: function () {
             },
@@ -356,9 +356,9 @@
         return dfd.resolve();
     }
 
-    function getNewFeatureStudioContent(){
-       console.log('getNewFeatureStudioContent');
-        
+    function getNewFeatureStudioContent() {
+        console.log('getNewFeatureStudioContent');
+
         let textarea = document.getElementById('feature-studio-content').value;
         console.log(textarea);
         let body = {
@@ -369,9 +369,9 @@
         return body;
     }
 
-       function updateFeatureStudioContent() {
+    function updateFeatureStudioContent() {
         var dfd = $.Deferred();
-        let body =  getNewFeatureStudioContent();
+        let body = getNewFeatureStudioContent();
         console.log(JSON.stringify(body));
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
@@ -383,7 +383,7 @@
             Accept: 'application/vnd.onshape.v1+json',
             complete: function () {
             },
-            success:  function () {
+            success: function () {
                 getElements();
             },
             error: function () {
