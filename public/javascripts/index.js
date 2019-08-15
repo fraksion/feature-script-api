@@ -361,5 +361,6 @@
         //let data = await response.json();
         $('#feature-select').empty();
         await getElements();
+        $('#new-feature-studio-modal').modal('hide');
     }
 })();
