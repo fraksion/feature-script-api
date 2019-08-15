@@ -348,7 +348,8 @@
         let body = {
             contents: textarea,
             serializationVersion: lastCreatedFeature.serializationVersion,
-            sourceMicroversion: microversion
+            sourceMicroversion: microversion,
+            rejectMicroversionSkew: false
         }
         return body;
     }
@@ -370,5 +371,4 @@
         //let data = await response.json();
        // getElements();
     }
-
 })();

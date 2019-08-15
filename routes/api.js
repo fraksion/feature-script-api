@@ -449,13 +449,14 @@ var updateFeatureStudioContents = function (req, res) {
     headers: {
       'Authorization': 'Bearer ' + req.user.accessToken,
     },
+    json: true,
     body: req.body
   }).then(function (data) {
     res.json(data);
   }).catch(function (data) {
     if (data.statusCode === 401) {
       authentication.refreshOAuthToken(req, res).then(function () {
-        createFeatureStudio(req, res);
+        updateFeatureStudioContents(req, res);
       }).catch(function (err) {
         console.log('Error refreshing token or getting documents: ', err);
       });
