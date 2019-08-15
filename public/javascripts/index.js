@@ -208,7 +208,7 @@
             )
     }
 
-    function sendCustomFeature(body) {
+    async function sendCustomFeature(body) {
 
         let response = await fetch("/api/addCustomFeature" + $('#elt-select2').val(), {
             method: 'POST',
