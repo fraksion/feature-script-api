@@ -355,7 +355,7 @@
 
     async function updateFeatureStudioContent() {
         let body = getNewFeatureStudioContent();
-        //console.log(JSON.stringify(body));
+        console.log(body);
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
 
@@ -368,7 +368,7 @@
             body: JSON.stringify(body)
           });
         //let data = await response.json();
-        getElements();
+       // getElements();
     }
 
 })();
