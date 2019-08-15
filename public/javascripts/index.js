@@ -357,10 +357,10 @@
     function getNewFeatureStudioContent(){
        console.log('getNewFeatureStudioContent');
         
-        let textarea = $('#feature-studio-content');
+        let textarea = document.getElementById('feature-studio-content').value;
         console.log(textarea);
         let body = {
-            content: textarea.innerText,
+            content: textarea,
             serializationVersion: lastCreatedFeature.serializationVersion,
             sourceMicroversion: microversion
         }
