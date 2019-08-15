@@ -344,7 +344,7 @@
         console.log('getNewFeatureStudioContent');
 
         let textarea = document.getElementById('feature-studio-content').value;
-        console.log(body);
+        console.log(textarea);
         let body = {
             contents: textarea,
             serializationVersion: lastCreatedFeature.serializationVersion,
