@@ -302,8 +302,10 @@
 
     async function updateFeatureStudioContent() {
         let body = getNewFeatureStudioContent();
-        var documentId = $("#doc-select").val();
-        var wpId = $("#wp-select").val();
+        let documentId = $("#doc-select").val();
+        let wpId = $("#wp-select").val();
+
+        await getFeatureStudioContent();
 
         let response = await fetch("/api/updateFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId + "&elementId=" + lastCreatedFeature.elementId, {
             method: 'POST',
@@ -316,6 +318,13 @@
         //let data = await response.json();
         $('#feature-select').empty();
         await getElements();
+    }
 
+    async function getFeatureStudioContent() {
+        let documentId = $("#doc-select").val();
+        let wpId = $("#wp-select").val();
+        let response = await fetch('/api/featureStudioContent?documentId=' + documentId + '&workspaceId=' + wpId + '&elementId=' + lastCreatedFeature.elementId);
+        let result = await response.json();
+        console.log(result.contents);
     }
 })();

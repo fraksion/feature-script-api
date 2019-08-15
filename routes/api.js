@@ -466,6 +466,30 @@ var updateFeatureStudioContents = function (req, res) {
   });
 };
 
+var getFeatureStudioContent = function (req, res) {
+  request.get({
+    uri: apiUrl + '/api/featurestudios/d/' + req.query.documentId +
+      '/w/' + req.query.workspaceId +
+      '/e/' + req.query.elementId,
+    headers: {
+      'Authorization': 'Bearer ' + req.user.accessToken,
+      'contentType': "application/json",
+      'Accept': 'application/vnd.onshape.v1+json',
+    } 
+  }).then(function (data) {
+    res.send(data);
+  }).catch(function (data) {
+    if (data.statusCode === 401) {
+      authentication.refreshOAuthToken(req, res).then(function () {
+        getFeatureStudioSpecs(req, res);
+      }).catch(function (err) {
+        console.log('Error refreshing token or getting documents: ', err);
+      });
+    } else {
+      console.log('GET /api/featurestudios error: ', data);
+    }
+  });
+};
 
 const jsonParser = express.json();
 router.post('/featurescript', jsonParser, evaluateFeatureScript);
@@ -473,6 +497,7 @@ router.post('/addCustomFeature', jsonParser, addCustomFeature);
 router.post('/createFeatureStudio', createFeatureStudio);
 router.post('/updateFeatureStudio', jsonParser, updateFeatureStudioContents);
 router.get('/featureStudioSpecs', getFeatureStudioSpecs);
+router.get('/featureStudioContent', getFeatureStudioContent);
 router.get('/tesselatedSketch', tesselateSketch);
 router.get('/documents', getDocuments);
 router.get('/features', getCustomFeatures);
