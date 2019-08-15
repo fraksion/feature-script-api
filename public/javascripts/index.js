@@ -122,8 +122,8 @@
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
         let response = await fetch('/api/microversion?documentId=' + documentId + "&workspaceId=" + wpId);
-        let Testmicroversion = response.json();
-        console.log(Testmicroversion);
+        microversion = response.json().microversion;
+        console.log(microversion);
     }
 
     function addWorkplaces(data, dfd) {
