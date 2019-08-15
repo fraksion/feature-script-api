@@ -336,6 +336,8 @@
             serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
             microversionSkew: false
         }
+        console.log('lastCreatedFeature');
+        console.log(lastCreatedFeature);
         getCurrentMicroversion();
     }
 
