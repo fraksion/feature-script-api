@@ -470,7 +470,7 @@ const jsonParser = express.json();
 router.post('/featurescript', jsonParser, evaluateFeatureScript);
 router.post('/addCustomFeature', jsonParser, addCustomFeature);
 router.post('/createFeatureStudio', createFeatureStudio);
-router.post('/updateFeatureStudio', updateFeatureStudioContents);
+router.post('/updateFeatureStudio', jsonParser, updateFeatureStudioContents);
 router.get('/featureStudioSpecs', getFeatureStudioSpecs);
 router.get('/tesselatedSketch', tesselateSketch);
 router.get('/documents', getDocuments);
