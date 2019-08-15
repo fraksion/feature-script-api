@@ -323,7 +323,7 @@
     }
 
 
-    function createFeatureStudio() {
+    async function createFeatureStudio() {
         console.log('createFeatureStudio');
         var dfd = $.Deferred();
         let body = { name: $('#feature-studio-name').val() };
@@ -348,7 +348,8 @@
                     serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
                     microversionSkew: false
                 }
-                getCurrentMicroversion().then(updateFeatureStudioContent());
+               await getCurrentMicroversion();
+                updateFeatureStudioContent();
             },
             error: function () {
             },
