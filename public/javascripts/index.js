@@ -369,6 +369,6 @@
             body: JSON.stringify(body)
           });
         //let data = await response.json();
-       // getElements();
+        getElements();
     }
 })();
