@@ -340,6 +340,7 @@
                     serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
                     microversionSkew: false 
                 }
+                await updateFeatureStudioContent();
             },
             error: function () {
             },
@@ -355,16 +356,16 @@
             serializationVersion: lastCreatedFeature.serializationVersion,
             sourceMicroversion: microversion
         }
+        return body;
     }
-//96846d4537f3d42a7f837cb8
+
      async function updateFeatureStudioContent() {
         var dfd = $.Deferred();
-        
-        let body = { name: $('#feature-studio-name').val()};
-        console.log($('#feature-studio-name').val());
+        let body = getNewFeatureStudioContent();
+        console.log(body);
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
-        $.ajax("/api/createFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId, {
+        $.ajax("/api/updateFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId + "&elementId=" + lastCreatedFeature.elementId, {
             type: "POST",
             dataType: "json",
             data: JSON.stringify(body),
@@ -372,12 +373,8 @@
             Accept: 'application/vnd.onshape.v1+json',
             complete: function () {
             },
-            success: function (data) {
-                lastCreatedFeature = {
-                    microversionId: data.microversionId,
-                    elementId: data.id, 
-                    serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17'
-                }
+            success: function () {
+                await getElements();
             },
             error: function () {
             },
