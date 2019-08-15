@@ -289,10 +289,10 @@
         await updateFeatureStudioContent();
     }
 
-    function getNewFeatureStudioContent() {
+    function getNewFeatureStudioContent(defaultText) {
         let textarea = document.getElementById('feature-studio-content').value;
         let body = {
-            contents: textarea,
+            contents : defaultText + '\n' + textarea,
             serializationVersion: lastCreatedFeature.serializationVersion,
             sourceMicroversion: microversion,
             rejectMicroversionSkew: false
@@ -301,11 +301,12 @@
     }
 
     async function updateFeatureStudioContent() {
-        let body = getNewFeatureStudioContent();
+        let defaultFSInput = await getFeatureStudioContent();
+        let body = getNewFeatureStudioContent(defaultFSInput);
         let documentId = $("#doc-select").val();
         let wpId = $("#wp-select").val();
 
-        await getFeatureStudioContent();
+        
 
         let response = await fetch("/api/updateFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId + "&elementId=" + lastCreatedFeature.elementId, {
             method: 'POST',
@@ -325,6 +326,6 @@
         let wpId = $("#wp-select").val();
         let response = await fetch('/api/featureStudioContent?documentId=' + documentId + '&workspaceId=' + wpId + '&elementId=' + lastCreatedFeature.elementId);
         let result = await response.json();
-        console.log(result.contents);
+        return result.contents;
     }
 })();
