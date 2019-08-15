@@ -140,7 +140,7 @@
         }
     }
 
-    async function addElements(data, dfd) {
+    async function addElements(data) {
         featureStudios = [];
         var onshapeElements = $("#onshape-elements");
         onshapeElements.empty();
@@ -163,13 +163,10 @@
                 featureStudios.push(href);
             }
         }
-        dfd.resolve();
         elementsDict = createElementsDict(data);
         featureStudios.forEach(async (studio) => {
             await getFeatureStudioSpecs(studio);
         });
-
-        dfd.resolve();
     }
 
     function createElementsDict(elementsArray) {
