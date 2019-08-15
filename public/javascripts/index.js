@@ -373,7 +373,7 @@
             Accept: 'application/vnd.onshape.v1+json',
             complete: function () {
             },
-            success: function () {
+            success: async function () {
                 await getElements();
             },
             error: function () {
