@@ -322,7 +322,7 @@
     }
 
     
-    async function createFeatureStudio() {
+     function createFeatureStudio() {
         console.log('createFeatureStudio');
         var dfd = $.Deferred();
         let body = { name: $('#feature-studio-name').val()};
@@ -337,7 +337,7 @@
             Accept: 'application/vnd.onshape.v1+json',
             complete: function () {
             },
-            success: async function (data) {
+            success:  function (data) {
                 console.log('createFeatureStudio success');
                 lastCreatedFeature = {
                     microversionId: data.microversionId,
@@ -346,7 +346,7 @@
                     microversionSkew: false 
                 }
                 console.log('createFeatureStudio success');
-                await updateFeatureStudioContent();
+                 updateFeatureStudioContent();
             },
             error: function () {
             },
@@ -366,7 +366,7 @@
         return body;
     }
 
-     async function updateFeatureStudioContent() {
+      function updateFeatureStudioContent() {
         console.log('updateFeatureStudioContent');
         var dfd = $.Deferred();
         let body = getNewFeatureStudioContent();
@@ -381,8 +381,8 @@
             Accept: 'application/vnd.onshape.v1+json',
             complete: function () {
             },
-            success: async function () {
-                await getElements();
+            success:  function () {
+                getElements();
             },
             error: function () {
             },
