@@ -193,7 +193,7 @@
         featureStudios.forEach(async (studio) => {
             await getFeatureStudioSpecs(studio);
         });
-        $('#new-feature-studio-modal').modal('hide');
+
         dfd.resolve();
     }
 
