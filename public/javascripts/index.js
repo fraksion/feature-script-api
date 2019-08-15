@@ -122,7 +122,8 @@
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
         let response = await fetch('/api/microversion?documentId=' + documentId + "&workspaceId=" + wpId);
-        microversion = await response.json();
+        let result = await response.json();
+        microversion = result.microversion;
         console.log(microversion);
     }
 
