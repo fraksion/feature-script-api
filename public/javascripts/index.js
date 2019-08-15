@@ -334,12 +334,14 @@
             complete: function () {
             },
             success: async function (data) {
+                console.log('createFeatureStudio success');
                 lastCreatedFeature = {
                     microversionId: data.microversionId,
                     elementId: data.id, 
                     serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
                     microversionSkew: false 
                 }
+                console.log('createFeatureStudio success');
                 await updateFeatureStudioContent();
             },
             error: function () {
@@ -349,7 +351,8 @@
     }
 
    async function getNewFeatureStudioContent(){
-        getCurrentMicroversion();
+       console.log('getNewFeatureStudioContent');
+        await getCurrentMicroversion();
         let textarea = document.getElementById('feature-studio-content');
         let body = {
             content: textarea.innerText,
