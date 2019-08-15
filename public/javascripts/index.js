@@ -27,7 +27,7 @@
 
         $('#create-feature-submit').click(async () => {
              createFeatureStudio();
-            await updateFeatureStudioContent();
+             updateFeatureStudioContent();
         })
 
         $('#elt-select2').change(function () {
@@ -353,26 +353,20 @@
     }
 
     function updateFeatureStudioContent() {
-        var dfd = $.Deferred();
         let body = getNewFeatureStudioContent();
         console.log(JSON.stringify(body));
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
-        $.ajax("/api/updateFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId + "&elementId=" + lastCreatedFeature.elementId, {
-            type: "POST",
-            dataType: "json",
-            data: JSON.stringify(body),
-            contentType: "application/json",
-            Accept: 'application/vnd.onshape.v1+json',
-            complete: function () {
+
+        let response = await fetch("/api/updateFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId + "&elementId=" + lastCreatedFeature.elementId, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json;charset=utf-8'
             },
-            success: function () {
-                getElements();
-            },
-            error: function () {
-            },
-        });
-        return dfd.resolve();
+            body: JSON.stringify(body)
+          });
+        let data = await response.json();
+        getElements();
     }
 
 })();
