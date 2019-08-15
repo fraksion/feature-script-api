@@ -292,7 +292,7 @@
     function getNewFeatureStudioContent(defaultText) {
         let textarea = document.getElementById('feature-studio-content').value;
         let body = {
-            contents : defaultText + '\n' + textarea,
+            contents : defaultText + textarea,
             serializationVersion: lastCreatedFeature.serializationVersion,
             sourceMicroversion: microversion,
             rejectMicroversionSkew: false
@@ -305,8 +305,6 @@
         let body = getNewFeatureStudioContent(defaultFSInput);
         let documentId = $("#doc-select").val();
         let wpId = $("#wp-select").val();
-
-        
 
         let response = await fetch("/api/updateFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId + "&elementId=" + lastCreatedFeature.elementId, {
             method: 'POST',
