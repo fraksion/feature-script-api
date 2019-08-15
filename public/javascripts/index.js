@@ -362,7 +362,8 @@
         let response = await fetch("/api/updateFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId + "&elementId=" + lastCreatedFeature.elementId, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json;charset=utf-8'
+              'Content-Type': 'application/json',
+              'Accept' : 'application/vnd.onshape.v1+json'
             },
             body: JSON.stringify(body)
           });
