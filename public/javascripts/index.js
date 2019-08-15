@@ -172,6 +172,7 @@
     }
 
     async function addElements(data, dfd) {
+        console.log('addElements');
         featureStudios = [];
         var onshapeElements = $("#onshape-elements");
         onshapeElements.empty();
@@ -211,6 +212,7 @@
     }
 
     async function getFeatureStudioSpecs(href) {
+        console.log('getFeatureStudioSpecs');
         customFeatures = [];
         var dfd = $.Deferred();
         $.ajax('/api/featureStudioSpecs' + href, {
@@ -229,6 +231,7 @@
     }
 
     function addCustomFeature(data, dfd){
+        console.log('addCustomFeature');
         for (let i=0; i< data.featureSpecs.length; i++){
             let feature = {
                 name : data.featureSpecs[i].message.featureTypeName,
@@ -237,7 +240,7 @@
                 sourceMicroversion: data.sourceMicroversion,
                 rejectMicroversionSkew: data.rejectMicroversionSkew
             }
-            console.log(feature);
+           // console.log(feature);
             addCustomFeaturesToBOM(feature);
             customFeatures.push(feature);
         }
@@ -320,9 +323,10 @@
 
     
     async function createFeatureStudio() {
+        console.log('createFeatureStudio');
         var dfd = $.Deferred();
         let body = { name: $('#feature-studio-name').val()};
-        console.log($('#feature-studio-name').val());
+        //console.log($('#feature-studio-name').val());
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
         $.ajax("/api/createFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId, {
@@ -363,6 +367,7 @@
     }
 
      async function updateFeatureStudioContent() {
+        console.log('updateFeatureStudioContent');
         var dfd = $.Deferred();
         let body = getNewFeatureStudioContent();
         console.log(body);
