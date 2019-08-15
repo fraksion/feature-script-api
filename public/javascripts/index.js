@@ -118,20 +118,12 @@
         return dfd.promise();
     }
 
-     function getCurrentMicroversion() {
-        var dfd = $.Deferred();
+    async function getCurrentMicroversion() {
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
-        $.ajax('/api/microversion?documentId=' + documentId + "&workspaceId=" + wpId, {
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                microversion = data.microversion;
-            },
-            error: function () {
-            }
-        });
-        return dfd.promise();
+        let response = await fetch('/api/microversion?documentId=' + documentId + "&workspaceId=" + wpId);
+        let Testmicroversion = response.json();
+        console.log(Testmicroversion);
     }
 
     function addWorkplaces(data, dfd) {
