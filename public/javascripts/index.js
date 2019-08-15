@@ -354,9 +354,9 @@
         return dfd.resolve();
     }
 
-   async function getNewFeatureStudioContent(){
+    function getNewFeatureStudioContent(){
        console.log('getNewFeatureStudioContent');
-        await getCurrentMicroversion();
+        
         let textarea = document.getElementById('feature-studio-content');
         let body = {
             content: textarea.innerText,
@@ -367,6 +367,7 @@
     }
 
       async function updateFeatureStudioContent() {
+        await getCurrentMicroversion();
         console.log('updateFeatureStudioContent');
         var dfd = $.Deferred();
         let body =  getNewFeatureStudioContent();
