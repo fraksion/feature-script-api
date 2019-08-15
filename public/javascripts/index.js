@@ -366,11 +366,12 @@
         return body;
     }
 
-      async function updateFeatureStudioContent() {
-        await getCurrentMicroversion();
-        console.log('updateFeatureStudioContent');
+       function updateFeatureStudioContent() {
         var dfd = $.Deferred();
-        let body =  getNewFeatureStudioContent();
+        let body;
+         getCurrentMicroversion().then(body =  getNewFeatureStudioContent());
+        console.log('updateFeatureStudioContent');
+        //let body =  getNewFeatureStudioContent();
         console.log(body);
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
