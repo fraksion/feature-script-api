@@ -26,7 +26,7 @@
         });
 
         $('#create-feature-submit').click(async () => {
-             createFeatureStudio();
+             await createFeatureStudio();
              updateFeatureStudioContent();
         })
 
