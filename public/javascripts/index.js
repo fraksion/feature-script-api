@@ -357,7 +357,7 @@
     function getNewFeatureStudioContent(){
        console.log('getNewFeatureStudioContent');
         
-        let textarea = document.getElementById('feature-studio-content');
+        let textarea = $('#feature-studio-content');
         console.log(textarea);
         let body = {
             content: textarea.innerText,
