@@ -26,8 +26,7 @@
         });
 
         $('#create-feature-submit').click(async () => {
-            await createFeatureStudio();
-            await getCurrentMicroversion();
+             createFeatureStudio();
             await updateFeatureStudioContent();
         })
 
@@ -319,36 +318,25 @@
 
 
     async function createFeatureStudio() {
-        console.log('createFeatureStudio');
-        var dfd = $.Deferred();
         let body = { name: $('#feature-studio-name').val() };
-        //console.log($('#feature-studio-name').val());
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
-        $.ajax("/api/createFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId, {
-            type: "POST",
-            dataType: "json",
-            data: JSON.stringify(body),
-            contentType: "application/json",
-            Accept: 'application/vnd.onshape.v1+json',
-            complete: function () {
+        let response = await fetch("/api/createFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(body)
+          });
+        let data = await response.json();
 
-            },
-            success: function (data) {
-                
-                console.log('createFeatureStudio success');
-                lastCreatedFeature = {
-                    microversionId: data.microversionId,
-                    elementId: data.id,
-                    serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
-                    microversionSkew: false
-                }
-               
-            },
-            error: function () {
-            },
-        });
-        return dfd.resolve();
+        lastCreatedFeature = {
+            microversionId: data.microversionId,
+            elementId: data.id,
+            serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
+            microversionSkew: false
+        }
+        getCurrentMicroversion();
     }
 
     function getNewFeatureStudioContent() {
