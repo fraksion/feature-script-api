@@ -341,7 +341,7 @@
             complete: function () {
 
             },
-            success: function (data, dfd) {
+            success: function (data) {
                 
                 console.log('createFeatureStudio success');
                 lastCreatedFeature = {
@@ -351,7 +351,6 @@
                     microversionSkew: false
                 }
                
-               dfd.resolve();
             },
             error: function () {
             },
