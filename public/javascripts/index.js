@@ -24,11 +24,11 @@
             }
         });
 
-        $('#create-feature-submit').click(()=>{
+        $('#create-feature-submit').click(async ()=>{
             await createFeatureStudio();
         })
 
-        $('#elt-select2').change(function () {
+        $('#elt-select2').change(async function () {
             features = [];
             $('#stl-progress-bar').css("display", "block");
 
@@ -42,7 +42,7 @@
             
         });
 
-        $('#doc-select').change(function () {
+        $('#doc-select').change(async function () {
 
             var selectedDocID = $("#doc-select").val();
             sketches = [];
@@ -59,7 +59,7 @@
             // getCurrentMicroversion();
         });
 
-        $('#wp-select').change(function () {
+        $('#wp-select').change(async function () {
             sketches = [];
             $('#feature-parameters').empty();
             $('#configDiv').css("display", "none");
