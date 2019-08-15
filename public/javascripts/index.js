@@ -338,7 +338,7 @@
         }
         console.log('lastCreatedFeature');
         console.log(lastCreatedFeature);
-        getCurrentMicroversion();
+        await getCurrentMicroversion();
         console.log('AAAAAAA');
         await updateFeatureStudioContent();
     }
