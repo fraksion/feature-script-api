@@ -355,7 +355,7 @@
 
     async function updateFeatureStudioContent() {
         let body = getNewFeatureStudioContent();
-        console.log(JSON.stringify(body));
+        //console.log(JSON.stringify(body));
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
 
