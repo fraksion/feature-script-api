@@ -26,7 +26,7 @@
         });
 
         $('#create-feature-submit').click(async () => {
-             await createFeatureStudio();
+            await createFeatureStudio();
 
         })
 
@@ -88,33 +88,18 @@
 
     // Functions to support loading list of models to view ...
     async function getElements() {
-        var dfd = $.Deferred();
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
-        $.ajax('/api/elements?documentId=' + documentId + "&workspaceId=" + wpId, {
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                addElements(data, dfd);
-            },
-            error: function () {
-            }
-        });
-        return dfd.promise();
+
+        let response = await fetch('/api/elements?documentId=' + documentId + "&workspaceId=" + wpId);
+        let result = await response.json();
+        addElements(result);
     }
 
     async function getWorkplaces(docId) {
-        var dfd = $.Deferred();
-        $.ajax('/api/workplaces?documentId=' + docId, {
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                addWorkplaces(data, dfd);
-            },
-            error: function () {
-            }
-        });
-        return dfd.promise();
+        let response = await fetch('/api/workplaces?documentId=' + docId);
+        let result = await response.json();
+        addWorkplaces(result);
     }
 
     async function getCurrentMicroversion() {
@@ -125,7 +110,7 @@
         microversion = result.microversion;
     }
 
-    function addWorkplaces(data, dfd) {
+    function addWorkplaces(data) {
         var onshapeElements = $("#onshape-elements");
         onshapeElements.empty();
         $("#wp-select").empty();
@@ -136,24 +121,15 @@
                     "<option value='" + data[i].id + "'>" + " " + data[i].name + "</option>"
                 )
         }
-        dfd.resolve();
     }
 
     async function getDocuments() {
-        var dfd = $.Deferred();
-        $.ajax('/api/documents' + window.location.search, {
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                addDocuments(data, dfd);
-            },
-            error: function () {
-            }
-        });
-        return dfd.promise();
+        let response = await fetch('/api/documents');
+        let result = await response.json();
+        addDocuments(result);
     }
 
-    function addDocuments(data, dfd) {
+    function addDocuments(data) {
         var onshapeElements = $("#onshape-elements");
         onshapeElements.empty();
         for (var i = 0; i < data.items.length; ++i) {
@@ -162,7 +138,6 @@
                     "<option value='" + data.items[i].id + "'>" + " " + data.items[i].name + "</option>"
                 )
         }
-        dfd.resolve();
     }
 
     async function addElements(data, dfd) {
@@ -207,23 +182,12 @@
 
     async function getFeatureStudioSpecs(href) {
         customFeatures = [];
-        var dfd = $.Deferred();
-        $.ajax('/api/featureStudioSpecs' + href, {
-            dataType: 'json',
-            type: 'GET',
-            contentType: "application/json",
-            Accept: 'application/vnd.onshape.v1+json',
-            success: function (data) {
-                addCustomFeature(data, dfd);
-            },
-            error: function () {
-                console.log('getFeatureStudioSpecs error');
-            }
-        });
-        return dfd.promise();
+        let response = await fetch('/api/featureStudioSpecs' + href);
+        let result = await response.json();
+        addCustomFeature(result);
     }
 
-    function addCustomFeature(data, dfd) {
+    function addCustomFeature(data) {
         for (let i = 0; i < data.featureSpecs.length; i++) {
             let feature = {
                 name: data.featureSpecs[i].message.featureTypeName,
@@ -235,7 +199,6 @@
             addCustomFeaturesToBOM(feature);
             customFeatures.push(feature);
         }
-        dfd.resolve();
     }
 
     function addCustomFeaturesToBOM(customFeatures) {
@@ -246,21 +209,15 @@
     }
 
     function sendCustomFeature(body) {
-        var dfd = $.Deferred();
-        $.ajax("/api/addCustomFeature" + $('#elt-select2').val(), {
-            type: "POST",
-            dataType: "json",
-            data: JSON.stringify(body),
-            contentType: "application/json",
-            Accept: 'application/vnd.onshape.v1+json',
-            complete: function () {
+
+        let response = await fetch("/api/addCustomFeature" + $('#elt-select2').val(), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
             },
-            success: function (data) {
-            },
-            error: function () {
-            },
+            body: JSON.stringify(body)
         });
-        return dfd.resolve();
+        let data = await response.json();
     }
 
     function addFeatureParameters() {
@@ -320,10 +277,10 @@
         let response = await fetch("/api/createFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json;charset=utf-8'
+                'Content-Type': 'application/json;charset=utf-8'
             },
             body: JSON.stringify(body)
-          });
+        });
         let data = await response.json();
         lastCreatedFeature = {
             microversionId: data.microversionId,
@@ -354,14 +311,14 @@
         let response = await fetch("/api/updateFeatureStudio?documentId=" + documentId + "&workspaceId=" + wpId + "&elementId=" + lastCreatedFeature.elementId, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-              'Accept' : 'application/vnd.onshape.v1+json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/vnd.onshape.v1+json'
             },
             body: JSON.stringify(body)
-          });
+        });
         //let data = await response.json();
         $('#feature-select').empty();
         await getElements();
-        
+
     }
 })();
