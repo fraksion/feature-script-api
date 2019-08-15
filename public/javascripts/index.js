@@ -123,7 +123,6 @@
         let response = await fetch('/api/microversion?documentId=' + documentId + "&workspaceId=" + wpId);
         let result = await response.json();
         microversion = result.microversion;
-        console.log(microversion);
     }
 
     function addWorkplaces(data, dfd) {
@@ -167,7 +166,6 @@
     }
 
     async function addElements(data, dfd) {
-        console.log('addElements');
         featureStudios = [];
         var onshapeElements = $("#onshape-elements");
         onshapeElements.empty();
@@ -207,7 +205,6 @@
     }
 
     async function getFeatureStudioSpecs(href) {
-        console.log('getFeatureStudioSpecs');
         customFeatures = [];
         var dfd = $.Deferred();
         $.ajax('/api/featureStudioSpecs' + href, {
@@ -226,7 +223,6 @@
     }
 
     function addCustomFeature(data, dfd) {
-        console.log('addCustomFeature');
         for (let i = 0; i < data.featureSpecs.length; i++) {
             let feature = {
                 name: data.featureSpecs[i].message.featureTypeName,
@@ -235,7 +231,6 @@
                 sourceMicroversion: data.sourceMicroversion,
                 rejectMicroversionSkew: data.rejectMicroversionSkew
             }
-            // console.log(feature);
             addCustomFeaturesToBOM(feature);
             customFeatures.push(feature);
         }
@@ -329,7 +324,6 @@
             body: JSON.stringify(body)
           });
         let data = await response.json();
-        console.log(data);
         lastCreatedFeature = {
             microversionId: data.microversionId,
             elementId: data.id,
@@ -341,10 +335,7 @@
     }
 
     function getNewFeatureStudioContent() {
-        console.log('getNewFeatureStudioContent');
-
         let textarea = document.getElementById('feature-studio-content').value;
-        console.log(textarea);
         let body = {
             contents: textarea,
             serializationVersion: lastCreatedFeature.serializationVersion,
@@ -356,7 +347,6 @@
 
     async function updateFeatureStudioContent() {
         let body = getNewFeatureStudioContent();
-        console.log(body);
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
 
@@ -369,6 +359,12 @@
             body: JSON.stringify(body)
           });
         //let data = await response.json();
-        getElements();
+        console.log('update:');
+        console.log(featureStudios);
+        console.log(customFeatures);
+        await getElements();
+        console.log('after updating:');
+        console.log(featureStudios);
+        console.log(customFeatures);
     }
 })();
