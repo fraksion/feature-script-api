@@ -24,8 +24,8 @@
             }
         });
 
-        $('#create-feature-submit').click(async ()=>{
-            await createFeatureStudio();
+        $('#create-feature-submit').click( ()=>{
+             createFeatureStudio();
         })
 
         $('#elt-select2').change(async function () {
