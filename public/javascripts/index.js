@@ -196,7 +196,7 @@
         }
         dfd.resolve();
         elementsDict = createElementsDict(data);
-        featureStudios.forEach(studio => {
+        featureStudios.forEach(async (studio) => {
             await getFeatureStudioSpecs(studio);
         });
         dfd.resolve();
