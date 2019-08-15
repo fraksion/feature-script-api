@@ -329,7 +329,7 @@
             body: JSON.stringify(body)
           });
         let data = await response.json();
-
+        console.log(data);
         lastCreatedFeature = {
             microversionId: data.microversionId,
             elementId: data.id,
