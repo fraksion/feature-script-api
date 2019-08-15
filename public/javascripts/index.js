@@ -25,8 +25,9 @@
             }
         });
 
-        $('#create-feature-submit').click(() => {
-            createFeatureStudio();
+        $('#create-feature-submit').click(async () => {
+            await createFeatureStudio();
+            await updateFeatureStudioContent();
         })
 
         $('#elt-select2').change(function () {
@@ -339,7 +340,7 @@
             complete: function () {
 
             },
-            success: async function (data) {
+            success: function (data) {
                 
                 console.log('createFeatureStudio success');
                 lastCreatedFeature = {
@@ -348,8 +349,7 @@
                     serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
                     microversionSkew: false
                 }
-                await getCurrentMicroversion();
-                updateFeatureStudioContent();
+               getCurrentMicroversion();
             },
             error: function () {
             },
