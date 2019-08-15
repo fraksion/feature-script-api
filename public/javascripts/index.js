@@ -366,7 +366,7 @@
             },
             body: JSON.stringify(body)
           });
-        let data = await response.json();
+        //let data = await response.json();
         getElements();
     }
 
