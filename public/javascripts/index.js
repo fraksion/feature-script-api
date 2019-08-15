@@ -28,7 +28,7 @@
         $('#create-feature-submit').click(async () => {
             await createFeatureStudio();
             await getCurrentMicroversion();
-             updateFeatureStudioContent();
+            await updateFeatureStudioContent();
         })
 
         $('#elt-select2').change(function () {
