@@ -348,7 +348,7 @@
                     serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
                     microversionSkew: false
                 }
-                getCurrentMicroversion().then(updateFeatureStudioContent);
+                getCurrentMicroversion().then(updateFeatureStudioContent());
             },
             error: function () {
             },
