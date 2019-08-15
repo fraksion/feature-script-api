@@ -336,9 +336,8 @@
             contentType: "application/json",
             Accept: 'application/vnd.onshape.v1+json',
             complete: function () {
-                console.log('createFeatureStudio complete');
             },
-            success:  function (data) {
+            success: async function (data) {
                 console.log('createFeatureStudio success');
                 lastCreatedFeature = {
                     microversionId: data.microversionId,
@@ -347,7 +346,7 @@
                     microversionSkew: false 
                 }
                 console.log('createFeatureStudio success');
-                 updateFeatureStudioContent();
+                await updateFeatureStudioContent();
             },
             error: function () {
             },
