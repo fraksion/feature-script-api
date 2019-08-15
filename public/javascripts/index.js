@@ -339,7 +339,7 @@
             complete: function () {
 
             },
-            success: function (data) {
+            success: async function (data) {
                 
                 console.log('createFeatureStudio success');
                 lastCreatedFeature = {
@@ -348,7 +348,7 @@
                     serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
                     microversionSkew: false
                 }
-               await getCurrentMicroversion();
+                await getCurrentMicroversion();
                 updateFeatureStudioContent();
             },
             error: function () {
