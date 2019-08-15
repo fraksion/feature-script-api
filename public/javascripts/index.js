@@ -359,12 +359,7 @@
             body: JSON.stringify(body)
           });
         //let data = await response.json();
-        console.log('update:');
-        console.log(featureStudios);
-        console.log(customFeatures);
+        $('#feature-select').empty();
         await getElements();
-        console.log('after updating:');
-        console.log(featureStudios);
-        console.log(customFeatures);
     }
 })();
