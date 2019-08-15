@@ -333,7 +333,7 @@
             Accept: 'application/vnd.onshape.v1+json',
             complete: function () {
             },
-            success: function (data) {
+            success: async function (data) {
                 lastCreatedFeature = {
                     microversionId: data.microversionId,
                     elementId: data.id, 
