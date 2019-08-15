@@ -352,7 +352,7 @@
         return body;
     }
 
-    function updateFeatureStudioContent() {
+    async function updateFeatureStudioContent() {
         let body = getNewFeatureStudioContent();
         console.log(JSON.stringify(body));
         var documentId = $("#doc-select").val();
