@@ -366,10 +366,10 @@
         return body;
     }
 
-      function updateFeatureStudioContent() {
+      async function updateFeatureStudioContent() {
         console.log('updateFeatureStudioContent');
         var dfd = $.Deferred();
-        let body = getNewFeatureStudioContent();
+        let body = await getNewFeatureStudioContent();
         console.log(body);
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
