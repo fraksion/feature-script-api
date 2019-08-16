@@ -96,7 +96,7 @@
         $("#doc-select").append("<option>-- Top of List --</option>");
         $("#wp-select").append("<option>-- Top of List --</option>");
 
-        var minLines = 30;
+        var minLines = 10;
         var startingValue = '';
         for (var i = 1; i < minLines; i++) {
             startingValue += '\n';
@@ -108,7 +108,6 @@
             lineNumbers: true,
             gutter: true,
             lineWrapping: true,
-            mode: 'javascript',
             value: startingValue
           });
 
