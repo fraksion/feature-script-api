@@ -26,9 +26,7 @@
         });
 
         $('#create-feature-submit').click(async () => {
-            console.log('SUBMIT!');
             $('#feature-studio-progressbar').css("opacity", "1");
-            incrementProgressbarValue(50);
             await createFeatureStudio();
 
         })
@@ -95,7 +93,9 @@
         var wpId = $("#wp-select").val();
 
         let response = await fetch('/api/elements?documentId=' + documentId + "&workspaceId=" + wpId);
+        incrementProgressbarValue(10);
         let result = await response.json();
+        incrementProgressbarValue(10);
         addElements(result);
     }
 
@@ -109,8 +109,10 @@
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
         let response = await fetch('/api/microversion?documentId=' + documentId + "&workspaceId=" + wpId);
+        incrementProgressbarValue(10);
         let result = await response.json();
         microversion = result.microversion;
+        incrementProgressbarValue(10);
     }
 
     function addWorkplaces(data) {
@@ -170,6 +172,7 @@
         featureStudios.forEach(async (studio) => {
             await getFeatureStudioSpecs(studio);
         });
+        incrementProgressbarValue(10);
     }
 
     function createElementsDict(elementsArray) {
@@ -281,6 +284,7 @@
             },
             body: JSON.stringify(body)
         });
+        incrementProgressbarValue(10);
         let data = await response.json();
         lastCreatedFeature = {
             microversionId: data.microversionId,
@@ -288,6 +292,7 @@
             serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
             microversionSkew: false
         }
+        incrementProgressbarValue(10);
         await getCurrentMicroversion();
         await updateFeatureStudioContent();
     }
@@ -316,7 +321,8 @@
                 'Accept': 'application/vnd.onshape.v1+json'
             },
             body: JSON.stringify(body)
-        });
+        });       
+         incrementProgressbarValue(10);
         //let data = await response.json();
         $('#feature-select').empty();
         await getElements();
@@ -326,7 +332,9 @@
         let documentId = $("#doc-select").val();
         let wpId = $("#wp-select").val();
         let response = await fetch('/api/featureStudioContent?documentId=' + documentId + '&workspaceId=' + wpId + '&elementId=' + lastCreatedFeature.elementId);
+        incrementProgressbarValue(10);
         let result = await response.json();
+        incrementProgressbarValue(10);
         return result.contents;
     }
 
@@ -336,5 +344,15 @@
         let newValue = bar.value + value;
         barLable.innerHTML = newValue + '%';
         bar.set(newValue);
+        checkProgress(newValue);
+    }
+
+    function checkProgress(value){
+        if (value >= 100){
+            let bar = document.getElementById('feature-studio-progressbar').ldBar;
+            bar.set(0);
+            $('#stl-tolerance-modal').modal('hide');
+            $('#feature-studio-progressbar').css("opacity", "0");
+        }
     }
 })();
