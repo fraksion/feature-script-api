@@ -339,7 +339,6 @@
         let bar = document.getElementById('feature-studio-progressbar').ldBar;
         let barLable = document.getElementById('progress-bar-lable');
         let newValue = bar.value + value;
-        console.log(newValue);
         barLable.innerHTML = newValue + '%';
         bar.set(newValue);
         checkProgress(newValue);
@@ -351,7 +350,8 @@
             let barLable = document.getElementById('progress-bar-lable');
             barLable.innerHTML = 0 + '%';
             bar.set(0);
-            console.log(document.getElementById('feature-studio-progressbar').parentElement.parentElement);
+            console.log(document.getElementById('feature-studio-progressbar').parentElement.parentElement.parentElement);
+            $('#stl-tolerance-modal').dialog("close");
             //$('#stl-tolerance-modal').modal('hide');
             //$('#feature-studio-progressbar').css("opacity", "0");
         }
