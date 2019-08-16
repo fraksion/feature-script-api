@@ -333,6 +333,6 @@
     function incrementProgressbarValue(value){
         let bar = document.getElementById('feature-studio-progressbar').ldBar;
         console.log(bar);
-        bar1.set(60);
+        bar.set(60);
     }
 })();
