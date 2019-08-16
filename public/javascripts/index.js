@@ -46,7 +46,7 @@
                 value: startingValue
               });
             let code = document.getElementsByClassName('CodeMirror');
-            console.log(code);
+            console.log(code[0]);
             editor.setValue(startingValue);
         })
 
