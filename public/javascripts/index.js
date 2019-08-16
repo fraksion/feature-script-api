@@ -96,22 +96,40 @@
         var wpId = $("#wp-select").val();
 
         let response = await fetch('/api/elements?documentId=' + documentId + "&workspaceId=" + wpId);
-        let result = await response.json();
-        addElements(result);
+        if (response.ok) {
+            let result = await response.json();
+            addElements(result);
+        }
+        else {
+            console.log(response.status);
+        }
+
     }
 
     async function getWorkplaces(docId) {
         let response = await fetch('/api/workplaces?documentId=' + docId);
-        let result = await response.json();
-        addWorkplaces(result);
+        if (response.ok) {
+            let result = await response.json();
+            addWorkplaces(result);
+        }
+        else {
+            console.log(response.status);
+        }
+
     }
 
     async function getCurrentMicroversion() {
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
         let response = await fetch('/api/microversion?documentId=' + documentId + "&workspaceId=" + wpId);
-        let result = await response.json();
-        microversion = result.microversion;
+        if (response.ok) {
+            let result = await response.json();
+            microversion = result.microversion;
+        }
+        else {
+            console.log(response.status);
+        }
+
     }
 
     function addWorkplaces(data) {
@@ -129,8 +147,14 @@
 
     async function getDocuments() {
         let response = await fetch('/api/documents');
-        let result = await response.json();
-        addDocuments(result);
+        if (response.ok) {
+            let result = await response.json();
+            addDocuments(result);
+        }
+        else {
+            console.log(response.status);
+        }
+
     }
 
     function addDocuments(data) {
@@ -184,8 +208,14 @@
     async function getFeatureStudioSpecs(href) {
         customFeatures = [];
         let response = await fetch('/api/featureStudioSpecs' + href);
-        let result = await response.json();
-        addCustomFeature(result);
+        if (response.ok) {
+            let result = await response.json();
+            addCustomFeature(result);
+        }
+        else {
+            console.log(response.status);
+        }
+
     }
 
     function addCustomFeature(data) {
@@ -283,23 +313,29 @@
             body: JSON.stringify(body)
         });
         incrementProgressbarValue(10);
-        let data = await response.json();
-        lastCreatedFeature = {
-            microversionId: data.microversionId,
-            elementId: data.id,
-            serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
-            microversionSkew: false
+        if (response.ok) {
+            let data = await response.json();
+            lastCreatedFeature = {
+                microversionId: data.microversionId,
+                elementId: data.id,
+                serializationVersion: customFeatures[0].serializationVersion !== undefined ? customFeatures[0].serializationVersion : '1.1.17',
+                microversionSkew: false
+            }
+            incrementProgressbarValue(10);
+            await getCurrentMicroversion();
+            incrementProgressbarValue(20);
+            await updateFeatureStudioContent();
         }
-        incrementProgressbarValue(10);
-        await getCurrentMicroversion();
-        incrementProgressbarValue(20);
-        await updateFeatureStudioContent();
+        else {
+            console.log(responce.status);
+        }
+
     }
 
     function getNewFeatureStudioContent(defaultText) {
         let textarea = document.getElementById('feature-studio-content').value;
         let body = {
-            contents : defaultText + textarea,
+            contents: defaultText + textarea,
             serializationVersion: lastCreatedFeature.serializationVersion,
             sourceMicroversion: microversion,
             rejectMicroversionSkew: false
@@ -320,25 +356,37 @@
                 'Accept': 'application/vnd.onshape.v1+json'
             },
             body: JSON.stringify(body)
-        });       
-         incrementProgressbarValue(10);
-        //let data = await response.json();
-        $('#feature-select').empty();
-        await getElements();
-        incrementProgressbarValue(20);
+        });
+        incrementProgressbarValue(10);
+        if (response.ok) {
+            //let data = await response.json();
+            $('#feature-select').empty();
+            await getElements();
+            incrementProgressbarValue(20);
+        }
+        else {
+            console.log(responce.status);
+        }
+
     }
 
     async function getFeatureStudioContent() {
         let documentId = $("#doc-select").val();
         let wpId = $("#wp-select").val();
         let response = await fetch('/api/featureStudioContent?documentId=' + documentId + '&workspaceId=' + wpId + '&elementId=' + lastCreatedFeature.elementId);
-        incrementProgressbarValue(20);
-        let result = await response.json();
-        incrementProgressbarValue(10);
-        return result.contents;
+        if (response.ok) {
+            incrementProgressbarValue(20);
+            let result = await response.json();
+            incrementProgressbarValue(10);
+            return result.contents;
+        }
+        else {
+            console.log(responce.status);
+        }
+
     }
 
-    function incrementProgressbarValue(value){
+    function incrementProgressbarValue(value) {
         let bar = document.getElementById('feature-studio-progressbar').ldBar;
         let barLable = document.getElementById('progress-bar-lable');
         let newValue = bar.value + value;
@@ -347,8 +395,8 @@
         checkProgress(newValue);
     }
 
-    function checkProgress(value){
-        if (value >= 100){
+    function checkProgress(value) {
+        if (value >= 100) {
             let bar = document.getElementById('feature-studio-progressbar').ldBar;
             let barLable = document.getElementById('progress-bar-lable');
             barLable.innerHTML = 0 + '%';
