@@ -100,7 +100,9 @@
         let editor = CodeMirror.fromTextArea(myTextarea, {
             lineNumbers: true,
             gutter: true,
-            lineWrapping: true
+            lineWrapping: true,
+            mode: 'javascript',
+            value: 'async function init()'
           });
 
     }
