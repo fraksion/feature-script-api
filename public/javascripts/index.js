@@ -4,15 +4,15 @@
     var features;
     let customFeatures = [];
     let lastCreatedFeature;
-    const featureScriptTemplate = 'annotation { "Feature Type Name" : "My Feature" }'+
-    'export const myFeature = defineFeature(function(context is Context, id is Id, definition is map)'+
-        'precondition'+
-        '{'+
-            '// Define the parameters of the feature type'+
-        '}'+
-        '{'+
-            '// Define the function`s action'+
-        '});';
+    const featureScriptTemplate = 'annotation { "Feature Type Name" : "My Feature" }\n'+
+    'export const myFeature = defineFeature(function(context is Context, id is Id, definition is map)\n'+
+        'precondition\n'+
+        '{\n'+
+            '// Define the parameters of the feature type\n'+
+        '}\n'+
+        '{\n'+
+            '// Define the function`s action\n'+
+        '});\n';
     
 
 
