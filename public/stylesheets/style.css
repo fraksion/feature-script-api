@@ -84,8 +84,10 @@ th {
 #configContent{
   overflow: auto;
 }
-
-#config-btn, #stl-tolerance-btn{
+#new-feature-btn{
+  display: none;
+}
+#config-btn, #new-feature-btn{
   margin-top: 20px;
   margin-left: 15%;
   margin-bottom: 20px;
