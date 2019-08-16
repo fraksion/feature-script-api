@@ -67,7 +67,9 @@
             $("#wp-select").append("<option>-- Top of List --</option>");
             $('#add-feature-btn').css("display", "none");
             if ($('#doc-select').val() !== '-- Top of List --') {
+                $('#stl-progress-bar').css("display", "block");
                 await getWorkplaces(selectedDocID);
+                $('#stl-progress-bar').css("display", "none");
             }
             // getCurrentMicroversion();
         });
@@ -84,9 +86,11 @@
             $("#elt-select2").append("<option>-- Top of List --</option>");
             $('#add-feature-btn').css("display", "none");
             if ($('#wp-select').val() !== '-- Top of List --') {
+                $('#stl-progress-bar').css("display", "block");
                 await getElements();
                 $('#new-feature-btn').css("display", "block");
                 getCurrentMicroversion();
+                $('#stl-progress-bar').css("display", "none");
             }
             else {
                 $('#new-feature-btn').css("display", "none");
@@ -185,6 +189,7 @@
     }
 
     async function addElements(data) {
+        $('#stl-progress-bar').css("display", "block");
         featureStudios = [];
         var onshapeElements = $("#onshape-elements");
         onshapeElements.empty();
@@ -211,6 +216,7 @@
         featureStudios.forEach(async (studio) => {
             await getFeatureStudioSpecs(studio);
         });
+        $('#stl-progress-bar').css("display", "none");
     }
 
     function createElementsDict(elementsArray) {
