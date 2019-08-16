@@ -28,7 +28,7 @@
         $('#create-feature-submit').click(async () => {
             console.log('SUBMIT!');
             $('#feature-studio-progressbar').css("opacity", "1");
-            incrementProgressbarValue(1);
+            incrementProgressbarValue(50);
             await createFeatureStudio();
 
         })
@@ -332,7 +332,9 @@
 
     function incrementProgressbarValue(value){
         let bar = document.getElementById('feature-studio-progressbar').ldBar;
-        console.log(bar);
-        bar.set(60);
+        let barLable = document.getElementById('progress-bar-lable');
+        let newValue = bar.value + value;
+        barLable.innerHTML = newValue + '%';
+        bar.set(newValue);
     }
 })();
