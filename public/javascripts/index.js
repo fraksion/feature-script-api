@@ -351,7 +351,8 @@
             let barLable = document.getElementById('progress-bar-lable');
             barLable.innerHTML = 0 + '%';
             bar.set(0);
-            $('#stl-tolerance-modal').modal('hide');
+            console.log(document.getElementById('feature-studio-progressbar').parentElement);
+            //$('#stl-tolerance-modal').modal('hide');
             //$('#feature-studio-progressbar').css("opacity", "0");
         }
     }
