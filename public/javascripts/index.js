@@ -1,12 +1,19 @@
 (function () {
-
     let microversion;
     let featureStudios = [];
     var features;
-    let sketches = [];
     let customFeatures = [];
     let lastCreatedFeature;
-    let lastCreatedFeatureContent;
+    const featureScriptTemplate = 'annotation { "Feature Type Name" : "My Feature" }'+
+    'export const myFeature = defineFeature(function(context is Context, id is Id, definition is map)'+
+        'precondition'+
+        '{'+
+            '// Define the parameters of the feature type'+
+        '}'+
+        '{'+
+            '// Define the function`s action'+
+        '});';
+    
 
 
     window.onload = function () {
@@ -95,7 +102,7 @@
         $("#elt-select2").append("<option>-- Top of List --</option>");
         $("#doc-select").append("<option>-- Top of List --</option>");
         $("#wp-select").append("<option>-- Top of List --</option>");
-
+        $('#feature-studio-content').val(featureScriptTemplate);
         await getDocuments();
     }
 
@@ -413,7 +420,7 @@
             $('#feature-studio-progressbar').css("opacity", "0");
             $('#new-feature-studio-modal').modal('hide');
             $('#feature-studio-name').val('Feature Studio 1');
-            $('#feature-studio-content').val(' ');
+            $('#feature-studio-content').val(featureScriptTemplate);
         }
     }
 })();
