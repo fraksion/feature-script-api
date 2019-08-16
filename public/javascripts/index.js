@@ -93,9 +93,7 @@
         var wpId = $("#wp-select").val();
 
         let response = await fetch('/api/elements?documentId=' + documentId + "&workspaceId=" + wpId);
-        incrementProgressbarValue(10);
         let result = await response.json();
-        incrementProgressbarValue(10);
         addElements(result);
     }
 
@@ -109,10 +107,8 @@
         var documentId = $("#doc-select").val();
         var wpId = $("#wp-select").val();
         let response = await fetch('/api/microversion?documentId=' + documentId + "&workspaceId=" + wpId);
-        incrementProgressbarValue(10);
         let result = await response.json();
         microversion = result.microversion;
-        incrementProgressbarValue(10);
     }
 
     function addWorkplaces(data) {
@@ -172,7 +168,6 @@
         featureStudios.forEach(async (studio) => {
             await getFeatureStudioSpecs(studio);
         });
-        incrementProgressbarValue(10);
     }
 
     function createElementsDict(elementsArray) {
@@ -294,6 +289,7 @@
         }
         incrementProgressbarValue(10);
         await getCurrentMicroversion();
+        incrementProgressbarValue(20);
         await updateFeatureStudioContent();
     }
 
@@ -326,13 +322,14 @@
         //let data = await response.json();
         $('#feature-select').empty();
         await getElements();
+        incrementProgressbarValue(20);
     }
 
     async function getFeatureStudioContent() {
         let documentId = $("#doc-select").val();
         let wpId = $("#wp-select").val();
         let response = await fetch('/api/featureStudioContent?documentId=' + documentId + '&workspaceId=' + wpId + '&elementId=' + lastCreatedFeature.elementId);
-        incrementProgressbarValue(10);
+        incrementProgressbarValue(20);
         let result = await response.json();
         incrementProgressbarValue(10);
         return result.contents;
