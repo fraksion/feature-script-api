@@ -342,6 +342,7 @@
         let bar = document.getElementById('feature-studio-progressbar').ldBar;
         let barLable = document.getElementById('progress-bar-lable');
         let newValue = bar.value + value;
+        console.log(newValue);
         barLable.innerHTML = newValue + '%';
         bar.set(newValue);
         checkProgress(newValue);
