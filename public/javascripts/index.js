@@ -96,15 +96,23 @@
         $("#doc-select").append("<option>-- Top of List --</option>");
         $("#wp-select").append("<option>-- Top of List --</option>");
         await getDocuments();
+        var minLines = 15;
+        var startingValue = '';
+        for (var i = 1; i < minLines; i++) {
+            startingValue += '\n';
+        }
+
         let myTextarea = document.getElementById('feature-studio-content');
+
         let editor = CodeMirror.fromTextArea(myTextarea, {
             lineNumbers: true,
             gutter: true,
             lineWrapping: true,
             mode: 'javascript',
-            value: 'async function init()'
+            value: startingValue
           });
 
+          editor.setValue(startingValue);
     }
 
     // Functions to support loading list of models to view ...
