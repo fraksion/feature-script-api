@@ -414,8 +414,9 @@
             bar.set(0);
             $('#feature-studio-progressbar').css("opacity", "0");
             $('#new-feature-studio-modal').modal('hide');
-            featureStudioContent.innerHTML = '';
-            featureStudioName ='Feature Studio 1';
+            console.log(featureStudioContent);
+            featureStudioContent.innerText = '';
+            featureStudioName.innerText ='Feature Studio 1';
         }
     }
 })();
