@@ -351,8 +351,7 @@
             barLable.innerHTML = 0 + '%';
             bar.set(0);
             console.log(document.getElementById('feature-studio-progressbar').parentElement.parentElement.parentElement);
-            $('#stl-tolerance-modal').dialog("close");
-            //$('#stl-tolerance-modal').modal('hide');
+            $('#stl-tolerance-modal').modal('hide');
             //$('#feature-studio-progressbar').css("opacity", "0");
         }
     }
