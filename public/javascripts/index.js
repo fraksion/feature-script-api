@@ -59,13 +59,16 @@
             $("#elt-select2").append("<option>-- Top of List --</option>");
             $("#wp-select").append("<option>-- Top of List --</option>");
             $('#add-feature-btn').css("display", "none");
-            await getWorkplaces(selectedDocID);
+            if ($('#doc-select').val() !== '-- Top of List --') {
+                await getWorkplaces(selectedDocID);
+            }
             // getCurrentMicroversion();
         });
 
         $('#wp-select').change(async function () {
             sketches = [];
             console.log($('#wp-select').val());
+
             $('#feature-parameters').empty();
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
@@ -73,9 +76,15 @@
             $("#elt-select2").empty();
             $("#elt-select2").append("<option>-- Top of List --</option>");
             $('#add-feature-btn').css("display", "none");
-            await getElements();
-            $('#new-feature-btn').css("display", "block");
-            getCurrentMicroversion();
+            if ($('#wp-select').val() !== '-- Top of List --') {
+                await getElements();
+                $('#new-feature-btn').css("display", "block");
+                getCurrentMicroversion();
+            }
+            else {
+                $('#new-feature-btn').css("display", "none");
+            }
+
         });
 
         init();
