@@ -6,14 +6,7 @@
   width: 400px;
 }
 
-textarea{
-  resize: none;
-}
 
-#feature-studio-content{
-  width: 90%; 
-  height: 600px;
-}
 
 #stl-tolerance-btn {
   margin: 3px;
