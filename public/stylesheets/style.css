@@ -102,6 +102,12 @@ th {
 display: none;
 }
 
+#progress-bar-lable{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .inputValues{
   text-align: right; 
 }
