@@ -29,7 +29,7 @@
   white-space: nowrap;
 }
 .CodeMirror-linenumbers {
-  margin-left: -10px;
+  margin-left: -20px;
 }
 .CodeMirror-linenumber {
   padding: 0 3px 0 5px;
