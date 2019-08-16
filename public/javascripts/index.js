@@ -45,8 +45,6 @@
                 lineWrapping: true,
                 value: startingValue
               });
-            let code = document.getElementsByClassName('CodeMirror');
-            code.focus();
               editor.setValue(startingValue);
         })
 
