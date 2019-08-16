@@ -95,8 +95,8 @@
         $("#elt-select2").append("<option>-- Top of List --</option>");
         $("#doc-select").append("<option>-- Top of List --</option>");
         $("#wp-select").append("<option>-- Top of List --</option>");
-        await getDocuments();
-        var minLines = 15;
+
+        var minLines = 30;
         var startingValue = '';
         for (var i = 1; i < minLines; i++) {
             startingValue += '\n';
@@ -113,6 +113,7 @@
           });
 
           editor.setValue(startingValue);
+          await getDocuments();
     }
 
     // Functions to support loading list of models to view ...
