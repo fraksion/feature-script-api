@@ -26,6 +26,8 @@
         });
 
         $('#create-feature-submit').click(async () => {
+            $('#feature-studio-progressbar').css("opacity", "1");
+            incrementProgressbarValue(1);
             await createFeatureStudio();
 
         })
@@ -325,5 +327,11 @@
         let response = await fetch('/api/featureStudioContent?documentId=' + documentId + '&workspaceId=' + wpId + '&elementId=' + lastCreatedFeature.elementId);
         let result = await response.json();
         return result.contents;
+    }
+
+    function incrementProgressbarValue(value){
+        let bar = document.getElementById('feature-studio-progressbar').ldBar;
+        console.log(bar);
+        bar1.set(60);
     }
 })();
