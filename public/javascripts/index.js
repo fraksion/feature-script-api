@@ -47,6 +47,7 @@
               });
             let code = document.getElementsByClassName('CodeMirror');
             console.log(code[0]);
+            code[0].click();
             editor.setValue(startingValue);
         })
 
