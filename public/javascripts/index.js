@@ -103,7 +103,7 @@
         }
 
         let myTextarea = document.getElementById('feature-studio-content');
-        
+        myTextarea.innerHTML = startingValue;
         let editor = CodeMirror.fromTextArea(myTextarea, {
             lineNumbers: true,
             gutter: true,
