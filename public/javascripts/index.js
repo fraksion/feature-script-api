@@ -96,6 +96,10 @@
         $("#doc-select").append("<option>-- Top of List --</option>");
         $("#wp-select").append("<option>-- Top of List --</option>");
         await getDocuments();
+        let myTextarea = document.getElementById('feature-studio-content');
+        let editor = CodeMirror.fromTextArea(myTextarea, {
+            lineNumbers: true
+          });
 
     }
 
