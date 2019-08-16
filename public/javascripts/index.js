@@ -31,6 +31,25 @@
 
         })
 
+        $('#new-feature-btn').click(()=>{
+            var minLines = 30;
+            var startingValue = '';
+            for (var i = 1; i < minLines; i++) {
+                startingValue += '\n';
+            }
+    
+            let myTextarea = document.getElementById('feature-studio-content');
+            let editor = CodeMirror.fromTextArea(myTextarea, {
+                lineNumbers: true,
+                gutter: true,
+                lineWrapping: true,
+                value: startingValue
+              });
+            let code = document.getElementsByClassName('CodeMirror');
+            code.focus();
+              editor.setValue(startingValue);
+        })
+
         $('#elt-select2').change(function () {
             features = [];
             $('#stl-progress-bar').css("display", "block");
@@ -95,23 +114,7 @@
         $("#elt-select2").append("<option>-- Top of List --</option>");
         $("#doc-select").append("<option>-- Top of List --</option>");
         $("#wp-select").append("<option>-- Top of List --</option>");
-
-        var minLines = 10;
-        var startingValue = '';
-        for (var i = 1; i < minLines; i++) {
-            startingValue += '\n';
-        }
-
-        let myTextarea = document.getElementById('feature-studio-content');
-        myTextarea.innerHTML = startingValue;
-        let editor = CodeMirror.fromTextArea(myTextarea, {
-            lineNumbers: true,
-            gutter: true,
-            lineWrapping: true,
-            value: startingValue
-          });
-
-          editor.setValue(startingValue);
+          
           await getDocuments();
     }
 
