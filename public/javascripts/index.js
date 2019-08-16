@@ -99,13 +99,9 @@
         let myTextarea = document.getElementById('feature-studio-content');
         let editor = CodeMirror.fromTextArea(myTextarea, {
             lineNumbers: true,
-            autofocus: true,
-            gutters: ["CodeMirror-linenumbers", "lineLength"],
+            gutter: true,
             lineWrapping: true,
-            fixedGutter: true,
-            lineWiseCopyCut: true,
-            dragDrop: true,
-            lineSeparator: '\n'
+            value: startingValue
           });
 
     }
