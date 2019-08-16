@@ -228,6 +228,7 @@
     }
 
     async function getFeatureStudioSpecs(href) {
+        $('#stl-progress-bar').css("display", "block");
         customFeatures = [];
         let response = await fetch('/api/featureStudioSpecs' + href);
         if (response.ok) {
@@ -237,7 +238,7 @@
         else {
             console.log(response.status);
         }
-
+        $('#stl-progress-bar').css("display", "none");
     }
 
     function addCustomFeature(data) {
