@@ -26,6 +26,7 @@
         });
 
         $('#create-feature-submit').click(async () => {
+            console.log('SUBMIT!');
             $('#feature-studio-progressbar').css("opacity", "1");
             incrementProgressbarValue(1);
             await createFeatureStudio();
