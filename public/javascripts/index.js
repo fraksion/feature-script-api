@@ -47,7 +47,7 @@
               });
             let code = document.getElementsByClassName('CodeMirror');
             console.log(code);
-              editor.setValue(startingValue);
+            editor.setValue(startingValue);
         })
 
         $('#elt-select2').change(function () {
