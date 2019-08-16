@@ -348,9 +348,11 @@
     function checkProgress(value){
         if (value >= 100){
             let bar = document.getElementById('feature-studio-progressbar').ldBar;
+            let barLable = document.getElementById('progress-bar-lable');
+            barLable.innerHTML = 0 + '%';
             bar.set(0);
             $('#stl-tolerance-modal').modal('hide');
-            $('#feature-studio-progressbar').css("opacity", "0");
+            //$('#feature-studio-progressbar').css("opacity", "0");
         }
     }
 })();
