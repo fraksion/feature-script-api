@@ -11,7 +11,7 @@
 
     window.onload = function () {
         // prevent mouse clicks from going to model while dialog is open
-        $('#stl-tolerance-modal').bind('click mousedown', function (e) {
+        $('#new-feature-studio-modal').bind('click mousedown', function (e) {
             e.stopImmediatePropagation();
         });
 
@@ -40,7 +40,7 @@
             $('#configDiv').css("display", "none");
             $('#config-btn').css("display", "none");
             getCurrentMicroversion();
-            $('#stl-tolerance-modal').modal('hide');
+            $('#new-feature-studio-modal').modal('hide');
             //getFeaturesList();
 
         });
@@ -351,7 +351,7 @@
             barLable.innerHTML = 0 + '%';
             bar.set(0);
             console.log(document.getElementById('feature-studio-progressbar').parentElement.parentElement.parentElement);
-            $('#stl-tolerance-modal').modal('hide');
+            $('#new-feature-studio-modal').modal('hide');
             //$('#feature-studio-progressbar').css("opacity", "0");
         }
     }
