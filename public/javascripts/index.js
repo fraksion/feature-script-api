@@ -99,7 +99,9 @@
         let myTextarea = document.getElementById('feature-studio-content');
         let editor = CodeMirror.fromTextArea(myTextarea, {
             lineNumbers: true,
-            mode:  "javascript"
+            mode:  "javascript",
+            value: myTextarea.innerHTML,
+            styleActiveLine: true
           });
 
     }
