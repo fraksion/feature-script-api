@@ -408,11 +408,14 @@
         if (value >= 100) {
             let bar = document.getElementById('feature-studio-progressbar').ldBar;
             let barLable = document.getElementById('progress-bar-lable');
+            let featureStudioContent = document.getElementById('feature-studio-content');
+            let featureStudioName = document.getElementById('feature-studio-name');
             barLable.innerHTML = 0 + '%';
             bar.set(0);
-            console.log(document.getElementById('feature-studio-progressbar').parentElement.parentElement.parentElement);
             $('#feature-studio-progressbar').css("opacity", "0");
             $('#new-feature-studio-modal').modal('hide');
+            featureStudioContent.innerHTML = '';
+            featureStudioName ='Feature Studio 1';
         }
     }
 })();
