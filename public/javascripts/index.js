@@ -351,7 +351,7 @@
             let barLable = document.getElementById('progress-bar-lable');
             barLable.innerHTML = 0 + '%';
             bar.set(0);
-            console.log(document.getElementById('feature-studio-progressbar').parentElement);
+            console.log(document.getElementById('feature-studio-progressbar').parentElement.parentElement);
             //$('#stl-tolerance-modal').modal('hide');
             //$('#feature-studio-progressbar').css("opacity", "0");
         }
