@@ -98,13 +98,8 @@ th {
   margin: 20px;
 }
 
-.ldBar-label:after {
-  content: "%";
-  color:black;
-  margin-left: 5px;
-  font-family: courier new;
-  font-size: 0.7em;
-  font-weight: 200;
+.ldBar-label {
+display: none;
 }
 
 .inputValues{
