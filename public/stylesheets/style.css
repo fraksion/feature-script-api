@@ -10,6 +10,10 @@ textarea{
   resize: none;
 }
 
+#feature-studio-content{
+  width: 100%; 
+  height: 600px;
+}
 
 #stl-tolerance-btn {
   margin: 3px;
