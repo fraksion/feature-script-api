@@ -12,6 +12,8 @@
 <script src="javascripts/threejs/js/controls/TrackballControls.js"></script>
 
 -->
+<script src="../public/OnshapeFeatures/BTMFeature.js"></script>
+<script src="../public/OnshapeFeatures/ParameterType.js"></script>
 <script src="javascripts/loading-bar.js"></script>
 <script src="javascripts/index.js"></script>
 
@@ -57,7 +59,20 @@
       <button class="btn btn-primary btn-sm clearfix" id="new-feature-btn" data-toggle="modal" data-target="#new-feature-studio-modal">
         Add Feature Studio
       </button>
+      <button class="btn btn-primary btn-sm clearfix" id="insert-feature-btn" data-toggle="modal" data-target="#new-feature-studio-modal">
+        Insert Custom Feature
+      </button>
     </div>
+
+    <div id = "configDiv" >
+      <div id="configHeader">
+          Feature Parameters
+      </div>
+      <div id="configContent">
+        <div id="inputs-ul" margin="20px">
+        </div>
+
+      </div>
 
 
     <div class="modal fade clearfix" id="new-feature-studio-modal" tabindex="-1" role="dialog" aria-labelledby="stlToleranceModalLabel" aria-hidden="true">

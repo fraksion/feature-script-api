@@ -1,8 +1,8 @@
-class ParameterMessageBase{
+class ParameterBase{
     constructor(parameterId, hasUserCode, nodeId){
-        this.parameterId = parameterId;
-        this.hasUserCode = hasUserCode;
-        this.nodeId = nodeId;
+        this.message.parameterId = parameterId;
+        this.message.hasUserCode = hasUserCode;
+        this.message.nodeId = nodeId;
     }
 
     get parameterId() {
@@ -30,10 +30,12 @@ class ParameterMessageBase{
       }
 }
 
-class BTMParameterBooleanMessage extends ParameterMessageBase{
+class BTMParameterBoolean extends ParameterBase{
     constructor(parameterId, hasUserCode, nodeId, value){ 
         super(parameterId, hasUserCode, nodeId);
-        this.value = value;
+        this.type = 144;
+        this.typeName = 'BTMParameterBoolean' ;
+        this.message.value = value;
     }
 
     get value() {
@@ -45,27 +47,13 @@ class BTMParameterBooleanMessage extends ParameterMessageBase{
       }
 }
 
- class BTMParameterFeatureList extends ParameterMessageBase
-{
-    constructor(parameterId, hasUserCode, nodeId, featureIds){
-        super(parameterId, hasUserCode, nodeId);
-        this.featureIds = featureIds;
-    }
-    
-    get featureIds() {
-        return this._featureIds;
-      }
-    
-      set featureIds(param) {
-        this._featureIds = param;
-      }
-}
-
-class BTMParameterEnumMessage extends ParameterMessageBase{
+class BTMParameterEnum extends ParameterBase{
     constructor(parameterId, hasUserCode, nodeId, value, enumName){ 
         super(parameterId, hasUserCode, nodeId);
-        this.value = value;
-        this.enumName = enumName;
+        this.type = 145;
+        this.typeName = 'BTMParameterEnum' ;
+        this.message.value = value;
+        this.message.enumName = enumName;
     }
 
     get value() {
@@ -85,51 +73,39 @@ class BTMParameterEnumMessage extends ParameterMessageBase{
       }
 }
 
-class BTMParameterArray extends ParameterMessageBase
+class BTMParameterQueryList  extends ParameterBase
 {
-    constructor(parameterId, hasUserCode, nodeId, items){
+    constructor(parameterId, hasUserCode, nodeId, queries ){
         super(parameterId, hasUserCode, nodeId);
-        this.items = items;
+        this.type = 148;
+        this.typeName = 'BTMParameterQueryList' ;
+        this.message.queries  = queries ;
     }
     
-    get items() {
+    get queries () {
         return this._items;
       }
     
-      set items(param) {
+      set queries (param) {
         this._items = param;
       }
 }
 
-let featureTypeId = {
-    BTMSketch : 151,
-    BTMFeature : 134,
-    BTMIndividualQuery : 138,
-    BTMIndividualSketchRegionQuery : 140,
-    BTMIndividualCoEdgeQuery : 1332,
-    BTMSketchConstraint : 2,
-    BTMSketchPoint : 158,
-    BTMSketchCurve : 4,
-    BTMSketchCurveSegment : 155,
-
-    BTCurveGeometryEllipse : 1189,
-    BTCurveGeometryCircle : 115,
-    BTCurveGeometryInterpolatedSpline : 116,
-    BTCurveGeometryLine : 117,
-    BTCurveGeometryConic : 2284,
-
-    BTMParameterBoolean : 144,
-    BTMParameterEnum : 145,
-    BTMParameterQueryList : 148,
-    BTMParameterQuantity : 147,
-    BTMParameterString : 149,
-    BTMParameterLookupTablePath : 1419,
-
-    BTMParameterFeatureList : 1749,
-    BTMParameterArray : 2025,
-    BTFSValueArray : 1499,
-    BTFSValueString : 1422,
-    BTFSValueMap : 2062,
-    BTFSValueMapEntry : 2077,
-    BTFSValueNumber : 772
+class BTMParameterQuantity  extends ParameterBase
+{
+    constructor(parameterId, hasUserCode, nodeId, expression ){
+        super(parameterId, hasUserCode, nodeId);
+        this.type = 147;
+        this.typeName = 'BTMParameterQuantity';
+        this.message.expression   = expression ;
+    }
+    
+    get expression () {
+        return this._items;
+      }
+    
+      set expression (param) {
+        this._items = param;
+      }
 }
+

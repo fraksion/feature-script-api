@@ -32,6 +32,10 @@
             }
         });
 
+        $('#insert-feature-btn').click(()=>{
+            customFeatures();
+        })
+
         $('#create-feature-submit').click(async () => {
             $('#feature-studio-progressbar').css("opacity", "1");
             await createFeatureStudio();
@@ -228,7 +232,6 @@
     }
 
     async function getFeatureStudioSpecs(href) {
-        $('#stl-progress-bar').css("display", "block");
         customFeatures = [];
         let response = await fetch('/api/featureStudioSpecs' + href);
         if (response.ok) {
@@ -238,7 +241,6 @@
         else {
             console.log(response.status);
         }
-        $('#stl-progress-bar').css("display", "none");
     }
 
     function addCustomFeature(data) {
@@ -255,11 +257,17 @@
         }
     }
 
-    function addCustomFeaturesToBOM(customFeatures) {
+    function addCustomFeaturesToBOM(customFeature) {
         $("#feature-select")
             .append(
-                "<option class=\"my-feature\" value='" + customFeatures.name + "'>" + customFeatures.name + "</option>"
+                "<option class=\"my-feature\" value='" + customFeature.name + "'>" + customFeature.name + "</option>"
             )
+    }
+
+    function customFeatures(){
+        let currentParam = customFeatures.filter(param => param.name === $("#feature-select").val());
+        console.log(currentParam);
+        SortParameters(currentParam.parameters);
     }
 
     async function sendCustomFeature(body) {
@@ -430,4 +438,6 @@
             $('#feature-studio-content').val(featureScriptTemplate);
         }
     }
+
+
 })();
